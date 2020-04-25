@@ -210,6 +210,29 @@
     xleftmargin={\lmarg},           % Чтобы весь код и полоска с номерами строк была смещена влево, так чтобы цифры не вылезали за пределы текста слева
 }
 
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{lightblue}{rgb}{0.0,0.0,0.9}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\definecolor{darkred}{rgb}{0.6,0.0,0.0}
+
+% https://gist.github.com/sebald/3130827
+\lstdefinelanguage{MyXML}
+{
+    morestring=[s][\color{mauve}]{"}{"},
+    morestring=[s][\color{black}]{>}{<},
+    morecomment=[s]{<?}{?>},
+    morecomment=[s][\color{dkgreen}]{<!--}{-->},
+    stringstyle=\color{black},
+    identifierstyle=\color{lightblue},
+    keywordstyle=\color{red},
+    morekeywords={xmlns,xsi,noNamespaceSchemaLocation,type,id,x,y,source,target,version,tool,transRef,roleRef,objective,eventually}% list your attributes here
+}
+
 %http://tex.stackexchange.com/questions/26872/smaller-frame-with-listings
 % Окружение, чтобы листинг был компактнее обведен рамкой, если она задается, а не на всю ширину текста
 \makeatletter
