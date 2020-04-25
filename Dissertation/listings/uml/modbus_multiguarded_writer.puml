@@ -1,0 +1,56 @@
+@startuml
+
+robust "ModbusMultiguardedWriter" as guard
+robust "Condition 1" as cond1
+robust "Condition 2" as cond2
+robust "Condition n" as condn
+
+@0
+cond1 is false
+cond2 is false
+condn is false
+guard is Ожидает
+
+@50
+cond1 is false
+cond2 is true
+condn is false
+guard is Ожидает
+
+@100
+cond1 is false
+cond2 is false
+condn is true
+guard is Ожидает
+
+
+@150
+cond1 -> guard : Последнее условие выполнено
+cond1 is true
+cond2 is true
+condn is true
+guard is Записано
+
+
+
+@250
+cond1 is false
+cond2 is true
+condn is true
+guard is Записано
+
+@300
+cond1 is false
+cond2 is false
+condn is true
+guard is Записано
+
+@400
+condn -> guard : Записано
+cond1 is false
+cond2 is false
+condn is false
+guard is Записано
+
+
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+
+robust "ModbusGuardedWriter" as guard
+robust "Condition" as cond
+
+@0
+cond is false
+guard is Ожидает
+
+@+100
+cond is true
+guard is Записано
+
+@+200
+cond is false
+guard is Записано
+
+@enduml

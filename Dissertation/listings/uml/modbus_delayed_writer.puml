@@ -1,0 +1,29 @@
+@startuml
+
+robust "ModbusDelayedWriter" as guard
+robust "Condition" as cond
+
+@guard
+@100 <-> @+300 : delay = 300 
+
+@0
+cond is false
+guard is Ожидает
+
+@100
+cond -> guard : Выполнение условия
+cond is true
+guard is Ожидает
+
+@+100
+guard -> cond : Задержка еще не истекла
+cond is false
+guard is Ожидает
+
+@+200
+cond is false
+guard is Записано
+
+@+100
+
+@enduml

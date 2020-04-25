@@ -1,0 +1,62 @@
+@startuml
+
+class Timer {
+    - duration : millisecond
+    +void timeout()
+}
+
+enum TransmitedType {
+    Bool,
+    Word,
+    DWord,
+    Real,
+    LReal
+}
+
+class ModbusElement {
+    + string title()
+    + uint8_t address()
+    + TransmitedType type()
+    + string position()
+    + string description()
+}
+
+class ModbusData {
+    - value[8] : uint8_t
+    + void setValue(Data)
+    + Data value()
+}
+
+class ModbusElementWriter {
+    + void write()
+}
+
+class ModbusElementReader {
+    + Data read()
+}
+
+class ModbusGuardedWriter {
+    - condition : ModbusData
+}
+
+class ModbusMultiguardedWriter {
+    - conditions[]: ModbusData
+}
+
+class ModbusDelayedWriter {
+    - condition : ModbusData
+    - delay : Timer
+}
+
+
+ModbusElement *-- TransmitedType
+ModbusElement <|-- ModbusData
+ModbusData <|-- ModbusElementWriter
+ModbusData <|-- ModbusElementReader
+ModbusGuardedWriter <|-- ModbusElementWriter
+ModbusDelayedWriter <|-- ModbusElementWriter
+ModbusDelayedWriter "1" *-- "1" Timer
+ModbusMultiguardedWriter <|-- ModbusElementWriter
+
+
+@enduml
