@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ModbusTags>
+    <Coils>
+        <tag title="C1" address="8001" position="virtual" type="BOOL" description="Внешнее питание"/>
+    </Coils>
+    <DiscreteInputs>
+        <tag title="R1" address="1" position="1-1" type="BOOL" description="Разрешение пуска"/>
+        <tag title="PP_1" address="2" position="2-1" type="BOOL" description="Срабатывание 1 узла"/>
+        <tag title="PP_2" address="3" position="2-2" type="BOOL" description="Срабатывание 2 узла"/>
+    </DiscreteInputs>
+    <InputRegisters>
+        <tag title="A1" address="300" position="3-1" type="REAL" description="Напряжение двигателя"/>
+        <tag title="A2" address="302" position="4-1" type="REAL" description="Ток двигателя"/>
+        <tag title="Regime" address="304" position="5-1" type="Word" description="Текущий режим работы"/>
+    </InputRegisters>
+    <HoldingRegisters>
+        <tag title="Freq" address="42" position="6-1" type="LREAL" description="Задающая частота"/>
+    </HoldingRegisters>
+</ModbusTags>

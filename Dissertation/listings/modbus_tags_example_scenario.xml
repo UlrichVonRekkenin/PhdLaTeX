@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scenario>
+    <Guarded>
+        <Writer tag="A1" value="160">
+            <Condition>
+                <tag>R1</tag>
+                <value>true</value>
+            </Condition>
+        </Writer>
+
+        <Writer tag="A2" value="50">
+            <Condition>
+                <tag>R1</tag>
+                <value>true</value>
+            </Condition>
+        </Writer>
+
+        <Writer tag="Freq" value="1000">
+            <Condition>
+                <tag>Regime</tag>
+                <value>1</value>
+            </Condition>
+        </Writer>
+
+        <Writer tag="Freq" value="1200">
+            <Condition>
+                <tag>Regime</tag>
+                <value>2</value>
+            </Condition>
+        </Writer>
+    </Guarded>
+     <!-- -->
+    <Multiguarded>
+        <Writer tag="Regime" value="1">
+            <Condition>
+                <tag>A1</tag>
+                <value>150</value>
+                <relation>ge</relation>
+            </Condition>
+            <Condition>
+                <tag>C1</tag>
+                <value>true</value>
+            </Condition>
+        </Writer>
+
+        <Writer tag="Regime" value="2">
+            <Condition>
+                <tag>A1</tag>
+                <value>150</value>
+                <relation>le</relation>
+            </Condition>
+            <Condition>
+                <tag>C1</tag>
+                <value>true</value>
+            </Condition>
+        </Writer>
+    </Multiguarded>
+    <!-- -->
+    <Delayed>
+        <Writer tag="R1" value="true" duration="200">
+            <Condition>
+                <tag>C1</tag>
+                <value>true</value>
+                <delay>100"</delay>
+            </Condition>
+        </Writer>
+
+        <Writer tag="PP_1" value="true" duration="100">
+            <Condition>
+                <tag>R1</tag>
+                <value>true</value>
+                <delay>50"</delay>
+            </Condition>
+        </Writer>
+
+        <Writer tag="PP_2" value="true" duration="50">
+            <Condition>
+                <tag>R1</tag>
+                <value>true</value>
+                <delay>50"</delay>
+            </Condition>
+        </Writer>
+
+        <Writer tag="A1" value="130">
+            <Condition>
+                <tag>C1</tag>
+                <value>true</value>
+                <delay>500</delay>
+            </Condition>
+        </Writer>
+    </Delayed>
+    <!-- -->
+    <Multidelayed>
+    </Multidelayed>
+</Scenario>
