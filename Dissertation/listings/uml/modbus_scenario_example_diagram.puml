@@ -1,0 +1,63 @@
+@startuml
+
+robust "Задающая частота" as freq
+concise "Текущий режим работы" as regime
+robust "Срабатывание 2-го узла" as pp2
+robust "Срабатывание 1-го узла" as pp1
+concise "Ток двигателя" as a2
+concise "Напряжение двигателя" as a1
+robust "Команда пуск" as r1
+concise "Внешнее питание" as c1
+
+@0
+c1 is Выкл #Gray
+r1 is 0
+a1 is {hidden}
+a2 is {hidden}
+pp1 is false
+pp2 is false
+
+
+@50 
+c1 is Вкл #Green
+@50 <-> @+100 : Завершение\nпереходных процессов
+
+@150
+r1 is "Пуск разрешен"
+r1 -> a2 : Потребление нагрузки
+a1 is "160 В"
+a2 is "50 А"
+regime is 1
+a1 -> regime : >150 В
+freq is {0,1000}
+
+@+200
+r1 is 0
+
+
+@200
+pp1 is true
+pp2 is true
+
+r1@150 <-> @+200 : 200
+pp1@200 <-> @+100 : 100
+pp2@200 <-> @+50 : 50
+
+@250
+pp2 is false
+
+@300
+pp1 is false
+
+@550
+a1 is "130 В"
+regime is 2
+freq is {0,1200}
+
+@700
+
+
+
+
+
+@enduml
