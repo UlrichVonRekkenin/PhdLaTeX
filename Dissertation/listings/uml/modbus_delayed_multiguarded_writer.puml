@@ -1,0 +1,30 @@
+@startuml
+
+robust "ModbusDelayedMultiguardWriter" as guard
+concise "Condition 1" as cond1
+concise "Condition 2" as cond2
+
+@0
+cond1 is false
+cond2 is false
+guard is Ожидает
+
+@50
+cond1 is true
+
+@guard
+@100 <-> @+200 : delay = 200 
+
+@100
+cond2 -> guard : Последнее условие выполнено
+cond2 is true
+guard is Ожидает
+
+@+50
+cond1 is false
+cond2 is false
+
+@300
+guard is Записано
+
+@enduml
