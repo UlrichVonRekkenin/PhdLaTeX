@@ -198,7 +198,7 @@
     captionpos=t,                   % sets the caption-position to top
     breaklines=true,                % sets automatic line breaking
     breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-%    title=\lstname,                 % show the filename of files included with \lstinputlisting;
+%    title=\lstname,                 % show the filename of files included with \lstinput       ;
     % also try caption instead of title
     basicstyle=\fontsize{12pt}{14pt}\selectfont\ttfamily,% the size of the fonts that are used for the code
 %    keywordstyle=\color{blue},      % keyword style
@@ -230,7 +230,9 @@
     stringstyle=\color{black},
     identifierstyle=\color{lightblue},
     keywordstyle=\color{red},
-    morekeywords={xmlns,xsi,noNamespaceSchemaLocation,type,id,x,y,source,target,version,tool,transRef,roleRef,objective,eventually}% list your attributes here
+    morekeywords={xmlns,xsi,noNamespaceSchemaLocation,type,id,x,y,%
+    source,target,version,tool,transRef,roleRef,%
+    objective,eventually}% list your attributes here
 }
 
 %http://tex.stackexchange.com/questions/26872/smaller-frame-with-listings
