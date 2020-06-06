@@ -74,7 +74,11 @@ export TIKZFILE
 export USEDEV
 
 ##! компиляция всех файлов
-all: synopsis dissertation presentation
+all:	
+	dockertex pdflatex dissertation
+	dockertex pdflatex dissertation
+	dockertex biber dissertation
+	dockertex pdflatex dissertation
 
 define compile
 	latexmk -norc -r $(MKRC) $(LATEXMKFLAGS) $(BACKEND) -jobname=$(TARGET) $(SOURCE)
