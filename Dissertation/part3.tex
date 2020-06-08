@@ -266,13 +266,14 @@ $T$ --- длительность полного цикла обмена, счи�
 
 Диаграмма взаимосвязи классов представлена на рисунке \ref{sec:fig:modbus_class_uml}. 
 
-\begin{center}
-    \begin{figure}[h!]
-        \includegraphics[height=.7\textheight,width=.8\textwidth,keepaspectratio]{../out/Dissertation/listings/uml/modbus_class_relationship/modbus_class_relationship.png}
-        \caption{\todo{UML диаграмма классов для имитатора передачи по сети Modbus}}\label{sec:fig:modbus_class_uml}
-    \end{figure}
-\end{center}
-
+\begin{landscape}
+    \begin{center}
+        \begin{figure}[h!]
+            \includegraphics[height=.88\textheight,keepaspectratio]{modbus_class_relationship.png}
+            \caption{\todo{UML диаграмма классов для имитатора передачи по сети Modbus}}\label{sec:fig:modbus_class_uml}
+        \end{figure}
+    \end{center}
+\end{landscape}
 
 Базовый класс \texttt{ModbusElement} инкапсулирует в себе представление тега из раздела \ref{sec:modbus_tag}.
 
@@ -296,7 +297,7 @@ $T$ --- длительность полного цикла обмена, счи�
 Циклограмма функционирования класса \texttt{ModbusGuardedWriter} приведена на рисунке \ref{sec:fig:modbus_guarded_writed}.
 \begin{center}
     \begin{figure}[h!]
-        \includegraphics[width=.8\textwidth,keepaspectratio]{../out/Dissertation/listings/uml/modbus_guarded_writer/modbus_guarded_writer.png}
+        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_guarded_writer.png}
         \caption{Циклограмма записи значения при выполнении условия в момент времени $\tau_1=100$.}\label{sec:fig:modbus_guarded_writed}
     \end{figure}
 \end{center}
@@ -313,7 +314,7 @@ $T$ --- длительность полного цикла обмена, счи�
 Циклограмма функционирования класса \texttt{ModbusMultiguardedWriter} приведена на рисунке \ref{sec:fig:modbus_multiguarded_writed}.
 \begin{center}
     \begin{figure}[h!]
-        \includegraphics[width=.8\textwidth,keepaspectratio]{../out/Dissertation/listings/uml/modbus_multiguarded_writer/modbus_multiguarded_writer.png}
+        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_multiguarded_writer.png}
         \caption{Циклограмма записи значения при выполнении множественных условий.}\label{sec:fig:modbus_multiguarded_writed}
     \end{figure}
 \end{center}
@@ -327,7 +328,7 @@ $T$ --- длительность полного цикла обмена, счи�
 Циклограмма функционирования класса \texttt{ModbusDelayedWriter} приведена на рисунке \ref{sec:fig:modbus_delayed_writer}.
 \begin{center}
     \begin{figure}[h!]
-        \includegraphics[width=.8\textwidth,keepaspectratio]{../out/Dissertation/listings/uml/modbus_delayed_writer/modbus_delayed_writer.png}
+        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_delayed_writer.png}
         \caption{Циклограмма отложенной записи значения при выполнении единственного условия.}\label{sec:fig:modbus_delayed_writer}
     \end{figure}
 \end{center}
@@ -341,11 +342,27 @@ $T$ --- длительность полного цикла обмена, счи�
 \begin{center}
     \begin{figure}[h!]
         \includegraphics[width=.8\textwidth,keepaspectratio]%
-            {../out/Dissertation/listings/uml/modbus_delayed_multiguarded_writer/modbus_delayed_multiguarded_writer.png}
+            {modbus_delayed_multiguarded_writer.png}
         \caption{Циклограмма отложенной записи значения при выполнении множественных условий.}\label{sec:fig:modbus_delayed_multiguarded_writer}
     \end{figure}
 \end{center}
 
+
+\begin{center}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth,keepaspectratio]%
+            {imodbuselementwriter_activity}
+        \caption{\todo{Жизненный цикл}}\label{sec:fig:imodbuselementwriter_activity}
+    \end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth,keepaspectratio]%
+            {modbusiomanager_state_diagram}
+        \caption{\todo{Жизненный цикл}}\label{sec:fig:modbusiomanager_state_diagram}
+    \end{figure}
+\end{center}
 
 \section{Пример композиции для простейшего сценария}
 
@@ -363,8 +380,8 @@ $T$ --- длительность полного цикла обмена, счи�
 \begin{landscape}
     \begin{center}
         \begin{figure}
-            \includegraphics[width=.9\textwidth,keepaspectratio]%
-                {../out/Dissertation/listings/uml/modbus_scenario_example_diagram/modbus_scenario_example_diagram.png}
+            \includegraphics[height=.8\textheight,keepaspectratio]%
+                {modbus_scenario_example_diagram.png}
             \caption{Пример использования классов.}\label{sec:fig:modbus_scenario_example_diagram}
         \end{figure}
     \end{center}

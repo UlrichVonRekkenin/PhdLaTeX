@@ -1,0 +1,7 @@
+scale 1.5
+skinparam {
+    Dpi 300
+    DefaultFontSize 18
+    ClassFontSize 28
+    ClassAttributeFontSize 25
+}

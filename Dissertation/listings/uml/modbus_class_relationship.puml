@@ -1,4 +1,5 @@
 @startuml
+!include style.iuml
 
 namespace Qt {
     class QTimer {
@@ -20,6 +21,15 @@ namespace modbusio {
 
     interface IModbusDevice {
         + {abstract} void write(const ModbusData&) = 0
+    }
+
+    class ModbusIoManager {
+        + setCaptures(IModbusElementWriter[])
+
+        + [signal] void writed(const ModbusData&)
+        + [slot] void newModbusData(const ModbusData&)
+
+        - captures[]: IModbusElementWriter
     }
 
     class ModbusElement {
@@ -46,18 +56,6 @@ namespace modbusio {
 
         + {abstract} virtual void write() = 0        
         + {abstract} virtual bool conditionsMet(const ModbusData&) = 0
-    }
-
-    class ModbusElementWriterImpl {
-        + [signal] virtual void writed(const ModbusData&)
-        + [signal] virtual void modbusDataChanged(const ModbusData&)
-
-        + [slot] virtual void start()
-        + [slot] virtual void reset()
-        + [slot] virtual void newModbusData(const ModbusData&)
-
-        # virtual void write()
-        # virtual bool conditionsMet(const ModbusData&)
     }
 
     interface ModbusElementReader {
@@ -94,19 +92,19 @@ namespace modbusio {
     Qt.QObject <|-- IModbusElementWriter
     ModbusData <|-- ModbusElementReader 
 
-    IModbusElementWriter <|-- ModbusElementWriterImpl
-
-    ModbusElementWriterImpl <|-- ModbusGuardedWriter
+    IModbusElementWriter <|-- ModbusGuardedWriter
     ModbusGuardedWriter "1" *-- "1" IModbusDevice
     
     ModbusGuardedWriter <|-- ModbusDelayedWriter
     ModbusDelayedWriter "1" *-- "1" Qt.QTimer
     
-    ModbusElementWriterImpl <|-- ModbusMultiguardedWriter 
+    IModbusElementWriter <|-- ModbusMultiguardedWriter 
     ModbusMultiguardedWriter "1" *-- "1" IModbusDevice
 
     ModbusMultiguardedWriter <|-- ModbusDelayedMultiguardWriter
     ModbusDelayedMultiguardWriter "1" *-- "1" Qt.QTimer
+
+    ModbusIoManager "1" *-- "n" IModbusElementWriter
 }
 
 @enduml

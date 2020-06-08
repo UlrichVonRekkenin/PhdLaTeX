@@ -1,0 +1,15 @@
+@startuml
+!include style.iuml
+
+start
+
+while (running==<color:blue>true</color>)
+    if (data==capture) then (<color:green>yes</color>)
+        -device.write(captured)\n\nrunning=false
+    else (<color:red>no</color>)
+    endif
+endwhile (stop)
+
+end
+
+@enduml

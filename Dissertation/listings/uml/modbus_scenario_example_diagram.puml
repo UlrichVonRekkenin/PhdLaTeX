@@ -1,4 +1,5 @@
 @startuml
+!include style.iuml
 
 robust "Задающая частота" as freq
 concise "Текущий режим работы" as regime
@@ -55,9 +56,5 @@ regime is 2
 freq is {0,1200}
 
 @700
-
-
-
-
 
 @enduml

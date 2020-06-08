@@ -75,6 +75,7 @@ export USEDEV
 
 ##! компиляция всех файлов
 all:	
+	./plantuml.sh png
 	dockertex pdflatex dissertation
 	dockertex pdflatex dissertation
 	dockertex biber dissertation
