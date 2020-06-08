@@ -1,7 +1,10 @@
 #!/bin/bash
 
+type=$1
 
 for uml in Dissertation/listings/uml/*.puml
 do
-    plantuml -tlatex:nopreamble $uml
+    name="$(basename -- $uml .puml)"
+    plantuml -t$type $uml
+    mv -v Dissertation/listings/uml/$name.$type Dissertation/images
 done
