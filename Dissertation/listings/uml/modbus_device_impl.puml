@@ -1,0 +1,24 @@
+@startuml
+!include style.iuml
+
+namespace Qt {
+    QModbusServer <|-- QModbusTcpServer
+    QModbusDevice <|-- QModbusServer
+    QObject <|-- QModbusDevice
+}
+
+namespace modbusio {
+    interface IModbusDevice {
+        + {abstract} void write(const ModbusData&) = 0
+        + [signal] void writed(const ModbusData&)
+    }
+
+    class ModbusDeviceImpl {
+        + [override] void write(const ModbusData&)
+    }
+
+    IModbusDevice <|-- ModbusDeviceImpl
+    Qt.QModbusTcpServer <|-- ModbusDeviceImpl
+}
+
+@enduml

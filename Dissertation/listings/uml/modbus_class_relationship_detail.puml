@@ -1,9 +1,19 @@
 @startuml
 !include style.iuml
+scale 1.3
 
 namespace Qt {
+    class QTimer {
+        +{static} void singleShot(Duration)
+        +{static} void timeout()
+    }
+
     class QObject
     class QVariant
+
+    QModbusServer <|-- QModbusTcpServer
+    QModbusDevice <|-- QModbusServer
+    QObject <|-- QModbusDevice
 }
 
 namespace modbusio {
@@ -17,6 +27,21 @@ namespace modbusio {
 
     interface IModbusDevice {
         + {abstract} void write(const ModbusData&) = 0
+    }
+
+    IModbusDevice <|-- ModbusDeviceImpl
+    Qt.QModbusTcpServer <|-- ModbusDeviceImpl
+
+    class ModbusIoManager {
+        + setCaptures(IModbusElementWriter[])
+
+        + [signal] void writed(const ModbusData&)
+        + [slot] void newModbusData(const ModbusData&)
+        + [slot] void resetAll()
+        + [slot] void startAll()
+
+        - addCapture(IModbusElementWriter)
+        - captures[]: IModbusElementWriter
     }
 
     class ModbusElement {
@@ -45,7 +70,7 @@ namespace modbusio {
         + {abstract} virtual bool conditionsMet(const ModbusData&) = 0
     }
 
-    interface IModbusElementReader {
+    interface ModbusElementReader {
         + ModbusData read() const
     }
 
@@ -82,26 +107,26 @@ namespace modbusio {
 
     ModbusData <|-- IModbusElementWriter 
     Qt.QObject <|-down- IModbusElementWriter
-    ModbusData <|-right- IModbusElementReader
+    ModbusData <|-right- ModbusElementReader 
 
     IModbusElementWriter <|-- ModbusPeriodicWriter
     ModbusPeriodicWriter "1" *-- "1" IModbusDevice
     ModbusPeriodicWriter "1" *-- "1" Qt.QVariant
     ModbusPeriodicWriter "1" *-- "1" Qt.QTimer
 
-    IModbusElementWriter <|-- ModbusElementImpl
-
-    ModbusElementImpl <|-- ModbusGuardedWriter
+    IModbusElementWriter <|-- ModbusGuardedWriter
     ModbusGuardedWriter "1" *-- "1" IModbusDevice
     
     ModbusGuardedWriter <|-- ModbusDelayedWriter
     ModbusDelayedWriter "1" *-- "1" Qt.QTimer
     
-    ModbusElementImpl <|-- ModbusMultiguardedWriter 
+    IModbusElementWriter <|-- ModbusMultiguardedWriter 
     ModbusMultiguardedWriter "1" *-- "1" IModbusDevice
 
     ModbusMultiguardedWriter <|-- ModbusDelayedMultiguardWriter
     ModbusDelayedMultiguardWriter "1" *-- "1" Qt.QTimer
+
+    ModbusIoManager *-left- IModbusElementWriter
 }
 
 @enduml

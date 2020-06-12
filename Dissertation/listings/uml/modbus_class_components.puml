@@ -1,0 +1,32 @@
+@startuml
+!include style.iuml
+
+package modbusio {
+' : Используется для\nзаписи
+' : Использует\nколлекцию\nэлементов
+    [ModbusIoManager] as manager
+    () IModbusElementWriter as iwriter
+    manager -- iwriter
+    iwriter ----> IModbusDevice
+    [ModbusPeriodicWriter] -up- iwriter
+    [ModbusGuardedWriter] -up- iwriter
+    [ModbusDelayedWriter] -up- [ModbusGuardedWriter]
+    [ModbusMultiguardedWriter] -up- iwriter
+    [ModbusDelayedMultiguardedWriter] -up- [ModbusMultiguardedWriter]
+}
+
+database Scenarios #D0DDD0 {
+    folder NormalScenarios
+    folder CriticalScenarios
+}
+
+package parser {
+    () IScenariosParser
+    [ScenariosParser]
+}
+
+manager -up-> IScenariosParser
+IScenariosParser -right- [ScenariosParser]
+[ScenariosParser] - Scenarios
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+!include style.iuml
+
+robust "ModbusPeriodicWriter" as period_bool
+concise "Управление" as cond
+robust "ModbusPeriodicWriter" as period_word
+
+cond@150 -> period_bool@150 : <font color=green>Включить таймер</font>
+cond@350 -> period_bool@350 : <font color=blue>Выключить</font>
+cond@150 -> period_word@150
+cond@350 -> period_word@350
+
+@cond
+0 is False #Gray
+150 is True #Green
+350 is False #Gray
+
+@period_word
+0 is 0 : **InputRegisters**
+200 is 10
+250 is 20
+300 is 30
+350 is 40
+@200 <->@+50 : x+=10
+@250 <->@+50 : t=50
+
+@period_bool
+0 is False : **DiscreteInputs**
+@225 <-> @+25 : t=25
+175 is True
+200 is False
+225 is True
+250 is False
+275 is True
+300 is False
+325 is True
+350 is False
+
+@+50
+
+@enduml
