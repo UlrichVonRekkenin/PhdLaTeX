@@ -6,17 +6,13 @@ namespace Qt {
     class QVariant
 }
 
-namespace modbusio {
+namespace modbus {
     enum TransmitedType {
         Bool,
         Word,
         DoubleWord,
         Real,
         LongReal
-    }
-
-    interface IModbusDevice {
-        + {abstract} void write(const ModbusData&) = 0
     }
 
     class ModbusElement {
@@ -33,75 +29,82 @@ namespace modbusio {
         + QVariant value()
     }
 
-    interface IModbusElementWriter {
-        + {abstract} [signal] virtual void writed(const ModbusData&) = 0
-        + {abstract} [signal] virtual void modbusDataChanged(const ModbusData&) = 0
+    namespace io {
+        interface IModbusDevice {
+            + {abstract} void write(const ModbusData&) = 0
+            + [signal] virtual void writed(const ModbusData&)
+        }
 
-        + {abstract} [slot] virtual void start() = 0
-        + {abstract} [slot] virtual void reset() = 0
-        + {abstract} [slot] virtual void newModbusData(const ModbusData&) = 0
+        interface IModbusElementWriter {
+            + {abstract} [signal] virtual void writed(const ModbusData&) = 0
+            + {abstract} [signal] virtual void modbusDataChanged(const ModbusData&) = 0
 
-        + {abstract} virtual void write() = 0        
-        + {abstract} virtual bool conditionsMet(const ModbusData&) = 0
+            + {abstract} [slot] virtual void start() = 0
+            + {abstract} [slot] virtual void reset() = 0
+            + {abstract} [slot] virtual void newModbusData(const ModbusData&) = 0
+
+            + {abstract} virtual void write() = 0        
+            + {abstract} virtual bool conditionsMet(const ModbusData&) = 0
+        }
+
+        interface IModbusElementReader {
+            + ModbusData read() const
+        }
+
+        class ModbusPeriodicWriter {
+            - QVariant delta
+            - Time period
+        }
+
+        class ModbusGuardedWriter {
+            - [override] bool conditionsMet(const ModbusData&)
+            # condition : ModbusData
+            # device : IModbusDevice
+        }
+
+        class ModbusDelayedWriter {
+            - [override] [slot] virtual void newModbusData(const ModbusData&)
+            - delay : Time
+        }
+
+        class ModbusMultiguardedWriter {
+            - [override] bool conditionsMet(const ModbusData&)
+            # conditions[]: ModbusData
+            # device : IModbusDevice
+        }
+
+        class ModbusDelayedMultiguardWriter {
+            - [override] [slot] virtual void newModbusData(const ModbusData&)
+            - delay : Time
+        }
     }
-
-    interface IModbusElementReader {
-        + ModbusData read() const
-    }
-
-    class ModbusPeriodicWriter {
-        - QVariant value
-        - millisecond period
-    }
-
-    class ModbusGuardedWriter {
-        - [override] bool conditionsMet(const ModbusData&)
-        # condition : ModbusData
-        # device : IModbusDevice
-    }
-
-    class ModbusDelayedWriter {
-        - [override] [slot] virtual void newModbusData(const ModbusData&)
-        - delay : Time
-    }
-
-    class ModbusMultiguardedWriter {
-        - [override] bool conditionsMet(const ModbusData&)
-        # conditions[]: ModbusData
-        # device : IModbusDevice
-    }
-
-    class ModbusDelayedMultiguardWriter {
-        - [override] [slot] virtual void newModbusData(const ModbusData&)
-        - delay : Time
-    }
-
-    ModbusElement *-- TransmitedType
-    ModbusElement <|-right- ModbusData
-    ModbusData *-- Qt.QVariant
-
-    ModbusData <|-- IModbusElementWriter 
-    Qt.QObject <|-down- IModbusElementWriter
-    ModbusData <|-right- IModbusElementReader
-
-    IModbusElementWriter <|-- ModbusPeriodicWriter
-    ModbusPeriodicWriter "1" *-- "1" IModbusDevice
-    ModbusPeriodicWriter "1" *-- "1" Qt.QVariant
-    ModbusPeriodicWriter "1" *-- "1" Qt.QTimer
-
-    IModbusElementWriter <|-- ModbusElementImpl
-
-    ModbusElementImpl <|-- ModbusGuardedWriter
-    ModbusGuardedWriter "1" *-- "1" IModbusDevice
-    
-    ModbusGuardedWriter <|-- ModbusDelayedWriter
-    ModbusDelayedWriter "1" *-- "1" Qt.QTimer
-    
-    ModbusElementImpl <|-- ModbusMultiguardedWriter 
-    ModbusMultiguardedWriter "1" *-- "1" IModbusDevice
-
-    ModbusMultiguardedWriter <|-- ModbusDelayedMultiguardWriter
-    ModbusDelayedMultiguardWriter "1" *-- "1" Qt.QTimer
 }
+
+    modbus.ModbusElement *-right-- modbus.TransmitedType
+    modbus.ModbusElement <|-right- modbus.ModbusData
+    modbus.ModbusData *-- Qt.QVariant
+
+    modbus.ModbusData <|-- modbus.io.IModbusElementWriter 
+    Qt.QObject <|-down- modbus.io.IModbusElementWriter
+    modbus.ModbusData <|-right- modbus.io.IModbusElementReader
+
+    modbus.io.ModbusMultiguardedWriter <|-down- modbus.io.ModbusPeriodicWriter
+    modbus.io.ModbusPeriodicWriter "1" *-- "1" modbus.io.IModbusDevice
+    modbus.io.ModbusPeriodicWriter "1" *-- "1" Qt.QVariant
+    modbus.io.ModbusPeriodicWriter "1" *-- "1" Qt.QTimer
+
+    modbus.io.IModbusElementWriter <|-- modbus.io.ModbusElementImpl
+
+    modbus.io.ModbusElementImpl <|-- modbus.io.ModbusGuardedWriter
+    modbus.io.ModbusGuardedWriter "1" *- "1" modbus.io.IModbusDevice
+    
+    modbus.io.ModbusGuardedWriter <|--- modbus.io.ModbusDelayedWriter
+    modbus.io.ModbusDelayedWriter "1" *-- "1" Qt.QTimer
+    
+    modbus.io.ModbusElementImpl <|-- modbus.io.ModbusMultiguardedWriter 
+    modbus.io.ModbusMultiguardedWriter "1" *- "1" modbus.io.IModbusDevice
+
+    modbus.io.ModbusMultiguardedWriter <|--- modbus.io.ModbusDelayedMultiguardWriter
+    modbus.io.ModbusDelayedMultiguardWriter "1" *-- "1" Qt.QTimer
 
 @enduml

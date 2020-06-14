@@ -4,25 +4,18 @@
 robust "ModbusDelayedWriter" as guard
 concise "Condition" as cond
 
+@cond
+0 is false #Gray
+100 is true #Green
+200 is false #Gray
+
+cond@100 -> guard@100 : Выполнение условия
+guard@+100 -> cond@+100 : Задержка еще не истекла
+
 @guard
+0 is Ожидает
 @100 <-> @+300 : delay = 300 
-
-@0
-cond is false
-guard is Ожидает
-
-@100
-cond -> guard : Выполнение условия
-cond is true
-guard is Ожидает
-
-@+100
-guard -> cond : Задержка еще не истекла
-cond is false
-guard is Ожидает
-
-@+200
-guard is Записано
+400 is Записано
 
 @+50
 

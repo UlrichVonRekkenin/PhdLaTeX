@@ -4,18 +4,16 @@
 robust "ModbusGuardedWriter" as guard
 concise "Condition" as cond
 
-@0
-cond is false
-guard is Ожидает
+@cond
+0 is false #Gray
+100 is true #Green
+200 is false #Gray
 
-@+100
-cond is true
-guard is Записано
+@guard
+0 is Ожидает
+100  is Записано
 
-@+100
-cond -> guard : Сохранено
-cond is false
-guard is Записано
+guard@+100 -> cond@+100 : Сохранено
 
 @+50
 

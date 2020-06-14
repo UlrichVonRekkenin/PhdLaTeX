@@ -1,11 +1,9 @@
 @startuml
 !include style.iuml
 
-package modbusio {
-' : Используется для\nзаписи
-' : Использует\nколлекцию\nэлементов
+package modbus::io {
     [ModbusIoManager] as manager
-    () IModbusElementWriter as iwriter
+    () IModbusElementWriter as iwriter #D0DDDD
     manager -- iwriter
     iwriter ----> IModbusDevice
     [ModbusPeriodicWriter] -up- iwriter
@@ -20,13 +18,24 @@ database Scenarios #D0DDD0 {
     folder CriticalScenarios
 }
 
-package parser {
-    () IScenariosParser
-    [ScenariosParser]
+database ModbusTags #D0DDDD {
+    folder Object1
+    folder Object2    
 }
 
-manager -up-> IScenariosParser
-IScenariosParser -right- [ScenariosParser]
-[ScenariosParser] - Scenarios
+package parser {
+    () IParser
+    [ScenarioParser] -[dashed]up- [TagChecker]
+    [TagsParser]
+}
+
+manager -up-> IParser
+IParser -right- [ScenarioParser]
+[ScenarioParser] -right- Scenarios
+
+TagsParser -right- IParser
+TagsParser -- ModbusTags
+TagChecker -[dashed]- ModbusTags
+
 
 @enduml

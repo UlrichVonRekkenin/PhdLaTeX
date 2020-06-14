@@ -6,46 +6,30 @@ concise "Condition 1" as cond1
 concise "Condition 2" as cond2
 concise "Condition n" as condn
 
-@0
-cond1 is false
-cond2 is false
-condn is false
-guard is Ожидает
+cond1@150 -> guard@150 : Последнее условие выполнено
+condn@400 -> guard@400 : Записано
 
-@50
-cond2 is true
-guard is Ожидает
+@cond1
+0 is false #Gray
+150 is true #Green
+250 is false #Gray
 
-@100
-cond2 is false
-condn is true
-guard is Ожидает
+@cond2
+0 is false #Gray
+50 is true #Green
+100 is false #Gray
+150 is true #Green
+300 is false #Gray 
 
+@condn
+0 is false #Gray
+100 is true #Green
+400 is false #Gray
 
-@150
-cond1 -> guard : Последнее условие выполнено
-cond1 is true
-cond2 is true
-condn is true
-guard is Записано
+@guard
+0 is Ожидает
+150 is Записано
 
-
-
-@250
-cond1 is false
-cond2 is true
-condn is true
-guard is Записано
-
-@300
-cond2 is false
-condn is true
-guard is Записано
-
-@400
-condn -> guard : Записано
-condn is false
-guard is Записано
-
+@+50
 
 @enduml
