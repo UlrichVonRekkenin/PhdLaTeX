@@ -1,0 +1,29 @@
+@startuml
+!include style.iuml
+
+actor Пользователь as user
+participant "Программное обеспечение\nимитатора" as imit #D0D0D0
+participant "Программное обеспечение\nверхневого уровня" as main #F0D0D0
+database Сценарии as scen #LightGreen
+database "Modbus\nпараметры" as tags #LightBlue
+
+autonumber
+== Инициализация ==
+user -> scen: Выбор изделия
+main <- tags: Загрузка конфигурации
+user -> scen: Выбор сценария
+== Выбор ==
+scen -> tags: Проверка
+scen -> scen: Валидные данные
+scen -> imit: Загрузка данных\nсценария
+user -> imit: Запуск
+user -> main: Выбор проверки согласно\nсценарию
+||50||
+== Повторение обменов до прекращения проверки ==
+...
+imit <-[#0000F0]> main : Обмен сообщениями\nпо протоколу Modbus
+autonumber stop
+user -> main: <font color=red>stop</font>
+user -> imit: <font color=red>stop</font>
+
+@enduml

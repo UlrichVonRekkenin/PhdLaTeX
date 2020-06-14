@@ -348,19 +348,24 @@ $\{C1 = true \wedge A1 > 150\}$
 После чтения конфигурации, ее необходимо проверить, что каждый тег $t_i$
 компонента, управление над которым захватывает и условия выполнения переходов, является элементов множества \texttt{ModbusTags},
 то есть $\forall t_i \in \mbox{ModbusTags}$.
-\begin{landscape}
-    \begin{center}
-        \begin{figure}
-            \includegraphics[height=.85\textheight,keepaspectratio]{modbus_class_components}
-            \caption{Композиция классов менеджера сценариев}\label{fig:modbus_class_components}
-        \end{figure}
-    \end{center}
-\end{landscape}
+\begin{center}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_class_components}
+        \caption{Композиция классов менеджера сценариев}\label{fig:modbus_class_components}
+    \end{figure}
+\end{center}
 
 \begin{center}
     \begin{figure}
         \includegraphics[width=.9\textwidth,keepaspectratio]{modbusiomanager_state_diagram}
         \caption{\todo{Жизненный цикл ModbusIoManager}}\label{fig:modbusiomanager_state_diagram}
+    \end{figure}
+\end{center}
+
+\begin{center}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth,keepaspectratio]{top_level.png}
+        \caption{Последовательность действий при работе с имитатором}\label{fig:top_level_sequence}
     \end{figure}
 \end{center}
 
