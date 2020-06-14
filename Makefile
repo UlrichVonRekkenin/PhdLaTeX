@@ -75,11 +75,14 @@ export USEDEV
 
 ##! компиляция всех файлов
 all:	
+	notify-send "Starting make..." -t 1500
 	./plantuml.sh png
 	dockertex pdflatex dissertation
-	dockertex pdflatex dissertation
+	notify-send "Biber..." -t 1500
 	dockertex biber dissertation
 	dockertex pdflatex dissertation
+	dockertex pdflatex dissertation
+	notify-send "Make completed" -u normal -t 7500 -i checkbox-checked-symbolic
 
 define compile
 	latexmk -norc -r $(MKRC) $(LATEXMKFLAGS) $(BACKEND) -jobname=$(TARGET) $(SOURCE)
