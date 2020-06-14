@@ -10,7 +10,7 @@
 Пример конфигурационного файла приведен в листинге \ref{lst:modbus_tags_example} в приложении \ref{app:sec:modbus_tag}.
 Не смотря на то что в самом протоколе Modbus передаются только целые числа, некоторые производители Modbus-устройств,
 в том числе производители средств разработки для программируемых логических контроллеров, расширяют возможности протокола
-для передачи вещественных чисел одинарной и двойной точности, так и целочисленных значений размером до восьми байт.
+для передачи вещественных чисел одинарной и двойной точности, так и целочисленных значений размером до восьми байт \cite{book:gost:modbus_program_language}.
 
 Каждый тег описывается тремя обязательными и двумя необязательными аттрибутами.
 К обязательным относятся:
@@ -49,7 +49,7 @@
 \end{landscape}
 Базовый класс \texttt{ModbusElement} инкапсулирует в себе представление тега из раздела \ref{sec:modbus_tag}.
 Для передачи данных используется класс \texttt{ModbusData}, производный от \texttt{ModbusElement},
-в котором появляется дополнительный член \texttt{value} класса для хранения значения.
+в котором появляется дополнительный член класса \texttt{value} для хранения значения.
 Интерфейс \texttt{IModbusElementReader} введен для общности, но в данной работе представляет мало интереса, далее мы сосредоточимся 
 на реализациях интерфейса \texttt{IModbusElementWriter}.
 
@@ -58,12 +58,11 @@
 Каждый экземпляр класса, реализующего интерфейс \texttt{IModbusElementWriter},
 функционирует следующим образом, как показано на рисунке \ref{fig:imodbuselementwriter_activity}.
 После создания, компонент находится в пассивном режиме ожидания, до тех пор пока не будет вызван
-метод \texttt{IModbusElementWriter::start()},
-после чего компонент подписывается на события шины данных по протоколу Modbus
+метод \texttt{IModbusElementWriter::start()}, после чего компонент подписывается на события шины данных по протоколу Modbus
 и слушает сообщения об изменениях значений через слот \texttt{IModbusElementWriter::newModbusData()}.
 При поступлении данных, удовлетворяющих условиям функции \texttt{IModbusElementWriter::conditionsMet()},
-происходит запись значения через интерфейс \texttt{IModbusDevice}, испускается сигнал \texttt{IModbusElementWriter::writed()}
-(рисунок \ref{fig:modbus_device_imp}),
+происходит запись значения через интерфейс \texttt{IModbusDevice} (рисунок \ref{fig:modbus_device_imp}),
+испускается сигнал \texttt{IModbusElementWriter::writed()},
 а флаг \texttt{running} выставляется в значение \texttt{false}.
 Таким образом, компонент отписывается от событий по шине данных.
 Компонент может быть повторно подписан на события, через вызов метода \texttt{IModbusElementWriter::start()}.
@@ -81,15 +80,42 @@
         \caption{Реализация устройства для записи значений по протоколу Modbus}\label{fig:modbus_device_imp}
     \end{figure}
 \end{center}
+При реализации интерфейса \texttt{IModbusDevice} используется возможность множественного наследование языка программирования \cpp,
+одним из родителей является интерфейс \texttt{IModbusDevice},
+а вторым --- класс библиотеки \texttt{Qt}, обеспечивающий реализацию физической передачи информации по протоколу Modbus.
+Упрощенная реализация показана в листинге \ref{lst:imodbus_device_impl}.
+\begin{lstlisting}[language=C++,caption=Простейшая реализация \texttt{IModbusDevice} устройства,label=lst:imodbus_device_impl]
+class DeviceImpl : public IDevice, public QModbusTcpServer {
+    public:
+    DeviceImpl() {
+        // Создание подключения 127.0.0.1:502
+        // И другие настройки...
+    }
+    ~DeviceImpl() {
+        // Отключение устройства и другие завершающие процедуры...
+    }
+
+    void write(const modbus::ModbusData& data) override {
+        const QModbusDataUnit unit = transform(data); // Перевод из одно формата в другой
+        QModbusTcpServer::setData(unit);
+        // Анализ результатов записи на устройство
+        if (!error) {
+            emit writed(data);
+        }
+    }
+};
+\end{lstlisting}
+Таким образом используется интерфейс вместо конкретной реализации \cite{book:pattern:head_first}
+
 
 
 \subsection{Реализация интерфейса \texttt{IModbusElementWriter}. Паттерны поведения}
 Класс \texttt{ModbusElementImpl} реализует паттерн "Шаблонный метод" (Template method) \cite{book:pattern:band_of_4},
 определяя метод слота \texttt{IModbusElementWriter::newModbusData()}
-\begin{lstlisting}
-ModbusElementImpl::newModbusData(const modbusio::ModbusData& data)
+\begin{lstlisting}[language=C++]
+ModbusElementImpl::newModbusData(const modbus::ModbusData& data)
     if (_running && conditionsMet(data)) {
-        _device.write(static_cast<const modbusio::ModbusData>(*this));
+        _device.write(static_cast<const modbus::ModbusData>(*this));
         _running = false;
     }
 \end{lstlisting}
@@ -134,8 +160,8 @@ ModbusElementImpl::newModbusData(const modbusio::ModbusData& data)
 Этот класс переопределяет метод родительского класса \texttt{ModbusGuardedWriter::conditionsMet()},
 при выполнении условия которого запускается таймер на время \texttt{\_delay},
 по окончании которого происходит запись значения.
-\begin{lstlisting}
-    ModbusDelayedWriter::conditionsMet(const modbusio::ModbusData& data)
+\begin{lstlisting}[language=C++]
+    ModbusDelayedWriter::conditionsMet(const modbus::ModbusData& data)
         if (_running && !_timerRun) {
             _timerRun = true;
             QTimer::singleShot(_delay, this, &IModbusElementWriter::write);
@@ -167,31 +193,51 @@ ModbusElementImpl::newModbusData(const modbusio::ModbusData& data)
 
 \subsubsection{Периодическая запись}
 Данный компонент предназначен для реализации периодических событий, как показано на диаграмме \ref{fig:modbus_periodic_writer}.
-При захвате управления дискретной переменной, ее значение инвертируется каждый период $f(x; \tau) = \mbox{not} x, x \in \{True, False\}$
+При захвате управления дискретной переменной, ее значение инвертируется каждый период $f(x; \tau) = \lnot x, x \in \{True, False\}$
 (на графике сверху захвачен булевский тег, период равен 25 единиц времени).
-При захвате вещественной переменной значение меняется по закону $f(x,\delta x; \tau) = x + \delta x, x \in \mathcal{R}$
+При захвате вещественной переменной значение меняется по закону $f(x,\delta x; \tau) = x + \delta x, \delta x \in \mathcal{R}$
 (на графике снизу период равен 50 единиц времени, $\delta x = 10$).
 \begin{center}
     \begin{figure}[h!]
-        \includegraphics[width=.8\textwidth,keepaspectratio]%
-            {modbus_periodic_writer.png}
+        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_periodic_writer.png}
         \caption{Циклограмма периодической записи значения.}\label{fig:modbus_periodic_writer}
     \end{figure}
 \end{center}
 Этот компонент используется, например, для управления значениями количества оборотов,
 количества транзакций и пакетов, переданных от контроллера к программе верхнего уровня,
 при захвате вещественных переменной.
+Очевидно, что приращение $\delta x$ может быть как положительным, так и отрицательным.
 
 
 
 \subsection{Описание конфигурационного файла для компонентов интерфейса \texttt{IModbusElementWriter}}
 \todo{Может это совместить с описанием в предыдущем разделе?..}
-Каждая группа должна быть помещена в корневой элемент \texttt{Scenario}.
+Каждая группа должна быть помещена в корневой элемент \texttt{Scenario},
+как показано в листинге \ref{lst:modbus_scenario_example_diagram} приложения \ref{app:sec:modbus_scenario_example_diagram}.
+
+Каждый компонент помещается внутри тега \texttt{Writer},
+с обязательным аттрибутом \texttt{tag}, который указывает каким ресурсом владеет данный компонент.
+Одновременно владеть одним и тем же ресурсом могут несколько компонентов (как будет показано ниже).
+Далее следует секция условий, которая присутствует даже для компонентов \texttt{ModbusGuardedWriter} и \texttt{ModbusDelayedWriter},
+для общности парсера конфигурационного файла.
+Каждое условие описывается логической операцией отношения \texttt{relation} для смежного параметра, указанного в обязательном поле \texttt{tag} и
+связанного с ним значения \texttt{value}.
+Элемент \texttt{relation} принимает одно из следующих значений:
+\texttt{eq} ($=$),
+\texttt{ne} ($\neq$),
+\texttt{gt} ($>$),
+\texttt{lt} ($<$),
+\texttt{ge} ($\geq$),
+\texttt{le} ($\leq$), по аналогии с обозначениями в языке Fortran.
+Для дискретных (булевых) переменных необязательно указывать отношения типа \texttt{eq},
+если интересует отношение равенства, отношение \texttt{ne} неравенства же необходимо указывать явным образом.
+Необязательным полем является поле \texttt{Description}, в котором размещается информация для
+обозначения назначения компонента в сценарии, а так же могут располагаться другие произвольные текстовые данные.
 
 \subsubsection{ModbusGuardedWriter}
 Рассмотрим более подробно описание компонента для компонента с единичным условием записи,
 который размещается в элементе \texttt{Guarded}:
-\begin{lstlisting}
+\begin{lstlisting}[language=MyXML]
 <Writer tag="A1" value="160">
     <Conditions>
         <Condition>
@@ -208,7 +254,7 @@ ModbusElementImpl::newModbusData(const modbusio::ModbusData& data)
 \subsubsection{ModbusMultiguardedWriter}
 Для описания компонента со множественными условиями, используется следующий формат,
 который размещается в элементе \texttt{Multiguarded}:
-\begin{lstlisting}
+\begin{lstlisting}[language=MyXML]
 <Writer tag="Regime" value="1">
     <Conditions>
         <Condition>
@@ -226,12 +272,9 @@ ModbusElementImpl::newModbusData(const modbusio::ModbusData& data)
 Переменной \texttt{Regime} будет присвоено значение 1, как только 
 одновременно будет выполнено два условия: $Regime = 1: \{A1 \ge 150 \wedge C1 = true\}$.
 
-Элемент \texttt{relation} принимает одно из следующих значений: \texttt{eq, gt, lt, ge, le}
-(\texttt{gt} --- $>$, \texttt{lt} --- $<$ по аналогии с обозначениями в языке Fortran).
-
 \subsubsection{ModbusDelayedWriter и ModbusDelayedMultiguardWriter}
 Компоненты этого типа располагаются в окружении тегов элементов \texttt{Delayed} и \texttt{Multidelayed}, соответственно.
-\begin{lstlisting}
+\begin{lstlisting}[language=MyXML]
 <Writer tag="PP_1" value="true" delay="50">
     <Conditions>
         <Condition>
@@ -252,36 +295,67 @@ $PP\_1 = \mbox{true}: \{R1 = true \wedge A1 \le 150\}$.
 
 
 \subsubsection{ModbusPeriodicWriter}
-Данный компонент располагается внутри элемента \texttt{Period}.
-\begin{lstlisting}
-<Writer tag="Distance" value="0" delta="100" period="1000">
-    <Conditions>
-        <Condition>
-            <tag>C1</tag>
-            <value>true</value>
-        </Condition>
-        <Condition>
-            <tag>A1</tag>
-            <value>100</value>
-            <relation>gt</relation>
-        </Condition>
-    </Conditions>
-</Writer>
+Данный компонент располагается внутри элемента \texttt{Period} в конфигурационном файле сценария.
+\begin{lstlisting}[language=MyXML]
+<Period>
+    <Writer tag="Distance" delta="100" period="1000">
+        <Conditions>
+            <Condition>
+                <tag>C1</tag>
+                <value>true</value>
+            </Condition>
+            <Condition>
+                <tag>A1</tag>
+                <value>100</value>
+                <relation>gt</relation>
+            </Condition>
+            <Condition>
+                <tag>A1</tag>
+                <value>150</value>
+                <relation>le</relation>
+            </Condition>
+        </Conditions>
+    </Writer>
+
+    <Writer tag="Distance" delta="100" period="500">
+        <Conditions>
+            <Condition>
+                <tag>C1</tag>
+                <value>true</value>
+            </Condition>
+            <Condition>
+                <tag>A1</tag>
+                <value>150</value>
+                <relation>gt</relation>
+            </Condition>
+        </Conditions>
+    </Writer>
+</Period>
 \end{lstlisting}
 В данном примере дистанция, ассоциированная с переменной \texttt{Distance}, увеличивается на 100 единиц каждые 1000 единиц времени,
-при выполнении ряда условий, а именно:
-$\{C1 = true \wedge A1 > 100\}$.
-
+при выполнении ряда условий, а именно: $\{C1 = true \wedge A1 > 100 \wedge A1 \le 150 \}$ или
+увеличивается на теже 100 единиц, но с периодом 500 единиц, когда достигаются следующие условия:
+$\{C1 = true \wedge A1 > 150\}$
+Отметим, что для этого компонента начальное значение или сброс значения должен быть произведен в коком-то
+другом месте.
 
 
 
 \subsection{Менеджер состояний}
-\begin{center}
-    \begin{figure}
-        \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_class_components}
-        \caption{Композиция классов}\label{fig:modbus_class_components}
-    \end{figure}
-\end{center}
+Для управления компонентами имитатора используется менеджер \texttt{ModbusIoManager}. Установка компонентов производится с помощью экземпляра класса \texttt{ScenarioParser}, реализующего интерфейс \texttt{IParser}.
+Этот интерфейс является общим для как для чтения файла сценария (\ref{lst:modbus_scenario_example_diagram}),
+так и для файла тегов (листинг \ref{lst::modbus_tags_example}).
+После чтения конфигурации, ее необходимо проверить, что каждый тег $t_i$
+компонента, управление над которым захватывает и условия выполнения переходов, является элементов множества \texttt{ModbusTags},
+то есть $\forall t_i \in \mbox{ModbusTags}$.
+\begin{landscape}
+    \begin{center}
+        \begin{figure}
+            \includegraphics[height=.85\textheight,keepaspectratio]{modbus_class_components}
+            \caption{Композиция классов менеджера сценариев}\label{fig:modbus_class_components}
+        \end{figure}
+    \end{center}
+\end{landscape}
 
 \begin{center}
     \begin{figure}
@@ -301,8 +375,7 @@ $\{C1 = true \wedge A1 > 100\}$.
 \begin{landscape}
     \begin{center}
         \begin{figure}
-            \includegraphics[height=.8\textheight,keepaspectratio]%
-                {modbus_scenario_example_diagram.png}
+            \includegraphics[height=.8\textheight,keepaspectratio]{modbus_scenario_example_diagram.png}
             \caption{Пример использования классов.}\label{fig:modbus_scenario_example_diagram}
         \end{figure}
     \end{center}
