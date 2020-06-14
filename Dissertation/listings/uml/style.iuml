@@ -1,6 +1,8 @@
 scale 1.5
 skinparam {
     Dpi 300
+    PackageFontSize 20
+    arrowThickness 4
     DefaultFontSize 18
     ClassFontSize 28
     ClassAttributeFontSize 25
