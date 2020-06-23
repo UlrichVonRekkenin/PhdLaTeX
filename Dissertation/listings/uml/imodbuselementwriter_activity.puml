@@ -1,11 +1,12 @@
 @startuml
 !include style.iuml
+title **IModbusElementWriter**
 
 start
 
 while (running==<color:blue>true</color>)
     if (data==capture) then (<color:green>yes</color>)
-        -device.write(captured)\n\nrunning=false
+        -device.write(captured)\n\nrunning = false
     else (<color:red>no</color>)
     endif
 endwhile (stop)
