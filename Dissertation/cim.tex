@@ -79,22 +79,24 @@
 Класс \texttt{IModbusElementWriterImpl} (не показан на рисунке \ref{fig:modbus_class_uml})
 реализует паттерн "Шаблонный метод" (Template method) \cite[стр. 309]{book:pattern:band_of_4},
 определяя метод слота \texttt{IModbusElementWriter::newModbusData()}
-и защищенный метод \texttt{IModbusElementWriter::write()}.
+и защищенный метод \texttt{IModbusElementWriter::write()} --- инвариантную последовательность операций,
+определенную виртуальными методами, которые можно переопределить с помощью наследования \cite[стр. 170]{book:tdd:KentBeck}.
+
 \lstinputlisting[
     language=C++,
-    caption=Реализация контракта компонента (см. рисунок \ref{fig:imodbuselementwriter_activity})
+    caption=Реализация контракта компонента (см. рисунок \ref{fig:imodbuselementwriter_activity}),
     label=lst:tmpl_method_writerimpl
         ]{Dissertation/listings/cpp/writerimpl_template_method.hpp}
 
 
 \subsection{\todo{Условия перехода}}
-Как видно из рисунка \ref{fig:modbus_class_uml} правила записи описываются с помощью компонента
-\texttt{ModbusDataRelationed}, который является наследником класса \texttt{ModbusData}.
-Этот класс содержит в себе \texttt{value} от родительского класса и правило отношения \texttt{Relation}
-как поле класса. Экземпляр этого класса используется в уточнении функции \texttt{IModbusElementWriter::conditionsMet()}
-у наследников 
+Как видно из рисунка \ref{fig:modbus_class_uml} проверка условий записи описываются с помощью компонента типа
+\texttt{ModbusDataRelationed} -- наследника класса \texttt{ModbusData}.
+Этот класс содержит в себе \texttt{value} от родительского класса и правило отношения \texttt{Relation}.
+При поступлении новых данных по шине Modbus происходит сравнение значений (листинг \ref{lst:comparator:compare}).
 \lstinputlisting[
     language=C++,
+    label=lst:comparator:compare,
     caption=Уточнение метода в реализации класса \texttt{ModbusGuardedWriter} из \ref{fig:guard}
         ]{Dissertation/listings/cpp/conditionsMet.hpp}
 
@@ -210,12 +212,12 @@
 
 
 \subsection{Описание конфигурационного файла для компонентов интерфейса \texttt{IModbusElementWriter}}
-\todo{Может это совместить с описанием в предыдущем разделе?..}
 Каждая группа должна быть помещена в корневой элемент \texttt{Scenario},
 как показано в листинге \ref{lst:modbus_scenario_example_diagram} приложения \ref{app:sec:modbus_scenario_example_diagram}.
 
 Каждый компонент помещается внутри тега \texttt{Writer},
-с обязательным аттрибутом \texttt{tag}, который указывает каким ресурсом владеет данный компонент.
+с обязательным текстовым аттрибутом \texttt{tag}, который указывает каким ресурсом владеет данный компонент
+и обязательным аттрибутом \texttt{value}, который выполняет различную роль в зависимости от назначения компонента (см. листинг \ref{lst:modbus_tags_scenario_configs}).
 Одновременно владеть одним и тем же ресурсом могут несколько компонентов (как будет показано ниже).
 Далее следует секция условий, которая присутствует даже для компонентов \texttt{ModbusGuardedWriter} и \texttt{ModbusDelayedWriter},
 для общности парсера конфигурационного файла.
@@ -236,16 +238,11 @@
 \subsubsection{ModbusGuardedWriter}
 Рассмотрим более подробно описание компонента для компонента с единичным условием записи,
 который размещается в элементе \texttt{Guarded}:
-\begin{lstlisting}[language=MyXML]
-<Writer tag="A1" value="160">
-    <Conditions>
-        <Condition>
-            <tag>R1</tag>
-            <value>true</value>
-        </Condition>
-    </Conditions>
-</Writer>
-\end{lstlisting}
+\lstinputlisting[
+    language=MyXML,
+    caption=Пример конфигурации \texttt{ModbusGuardedWriter},
+    label=lst:modbus_guarded_writer_xml]
+        {Dissertation/listings/xml/guarded.xml}
 Захватывается управление над тегом \texttt{A1}, которой будет присвоено значение 160
 при выполнении условия \texttt{R1 = true}.
 
@@ -253,41 +250,21 @@
 \subsubsection{ModbusMultiguardedWriter}
 Для описания компонента со множественными условиями, используется следующий формат,
 который размещается в элементе \texttt{Multiguarded}:
-\begin{lstlisting}[language=MyXML]
-<Writer tag="Regime" value="1">
-    <Conditions>
-        <Condition>
-            <tag>A1</tag>
-            <value>150</value>
-            <relation>ge</relation>
-        </Condition>
-        <Condition>
-            <tag>C1</tag>
-            <value>true</value>
-        </Condition>
-    </Conditions>
-</Writer>
-\end{lstlisting}
+\lstinputlisting[
+    language=MyXML,
+    caption=Пример конфигурации \texttt{ModbusMultiguardedWriter},
+    label=lst:modbus_multiguarded_writer_xml]
+        {Dissertation/listings/xml/multiguarded.xml}
 Переменной \texttt{Regime} будет присвоено значение 1, как только 
 одновременно будет выполнено два условия: $Regime = 1: \{A1 \ge 150 \wedge C1 = true\}$.
 
 \subsubsection{ModbusDelayedWriter и ModbusDelayedMultiguardWriter}
 Компоненты этого типа располагаются в окружении тегов элементов \texttt{Delayed} и \texttt{Multidelayed}, соответственно.
-\begin{lstlisting}[language=MyXML]
-<Writer tag="PP_1" value="true" delay="50">
-    <Conditions>
-        <Condition>
-            <tag>R1</tag>
-            <value>true</value>
-        </Condition>
-        <Condition>
-            <tag>A1</tag>
-            <value>150</value>
-            <relation>le</relation>
-    </Condition>
-    </Conditions>
-</Writer>
-\end{lstlisting}
+\lstinputlisting[
+    language=MyXML,
+    caption=Пример конфигурации \texttt{ModbusDelayedWriter} и \texttt{ModbusDelayedMultiguardWriter},
+    label=lst:modbus_delayed_writer_xml]
+        {Dissertation/listings/xml/delayed.xml}
 Захватывается управление переменной \texttt{PP\_1}, которой будет установлено значение \texttt{true}
 через 50 единиц времени, как только будут выполнены два условия:
 $PP\_1 = \mbox{true}: \{R1 = true \wedge A1 \le 150\}$.
@@ -295,49 +272,37 @@ $PP\_1 = \mbox{true}: \{R1 = true \wedge A1 \le 150\}$.
 
 \subsubsection{ModbusPeriodicWriter}
 Данный компонент располагается внутри элемента \texttt{Period} в конфигурационном файле сценария.
-\begin{lstlisting}[language=MyXML]
-<Period>
-    <Writer tag="Distance" delta="100" period="1000">
-        <Conditions>
-            <Condition>
-                <tag>C1</tag>
-                <value>true</value>
-            </Condition>
-            <Condition>
-                <tag>A1</tag>
-                <value>100</value>
-                <relation>gt</relation>
-            </Condition>
-            <Condition>
-                <tag>A1</tag>
-                <value>150</value>
-                <relation>le</relation>
-            </Condition>
-        </Conditions>
-    </Writer>
-
-    <Writer tag="Distance" delta="100" period="500">
-        <Conditions>
-            <Condition>
-                <tag>C1</tag>
-                <value>true</value>
-            </Condition>
-            <Condition>
-                <tag>A1</tag>
-                <value>150</value>
-                <relation>gt</relation>
-            </Condition>
-        </Conditions>
-    </Writer>
-</Period>
-\end{lstlisting}
+\lstinputlisting[
+    language=MyXML,
+    caption=Пример конфигурации \texttt{ModbusPeriodicWriter},
+    label=lst:modbus_periodic_writer_xml]
+        {Dissertation/listings/xml/periodic.xml}
 В данном примере дистанция, ассоциированная с переменной \texttt{Distance}, увеличивается на 100 единиц каждые 1000 единиц времени,
 при выполнении ряда условий, а именно: $\{C1 = true \wedge A1 > 100 \wedge A1 \le 150 \}$ или
 увеличивается на теже 100 единиц, но с периодом 500 единиц, когда достигаются следующие условия:
 $\{C1 = true \wedge A1 > 150\}$
-Отметим, что для этого компонента начальное значение или сброс значения должен быть произведен в коком-то
-другом месте.
+Отметим, что для этого компонента начальное значение устанавливается с помощью аттрибута \texttt{value}
+при вызове метода \texttt{IModbusElementWriter::start()}.
 
+
+\subsection{Сводная таблица наследников \texttt{IModbusElementWriter}}
+\begin{table}[]
+\caption{\todo{Сводная таблица наследников}}\label{tbl:IModbusElementWriterImpl}
+\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\hline
+    \multicolumn{1}{|c|}{\multirow{2}{*}{Наследники}} &
+    \multicolumn{5}{c|}{\textbf{Аттрибуты}} &
+    \multicolumn{2}{c|}{\textbf{Переопределенные методы наследника}} \\ \cline{2-8} 
+    \multicolumn{1}{|c|}{}     &
+        \rotatebox{90}{tag} & \rotatebox{90}{value}  & \rotatebox{90}{delay}  & \rotatebox{90}{period} & \rotatebox{90}{delta} &
+        \rotatebox{90}{conditionsMet} & \rotatebox{90}{newModbusData} \\ \hline
+    \texttt{ModbusGuardedWriter}              & +    & +      & -      & -      & -     & + & -  \\ \hline
+    \texttt{ModbusMultiguardedWriter}         & +    & +      & -      & -      & -     & + & -  \\ \hline
+    \texttt{ModbusDelayedWriter}              & +    & +      & +      & -      & -     & - & +  \\ \hline
+    \texttt{ModbusDelayedMultiguardWriter}    & +    & +      & +      & -      & -     & - & +  \\ \hline
+    \texttt{ModbusPeriodicWriter}             & +    & +      & -      & +      & +     & + & -  \\ \hline
+\end{tabular}
+\end{table}
 
 
 \subsection{Менеджер состояний}
