@@ -15,7 +15,7 @@ namespace modbusio {
         LongReal
     }
 
-    interface IModbusDevice {
+    interface IDeviceWriter {
         + {abstract} void write(const ModbusData&) = 0
     }
 
@@ -57,7 +57,7 @@ namespace modbusio {
     class ModbusGuardedWriter {
         - [override] bool conditionsMet(const ModbusData&)
         # condition : ModbusData
-        # device : IModbusDevice
+        # device : IDeviceWriter
     }
 
     class ModbusDelayedWriter {
@@ -68,7 +68,7 @@ namespace modbusio {
     class ModbusMultiguardedWriter {
         - [override] bool conditionsMet(const ModbusData&)
         # conditions[]: ModbusData
-        # device : IModbusDevice
+        # device : IDeviceWriter
     }
 
     class ModbusDelayedMultiguardWriter {
@@ -85,20 +85,20 @@ namespace modbusio {
     ModbusData <|-right- IModbusElementReader
 
     ModbusElementImpl <|-- ModbusPeriodicWriter
-    ModbusPeriodicWriter "1" *-- "1" IModbusDevice
+    ModbusPeriodicWriter "1" *-- "1" IDeviceWriter
     ModbusPeriodicWriter "1" *-- "1" Qt.QVariant
     ModbusPeriodicWriter "1" *-- "1" Qt.QTimer
 
     IModbusElementWriter <|-- ModbusElementImpl
 
     ModbusElementImpl <|-- ModbusGuardedWriter
-    ModbusGuardedWriter "1" *-- "1" IModbusDevice
+    ModbusGuardedWriter "1" *-- "1" IDeviceWriter
     
     ModbusGuardedWriter <|--- ModbusDelayedWriter
     ModbusDelayedWriter "1" *-- "1" Qt.QTimer
     
     ModbusElementImpl <|-- ModbusMultiguardedWriter 
-    ModbusMultiguardedWriter "1" *-- "1" IModbusDevice
+    ModbusMultiguardedWriter "1" *-- "1" IDeviceWriter
 
     ModbusMultiguardedWriter <|--- ModbusDelayedMultiguardWriter
     ModbusDelayedMultiguardWriter "1" *-- "1" Qt.QTimer
