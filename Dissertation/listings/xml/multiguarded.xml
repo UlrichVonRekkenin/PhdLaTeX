@@ -1,0 +1,6 @@
+<Writer tag="Regime" value="1">
+    <Condisions>
+        <Condition tag="A1" value="150" relation="ge" />>
+        <Condition tag="C1" value="true" />
+    </Condisions>
+</Writer>
