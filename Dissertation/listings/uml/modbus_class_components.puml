@@ -5,7 +5,7 @@ package modbus::io {
     [ModbusIoManager] as manager
     () IModbusElementWriter as iwriter #D0DDDD
     manager -- iwriter
-    iwriter ----> IModbusDevice
+    iwriter ----> IDeviceWriter
     [ModbusPeriodicWriter] -up- iwriter
     [ModbusGuardedWriter] -up- iwriter
     [ModbusDelayedWriter] -up- [ModbusGuardedWriter]

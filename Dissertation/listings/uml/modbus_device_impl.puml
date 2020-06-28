@@ -8,7 +8,7 @@ namespace Qt {
 }
 
 namespace modbus::io {
-    interface IModbusDevice {
+    interface IDeviceWriter {
         + {abstract} void write(const ModbusData&) = 0
         + [signal] void writed(const ModbusData&)
     }
@@ -17,7 +17,7 @@ namespace modbus::io {
         + [override] void write(const ModbusData&)
     }
 
-    IModbusDevice <|-- ModbusDeviceImpl
+    IDeviceWriter <|-- ModbusDeviceImpl
     Qt.QModbusTcpServer <|-- ModbusDeviceImpl
 }
 
