@@ -6,7 +6,7 @@
         caption=Конфигурационный файл для описания множества контроллируемых параетров по промышленному протоколу Modbus
             из раздела \ref{sec:modbus_tag}. Файл разметки приведен в листинге \ref{lst:modbus_tags_example_configs},
         label=lst:modbus_tags_example]
-            {Dissertation/listings/modbus_tags_example.xml}
+            {Dissertation/listings/xml/modbus_tags_example.xml}
 \end{landscape}
 
 \section{Конфигурация сценария}\label{app:sec:modbus_scenario_example_diagram}
@@ -14,23 +14,22 @@
     language=MyXML,
     caption=Конфигурационный файл примера сценария развития событий (см. рисунок \ref{fig:modbus_scenario_example_diagram}),
     label=lst:modbus_scenario_example_diagram]
-        {Dissertation/listings/modbus_tags_example_scenario.xml}
+        {Dissertation/listings/xml/modbus_tags_example_scenario.xml}
 
-\section{Файл разметки для Modbus тегов}
-
-\lstinputlisting[
-    language=MyXML,
-    caption=\todo{modbus scheme},
-    label=lst:modbus_tags_example_configs]
-        {Dissertation/listings/modbus_tags_configs.xsd}
-
-\lstinputlisting[
-    language=MyXML,
-    caption=\todo{modbus scenario scheme},
-    label=lst:modbus_tags_scenario_configs]
-        {Dissertation/listings/modbus_tags_scenario_configs.xsd}
-
-
+\begin{landscape}
+\section{\todo{XSD} файлы}
+    \lstinputlisting[
+        language=MyXML,
+        caption=\todo{modbus scheme},
+        label=lst:modbus_tags_example_configs]
+            {Dissertation/listings/xsd/modbus_tags_configs.xsd}
+    
+    \lstinputlisting[
+        language=MyXML,
+        caption=\todo{modbus scenario scheme},
+        label=lst:modbus_tags_scenario_configs]
+            {Dissertation/listings/xsd/modbus_tags_scenario_configs.xsd}        
+\end{landscape}
 
 \chapter{Свидетельство о государственной регистрации программы для ЭВМ}\label{ch:app1}
 \todo{Свидетельство и акт я получу на работе.}
