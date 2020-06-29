@@ -1,0 +1,15 @@
+@startuml
+!include style.iuml
+
+actor Оператор as oper
+participant "Автоматизированное\nрабочее\nместо" as arm #LightGreen
+participant "Система\nконтроля" as cs #LightSalmon
+participant "Объект\nконтроля" as obj #White
+
+oper <-> arm : Режим\nпроверки
+arm -> arm : Настройка
+arm <-> cs
+cs <-> obj : Взаимодействи по\nпротоколам
+oper <-[#0000F0]-> obj : Механическое управление
+
+@enduml

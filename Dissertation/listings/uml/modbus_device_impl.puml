@@ -7,7 +7,7 @@ namespace Qt {
     QObject <|-- QModbusDevice
 }
 
-namespace modbus::io {
+namespace modbusio {
     interface IDeviceWriter {
         + {abstract} void write(const ModbusData&) = 0
         + [signal] void writed(const ModbusData&)

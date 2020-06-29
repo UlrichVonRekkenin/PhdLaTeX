@@ -1,7 +1,7 @@
 @startuml
 !include style.iuml
 
-package modbus::io {
+package modbusio {
     [ModbusIoManager] as manager
     () IModbusElementWriter as iwriter #D0DDDD
     manager -- iwriter

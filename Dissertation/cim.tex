@@ -38,7 +38,7 @@
 
 \section{Иерархия классов}
 На основе анализа предметной области строится иерархия классов для управления информационной моделью,
-диаграмма взаимосвязи классов представлена на рисунке \ref{fig:modbus_class_uml}. 
+диаграмма взаимосвязи классов представлена на рисунке \ref{fig:modbus_class_uml} \cite[стр. 223]{book:oop:oop_analize}. 
 \begin{landscape}
     \begin{center}
         \begin{figure}[h!]
@@ -57,7 +57,7 @@
 
 \subsection{Жизненный цикл компонента \texttt{IModbusElementWriter}}
 Каждый экземпляр класса, реализующего интерфейс \texttt{IModbusElementWriter},
-функционирует следующим образом, как показано на рисунке \ref{fig:imodbuselementwriter_activity}.
+функционирует следующим образом, как показано на рисунке \ref{fig:imodbuselementwriter_activity} \cite[стр. 217]{book:oop:oop_analize}.
 После создания, компонент находится в пассивном режиме ожидания, до тех пор пока не будет вызван
 метод \texttt{IModbusElementWriter::start()}, после чего компонент подписывается на события шины данных по протоколу Modbus
 и слушает сообщения об изменениях значений через слот \texttt{IModbusElementWriter::newModbusData()}.
@@ -97,8 +97,8 @@
 \lstinputlisting[
     language=C++,
     label=lst:comparator:compare,
-    caption=Уточнение метода в реализации класса \texttt{ModbusGuardedWriter} из \ref{fig:guard}
-        ]{Dissertation/listings/cpp/conditionsMet.hpp}
+    caption=Вспомогательный метод, использующийся при анализе поступающих данных.
+        ]{Dissertation/listings/cpp/comparator.hpp}
 
 
 Перейдем к более подробному рассмотрению реализаций интерфейса \texttt{IModbusElementWriter}.
@@ -175,10 +175,12 @@
 
 \subsubsection{Периодическая запись}
 Данный компонент предназначен для реализации периодических событий, как показано на диаграмме \ref{fig:modbus_periodic_writer}.
-При захвате управления дискретной переменной, ее значение инвертируется каждый период $f(x; \tau) = \lnot x, x \in \{True, False\}$
+При захвате управления дискретной переменной, ее значение инвертируется каждый период
+$f_i(x; \tau) = \lnot f_{i-1}(x; \tau), f(x; \tau) \in \{True, False\}$
 (на графике сверху захвачен булевский тег, период равен 25 единиц времени).
-При захвате вещественной переменной значение меняется по закону $f(x,\delta x; \tau) = x + \delta x, \delta x \in \mathcal{R}$
-(на графике снизу период равен 50 единиц времени, $\delta x = 10$).
+При захвате вещественной переменной значение меняется по закону
+$f_i(x,\Delta x; \tau) = f_{i-1}(x,\Delta x; \tau) + \Delta x, \Delta x \in \mathcal{R}$
+(на графике снизу период равен 50 единиц времени, $\Delta x = 10$ на 200 единиц времени).
 \begin{center}
     \begin{figure}[h!]
         \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_periodic_writer.png}
@@ -188,7 +190,12 @@
 Этот компонент используется, например, для управления значениями количества оборотов,
 количества транзакций и пакетов, переданных от контроллера к программе верхнего уровня,
 при захвате вещественных переменной.
-Очевидно, что приращение $\delta x$ может быть как положительным, так и отрицательным.
+Очевидно, что приращение $\Delta x$ может быть как положительным, так и отрицательным.
+
+Если в конфигурации сценария (листинг \ref{lst:modbus_periodic_writer_xml}) имеется аттрибут
+\texttt{duration}, компонент будет работать от выполнения условий до окончания указанной длительности.
+В противном случае обновление значений будет происходить до момента прекращения работы
+\texttt{ModbusIoManager::resetAll()}.
 
 
 \subsection{Реализация интерфейса \texttt{IDeviceWriter}}
@@ -288,19 +295,20 @@ $\{C1 = true \wedge A1 > 150\}$
 \subsection{Сводная таблица наследников \texttt{IModbusElementWriter}}
 \begin{table}[]
 \caption{\todo{Сводная таблица наследников}}\label{tbl:IModbusElementWriterImpl}
-\begin{tabular}{|l|c|c|c|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
 \hline
     \multicolumn{1}{|c|}{\multirow{2}{*}{Наследники}} &
-    \multicolumn{5}{c|}{\textbf{Аттрибуты}} &
+    \multicolumn{6}{c|}{\textbf{Аттрибуты}} &
     \multicolumn{2}{c|}{\textbf{Переопределенные методы наследника}} \\ \cline{2-8} 
     \multicolumn{1}{|c|}{}     &
-        \rotatebox{90}{tag} & \rotatebox{90}{value}  & \rotatebox{90}{delay}  & \rotatebox{90}{period} & \rotatebox{90}{delta} &
+        \rotatebox{90}{tag} & \rotatebox{90}{value}  & \rotatebox{90}{delay}  & \rotatebox{90}{period} &
+        \rotatebox{90}{delta} & \rotatebox{90}{duration} &
         \rotatebox{90}{conditionsMet} & \rotatebox{90}{newModbusData} \\ \hline
-    \texttt{ModbusGuardedWriter}              & +    & +      & -      & -      & -     & + & -  \\ \hline
-    \texttt{ModbusMultiguardedWriter}         & +    & +      & -      & -      & -     & + & -  \\ \hline
-    \texttt{ModbusDelayedWriter}              & +    & +      & +      & -      & -     & - & +  \\ \hline
-    \texttt{ModbusDelayedMultiguardWriter}    & +    & +      & +      & -      & -     & - & +  \\ \hline
-    \texttt{ModbusPeriodicWriter}             & +    & +      & -      & +      & +     & + & -  \\ \hline
+    \texttt{ModbusGuardedWriter}              & +    & +      & -      & -      & - &-     & + & -  \\ \hline
+    \texttt{ModbusMultiguardedWriter}         & +    & +      & -      & -      & - &-     & + & -  \\ \hline
+    \texttt{ModbusDelayedWriter}              & +    & +      & +      & -      & - &-     & - & +  \\ \hline
+    \texttt{ModbusDelayedMultiguardWriter}    & +    & +      & +      & -      & - &-     & - & +  \\ \hline
+    \texttt{ModbusPeriodicWriter}             & +    & +      & -      & +      & + &$\pm$ & + & -  \\ \hline
 \end{tabular}
 \end{table}
 
@@ -326,6 +334,7 @@ $\{C1 = true \wedge A1 > 150\}$
     \end{figure}
 \end{center}
 
+Последовательность действий показана на рисунке \ref{fig:top_level_sequence} \cite[стр. 239]{book:oop:oop_analize}
 \begin{center}
     \begin{figure}
         \includegraphics[width=.9\textwidth,keepaspectratio]{top_level.png}
