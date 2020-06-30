@@ -50,9 +50,13 @@
 Базовый класс \texttt{ModbusElement} инкапсулирует в себе представление тега из раздела \ref{sec:modbus_tag}.
 Для передачи данных между компонентами системы используется класс \texttt{ModbusData}, производный от \texttt{ModbusElement},
 в котором появляется дополнительный член класса \texttt{value} для хранения значения.
-Интерфейс \texttt{IModbusElementReader} введен для общности, но в данной работе представляет мало интереса, далее мы сосредоточимся 
-на реализациях интерфейса \texttt{IModbusElementWriter}.
+% Для реализации поведения используется полиморфизм, так как классы имеют один и тот же протокол \cite[стр. 133]{book:oop:oop_analize}.
+Также отметим, что этот компонент создается с использованием множественного наследования:
+первый супер класс это \texttt{ModbusData}, инкапсулирующий передаваемые данные,
+а второй --- \texttt{QObject}, так как необходимо получить "ортогональные свойства" (механизм сигналов-слотов и обработка сообщений) \cite[стр. 134]{book:oop:oop_analize}.
 
+Интерфейс \texttt{IModbusElementReader} введен для общности,
+но в данной работе представляет мало интереса.
 
 
 \subsection{Жизненный цикл компонента \texttt{IModbusElementWriter}}
@@ -76,8 +80,7 @@
 \end{center}
 
 
-Класс \texttt{IModbusElementWriterImpl} (не показан на рисунке \ref{fig:modbus_class_uml})
-реализует паттерн "Шаблонный метод" (Template method) \cite[стр. 309]{book:pattern:band_of_4},
+Класс \texttt{ModbusElementWriterImpl} реализует паттерн "Шаблонный метод" (Template method) \cite[стр. 309]{book:pattern:band_of_4},
 определяя метод слота \texttt{IModbusElementWriter::newModbusData()}
 и защищенный метод \texttt{IModbusElementWriter::write()} --- инвариантную последовательность операций,
 определенную виртуальными методами, которые можно переопределить с помощью наследования \cite[стр. 170]{book:tdd:KentBeck}.
@@ -119,7 +122,7 @@
 
 \subsubsection{Запись со множественными условиями}
 Циклограмма функционирования класса \texttt{ModbusMultiguardedWriter} приведена на рисунке \ref{fig:modbus_multiguarded_writed}.
-Этот класс переопределяет метод родительского класса \texttt{IModbusElementWriterImpl::newModbusData()},
+Этот класс переопределяет метод родительского класса \texttt{ModbusElementWriterImpl::newModbusData()},
 так как необходимо следить за множеством тегов через этот слот,
 заполняется ассоциативный массив (например, \texttt{std::map<std::string, bool>} у которого ключем является
 название тега \texttt{modbusio::ModbusElement::title()}, а значением результат \todo{надо посмотреть в коде \ldots})
@@ -293,9 +296,13 @@ $\{C1 = true \wedge A1 > 150\}$
 
 
 \subsection{Сводная таблица наследников \texttt{IModbusElementWriter}}
-\begin{table}[]
-\caption{\todo{Сводная таблица наследников}}\label{tbl:IModbusElementWriterImpl}
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|}
+Общая информация о компонентах представлена в таблице \ref{tbl:ModbusElementWriterImpl}.
+Из этой таблицы видно, что использование наследования совместно с паттерном "шаблонный метод"
+позволяет переопределять поведение компонентов, обеспечивая выполнение контрактов наследниками интерфейса \cite[стр. 124-125]{book:oop:oop_analize}.
+
+\begin{table}[hb]
+\caption{\todo{Сводная таблица наследников}}\label{tbl:ModbusElementWriterImpl}
+\begin{tabular}{|l|c|c|c|c|c|c||c|c|}
 \hline
     \multicolumn{1}{|c|}{\multirow{2}{*}{Наследники}} &
     \multicolumn{6}{c|}{\textbf{Аттрибуты}} &
@@ -313,52 +320,7 @@ $\{C1 = true \wedge A1 > 150\}$
 \end{table}
 
 
-\subsection{Менеджер состояний}
-Для управления компонентами имитатора используется менеджер \texttt{ModbusIoManager}. Установка компонентов производится с помощью экземпляра класса \texttt{ScenarioParser}, реализующего интерфейс \texttt{IParser}.
-Этот интерфейс является общим для как для чтения файла сценария (\ref{lst:modbus_scenario_example_diagram}),
-так и для файла тегов (листинг \ref{lst::modbus_tags_example}).
-После чтения конфигурации, ее необходимо проверить, что каждый тег $t_i$
-компонента, управление над которым захватывает и условия выполнения переходов, является элементов множества \texttt{ModbusTags},
-то есть $\forall t_i \in \mbox{ModbusTags}$.
-\begin{center}
-    \begin{figure}
-        \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_class_components}
-        \caption{Композиция классов менеджера сценариев}\label{fig:modbus_class_components}
-    \end{figure}
-\end{center}
-
-\begin{center}
-    \begin{figure}
-        \includegraphics[width=.9\textwidth,keepaspectratio]{modbusiomanager_state_diagram}
-        \caption{\todo{Жизненный цикл ModbusIoManager}}\label{fig:modbusiomanager_state_diagram}
-    \end{figure}
-\end{center}
-
-Последовательность действий показана на рисунке \ref{fig:top_level_sequence} \cite[стр. 239]{book:oop:oop_analize}
-\begin{center}
-    \begin{figure}
-        \includegraphics[width=.9\textwidth,keepaspectratio]{top_level.png}
-        \caption{Последовательность действий при работе с имитатором}\label{fig:top_level_sequence}
-    \end{figure}
-\end{center}
-
-\clearpage
-\section{Пример композиции для простейшего сценария}
-
-Рассмотрим пример сценария на основе множества Modbus тегов из листинга \ref{lst:modbus_tags_example},
-циклограмма которого представлена на рисунке \ref{fig:modbus_scenario_example_diagram},
-сценарий приведен в листинге \ref{lst:modbus_scenario_example_diagram} в разделе приложения \ref{app:sec:modbus_scenario_example_diagram}.
-% Схема разметки приведена в листинге \ref{lst:modbus_tags_scenario_configs}.
-
-\begin{landscape}
-    \begin{center}
-        \begin{figure}
-            \includegraphics[height=.8\textheight,keepaspectratio]{modbus_scenario_example_diagram.png}
-            \caption{Пример использования классов.}\label{fig:modbus_scenario_example_diagram}
-        \end{figure}
-    \end{center}
-\end{landscape}
-
+\input{Dissertation/manager.tex}
 
 \section*{Выводы}
 Таким образом можно использовать унифицированный способ представления сценария для имитатора \ldots

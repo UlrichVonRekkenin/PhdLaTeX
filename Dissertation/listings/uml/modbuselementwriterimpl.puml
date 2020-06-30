@@ -1,0 +1,63 @@
+@startuml
+!include style.iuml
+
+' hide footbox
+
+actor Оператор as user
+entity "parser" as parser
+box "manager" #F0FFF0
+    entity "ModbusIoManager" as manager
+    collections "Компоненты\nIModbusElementWriter" as components
+    entity IDeviceWriter as device
+end box
+participant "Шина данных\nпо протоколу\nModbus" as modbus
+
+create parser
+user -> parser : Чтение\nсценария
+activate parser #FFBBBB
+activate manager #FFBBFB
+activate device
+
+parser -> manager : Устновка\nкомпонентов
+manager -> components : **manager.setCaptures(parser.capures())**
+note over components #FAFADA : Компоненты подписываются\nна события шины данных
+destroy parser
+activate components
+
+modbus <--] : Новые\nданные
+note over modbus #DADADD : Игнорируются\nпри выключенном\n**manager**
+
+user -> manager : Активация компонентов,\nподписывание на события шины
+note over manager #FAFADA : manager.startAll()
+
+loop Обработка данных
+    modbus <--]
+    note over modbus : Изменение данных\nпрограммой\nверхнего уровня
+    autonumber
+    modbus -> manager : [slot] **newModbudData()**
+    note over manager : Менеджер делегирует\nработу компоненту
+    manager -> components : [slot] **newModbudData()**
+    alt Условия выполняются
+        note over components : а) Компонент запущен?\nб) Изменение этого **data** отслеживается?\nв) Изменения удовлетворяют ожидаемым значениям?
+        components -> device : **write()**
+        activate device
+        note over components : Делегация записи устройству
+        device ->] : [signal] **writed()**
+        deactivate device
+        note over device : Кто угодно во внешнем мире\nможет быть подписан на события **manager**
+        components -> components : **reset()**
+        activate components
+        deactivate components
+        note over components : Компонент отписывается от событий по шине данных
+    else Условия не выполняются
+        note over manager,components #DADADD : Игнорируется это сообщение
+    end
+    autonumber stop
+end
+
+user -> manager : Завершение работы
+destroy manager
+destroy components
+destroy device
+
+@enduml

@@ -1,6 +1,9 @@
 @startuml
 !include style.iuml
-scale 1.3
+skinparam {
+    ClassBackgroundColor #FFFFF0
+}
+scale 1.5
 
 namespace Qt {
     ' class QTimer {
@@ -9,7 +12,9 @@ namespace Qt {
     ' }
 
     class QObject
-    ' class QVariant
+    class QModbusDevice
+    class QModbusServer
+    class QModbusTcpServer
 
     QModbusServer <|-- QModbusTcpServer
     QModbusDevice <|-- QModbusServer
@@ -17,6 +22,10 @@ namespace Qt {
 }
 
 namespace modbusio {
+    class ModbusDeviceImpl
+    class ModbusElementWriterImpl
+    note bottom of ModbusElementWriterImpl : Реализует паттерн\n"шаблонный метод"
+
     enum TransmitedType {
         Bool
         Word
@@ -44,10 +53,10 @@ namespace modbusio {
     class ModbusIoManager {
         + setCaptures(IModbusElementWriter[])
 
-        + [signal] void writed(const ModbusData&)
-        + [slot] void newModbusData(const ModbusData&)
-        + [slot] void resetAll()
-        + [slot] void startAll()
+        + **[signal]** void writed(const ModbusData&)
+        + **[slot]** void newModbusData(const ModbusData&)
+        + **[slot]** void resetAll()
+        + **[slot]** void startAll()
 
         - addCapture(IModbusElementWriter)
         - captures[]: IModbusElementWriter
@@ -72,12 +81,12 @@ namespace modbusio {
     }
 
     interface IModbusElementWriter {
-        + {abstract} [signal] virtual void writed(const ModbusData&) = 0
-        + {abstract} [signal] virtual void modbusDataChanged(const ModbusData&) = 0
+        + {abstract} **[signal]** virtual void writed(const ModbusData&) = 0
+        + {abstract} **[signal]** virtual void modbusDataChanged(const ModbusData&) = 0
 
-        + {abstract} [slot] virtual void start() = 0
-        + {abstract} [slot] virtual void reset() = 0
-        + {abstract} [slot] virtual void newModbusData(const ModbusData&) = 0
+        + {abstract} **[slot]** virtual void start() = 0
+        + {abstract} **[slot]** virtual void reset() = 0
+        + {abstract} **[slot]** virtual void newModbusData(const ModbusData&) = 0
 
         + {abstract} virtual void write() = 0        
         + {abstract} virtual bool conditionsMet(const ModbusData&) = 0
@@ -88,8 +97,9 @@ namespace modbusio {
     }
 
     class ModbusPeriodicWriter {
-        - QVariant value
-        - millisecond period
+        - delta : QVariant
+        - period : millisecond
+        - duration : millisecond
     }
 
     class ModbusGuardedWriter {
@@ -99,8 +109,8 @@ namespace modbusio {
     }
 
     class ModbusDelayedWriter {
-        - [override] [slot] virtual void newModbusData(const ModbusData&)
-        - delay : Time
+        - [override] **[slot]** virtual void newModbusData(const ModbusData&)
+        - delay : millisecond
     }
 
     class ModbusMultiguardedWriter {
@@ -110,13 +120,12 @@ namespace modbusio {
     }
 
     class ModbusDelayedMultiguardWriter {
-        - [override] [slot] virtual void newModbusData(const ModbusData&)
-        - delay : Time
+        - [override] **[slot]** virtual void newModbusData(const ModbusData&)
+        - delay : millisecond
     }
 
     ModbusElement *-- TransmitedType
     ModbusElement <|-right- ModbusData
-    ' ModbusData *-- Qt.QVariant
 
     ModbusData <|-right- ModbusDataRelationed
     ModbusDataRelationed *-right- Relation
@@ -125,14 +134,16 @@ namespace modbusio {
     Qt.QObject <|-down- IModbusElementWriter
     ModbusData <|-right- ModbusElementReader 
 
+    IModbusElementWriter <|-- ModbusElementWriterImpl
+
     ModbusMultiguardedWriter <|-- ModbusPeriodicWriter
 
-    IModbusElementWriter <|-- ModbusGuardedWriter
+    ModbusElementWriterImpl <|-- ModbusGuardedWriter
     ModbusGuardedWriter "1" *-- "1" IDeviceWriter
     
     ModbusGuardedWriter <|--- ModbusDelayedWriter
     
-    IModbusElementWriter <|-- ModbusMultiguardedWriter
+    ModbusElementWriterImpl <|-- ModbusMultiguardedWriter
     ModbusMultiguardedWriter "1" *-- "1" IDeviceWriter
 
     ModbusMultiguardedWriter <|--- ModbusDelayedMultiguardWriter
