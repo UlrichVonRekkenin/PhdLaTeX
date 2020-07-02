@@ -179,8 +179,8 @@ $\mathfrak{U}_\Delta =\langle \mathbb{S}, \sigma_\Delta \rangle$.
 При поступлении новых данных по шине Modbus происходит сравнение значений (листинг \ref{lst:comparator:compare}).
 \lstinputlisting[
     language=C++,
-    label=lst:comparator:compare,
-    caption=Вспомогательный метод, использующийся при анализе поступающих данных.
+    caption=Вспомогательный метод для анализа поступающих данных,
+    label=lst:comparator:compare
         ]{Dissertation/listings/cpp/comparator.hpp}
 
 
@@ -385,8 +385,8 @@ $\{C1 = true \wedge A1 > 150\}$
 \begin{tabular}{|l|c|c|c|c|c|c||c|c|}
 \hline
     \multicolumn{1}{|c|}{\multirow{2}{*}{Наследники}} &
-    \multicolumn{6}{c|}{\textbf{Аттрибуты}} &
-    \multicolumn{2}{c|}{\textbf{Переопределенные методы наследника}} \\ \cline{2-8} 
+    \multicolumn{6}{c||}{\textbf{Аттрибуты}} &
+    \multicolumn{2}{c|}{\textbf{override}} \\ \cline{2-9} %Переопределенные методы наследника
     \multicolumn{1}{|c|}{}     &
         \rotatebox{90}{tag} & \rotatebox{90}{value}  & \rotatebox{90}{delay}  & \rotatebox{90}{period} &
         \rotatebox{90}{delta} & \rotatebox{90}{duration} &
