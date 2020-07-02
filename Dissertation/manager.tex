@@ -1,11 +1,14 @@
 \subsection{Менеджер состояний}
-Для управления компонентами имитатора используется менеджер \texttt{ModbusIoManager}.
+Для управления компонентами имитатора используется менеджер компонентов \texttt{ModbusIoManager}.
 Установка компонентов производится с помощью экземпляра класса \texttt{ScenarioParser}, реализующего интерфейс \texttt{IParser}.
 Этот интерфейс является общим для как для чтения файла сценария (\ref{lst:modbus_scenario_example_diagram}),
 так и для файла тегов (листинг \ref{lst::modbus_tags_example}).
 При чтении конфигурации проверяется, что каждый тег $t_i$ компонента,
 управление над которым захватывается (\texttt{modbusio::ModbusData}) или условия выполнения переходов (\texttt{modbusio::ModbusDataRelationed}),
-является элементов множества \texttt{ModbusTags}, то есть $\forall t_i \in \mbox{ModbusTags}$.
+является элементов множества класса первичных данных, то есть $\forall t_i \in \mathbb{P}$ (см. раздел \ref{sec:ontology}).
+
+На рисунке \ref{fig:modbus_class_components} показано отношение между менеджером \texttt{ModbusIoManager},
+интерфейсом парсера \texttt{IParser} и интерфейсом \texttt{IModbusElementWriter}.
 \begin{center}
     \begin{figure}[hb!]
         \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_class_components}
@@ -13,10 +16,21 @@
     \end{figure}
 \end{center}
 
+На рисунке \ref{fig:modbusiomanager_state_diagram} показаны активности менеджера.
+\todo{Более информативный рисунок \ref{fig:modbuselementwriterimpl}.}
 \begin{center}
     \begin{figure}
         \includegraphics[width=.9\textwidth,keepaspectratio]{modbusiomanager_state_diagram}
         \caption{\todo{Жизненный цикл ModbusIoManager}}\label{fig:modbusiomanager_state_diagram}
+    \end{figure}
+\end{center}
+
+
+Последовательность действий показана на рисунке \ref{fig:top_level_sequence} \cite[стр. 239]{book:oop:oop_analize}
+\begin{center}
+    \begin{figure}
+        \includegraphics[width=.9\textwidth,keepaspectratio]{top_level.png}
+        \caption{Последовательность действий при работе с имитатором}\label{fig:top_level_sequence}
     \end{figure}
 \end{center}
 
@@ -27,13 +41,6 @@
     \end{figure}
 \end{center}
 
-Последовательность действий показана на рисунке \ref{fig:top_level_sequence} \cite[стр. 239]{book:oop:oop_analize}
-\begin{center}
-    \begin{figure}
-        \includegraphics[width=.9\textwidth,keepaspectratio]{top_level.png}
-        \caption{Последовательность действий при работе с имитатором}\label{fig:top_level_sequence}
-    \end{figure}
-\end{center}
 
 \clearpage
 \section{Пример композиции для простейшего сценария}
@@ -41,7 +48,7 @@
 Рассмотрим пример сценария на основе множества Modbus тегов из листинга \ref{lst:modbus_tags_example},
 циклограмма которого представлена на рисунке \ref{fig:modbus_scenario_example_diagram},
 сценарий приведен в листинге \ref{lst:modbus_scenario_example_diagram} в разделе приложения \ref{app:sec:modbus_scenario_example_diagram}.
-% Схема разметки приведена в листинге \ref{lst:modbus_tags_scenario_configs}.
+Схема разметки приведена в листинге \ref{lst:modbus_tags_scenario_configs}.
 
 \begin{landscape}
     \begin{center}

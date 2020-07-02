@@ -1,8 +1,6 @@
 @startuml
 !include style.iuml
 
-' hide footbox
-
 actor Оператор as user
 entity "parser" as parser
 box "manager" #F0FFF0
@@ -19,6 +17,7 @@ activate manager #FFBBFB
 activate device
 
 parser -> manager : Устновка\nкомпонентов
+create components
 manager -> components : **manager.setCaptures(parser.capures())**
 note over components #FAFADA : Компоненты подписываются\nна события шины данных
 destroy parser
@@ -31,24 +30,29 @@ user -> manager : Активация компонентов,\nподписыва
 note over manager #FAFADA : manager.startAll()
 
 loop Обработка данных
-    modbus <--]
+    modbus <--] : Новые\nданные
     note over modbus : Изменение данных\nпрограммой\nверхнего уровня
     autonumber
     modbus -> manager : [slot] **newModbudData()**
     note over manager : Менеджер делегирует\nработу компоненту
     manager -> components : [slot] **newModbudData()**
     alt Условия выполняются
-        note over components : а) Компонент запущен?\nб) Изменение этого **data** отслеживается?\nв) Изменения удовлетворяют ожидаемым значениям?
+        activate components #FFBBFB
+        note over components : а) Компонент запущен?\nб) Изменение этого параметра отслеживается?\nв) Изменения удовлетворяют ожидаемым значениям?
+       
         components -> device : **write()**
         activate device
         note over components : Делегация записи устройству
         device ->] : [signal] **writed()**
         deactivate device
-        note over device : Кто угодно во внешнем мире\nможет быть подписан на события **manager**
+        note over device #DADADD : Кто угодно во внешнем\nмире может быть подписан\nна события **manager**
+       
         components -> components : **reset()**
         activate components
         deactivate components
-        note over components : Компонент отписывается от событий по шине данных
+        note over components : Компонент отписывается\nот событий по шине данных
+        deactivate components
+
     else Условия не выполняются
         note over manager,components #DADADD : Игнорируется это сообщение
     end
@@ -56,6 +60,7 @@ loop Обработка данных
 end
 
 user -> manager : Завершение работы
+note over manager #FAFADA : **manager.resetAll()**
 destroy manager
 destroy components
 destroy device
