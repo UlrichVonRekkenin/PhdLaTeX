@@ -35,7 +35,8 @@ cond@350 -> period_word@350
 300 is False
 325 is True
 350 is False
-
-@+50
+375 is True
+400 is False
+425 is True
 
 @enduml
