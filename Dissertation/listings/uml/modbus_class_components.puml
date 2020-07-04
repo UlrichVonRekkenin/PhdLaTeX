@@ -5,12 +5,12 @@ package modbusio {
     [ModbusIoManager] as manager
     () IModbusElementWriter as iwriter #D0DDDD
     manager -- iwriter
-    iwriter ----> IDeviceWriter
-    [ModbusPeriodicWriter] -up- iwriter
-    [ModbusGuardedWriter] -up- iwriter
-    [ModbusDelayedWriter] -up- [ModbusGuardedWriter]
-    [ModbusMultiguardedWriter] -up- iwriter
-    [ModbusDelayedMultiguardedWriter] -up- [ModbusMultiguardedWriter]
+    ' iwriter ----> IDeviceWriter
+    ' [ModbusPeriodicWriter] -up- [ModbusMultiguardedWriter]
+    ' [ModbusGuardedWriter] -up- iwriter
+    ' [ModbusDelayedWriter] -up- [ModbusGuardedWriter]
+    ' [ModbusMultiguardedWriter] -up- iwriter
+    ' [ModbusDelayedMultiguardedWriter] -up- [ModbusMultiguardedWriter]
 }
 
 database Scenarios #D0DDD0 {
@@ -20,7 +20,7 @@ database Scenarios #D0DDD0 {
 
 database ModbusTags #D0DDDD {
     folder Object1
-    folder Object2    
+    folder Object2
 }
 
 package parser {
@@ -29,7 +29,7 @@ package parser {
     [TagsParser]
 }
 
-manager -up-> IParser
+manager -right-> IParser
 IParser -right- [ScenarioParser]
 [ScenarioParser] -right- Scenarios
 

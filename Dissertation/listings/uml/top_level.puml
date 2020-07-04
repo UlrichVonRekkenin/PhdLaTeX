@@ -1,5 +1,6 @@
 @startuml
 !include style.iuml
+scale 1.5
 
 actor Оператор as user
 
@@ -15,9 +16,9 @@ end box
 
 autonumber
 == Инициализация ==
+user -> scen: Выбор сценария
 user -> main: Выбор изделия
 main <- tags: Загрузка конфигурации
-user -> scen: Выбор сценария
 == Загрузка конфигурации ==
 scen -> tags: Проверка
 scen -> scen: Валидные данные

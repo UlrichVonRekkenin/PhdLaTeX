@@ -50,14 +50,15 @@ namespace modbusio {
     IDeviceWriter <|--- ModbusDeviceImpl
     Qt.QModbusTcpServer <|-- ModbusDeviceImpl
 
-    class ModbusIoManager {
+    class ModbusIoManager << (S,#FF7700) Singleton >> {
+        ..[signal]..
+        + void writed(const ModbusData&)
+        ..[slot]..
+        + void newModbusData(const ModbusData&)
+        + void resetAll()
+        + void startAll()
+        ..[method]..
         + setCaptures(IModbusElementWriter[])
-
-        + **[signal]** void writed(const ModbusData&)
-        + **[slot]** void newModbusData(const ModbusData&)
-        + **[slot]** void resetAll()
-        + **[slot]** void startAll()
-
         - addCapture(IModbusElementWriter)
         - captures[]: IModbusElementWriter
     }
@@ -81,13 +82,14 @@ namespace modbusio {
     }
 
     interface IModbusElementWriter {
-        + {abstract} **[signal]** virtual void writed(const ModbusData&) = 0
-        + {abstract} **[signal]** virtual void modbusDataChanged(const ModbusData&) = 0
-
-        + {abstract} **[slot]** virtual void start() = 0
-        + {abstract} **[slot]** virtual void reset() = 0
-        + {abstract} **[slot]** virtual void newModbusData(const ModbusData&) = 0
-
+        ..[signal]..
+        + {abstract} virtual void writed(const ModbusData&) = 0
+        + {abstract} virtual void modbusDataChanged(const ModbusData&) = 0
+        ..[slot]..
+        + {abstract} virtual void start() = 0
+        + {abstract} virtual void reset() = 0
+        + {abstract} virtual void newModbusData(const ModbusData&) = 0
+        ..[method]..
         + {abstract} virtual void write() = 0        
         + {abstract} virtual bool conditionsMet(const ModbusData&) = 0
     }

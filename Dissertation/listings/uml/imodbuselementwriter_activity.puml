@@ -4,8 +4,10 @@ title **IModbusElementWriter**
 
 start
 
+-newModbusData(data)
+
 while (running==<color:blue>true</color>)
-    if (data==capture) then (<color:green>yes</color>)
+    if (conditionsMet(data)) then (<color:green>yes</color>)
         -device.write(captured)\n\nrunning = false
     else (<color:red>no</color>)
     endif

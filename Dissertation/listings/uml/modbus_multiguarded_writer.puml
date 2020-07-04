@@ -10,21 +10,21 @@ cond1@150 -> guard@150 : Последнее условие выполнено
 condn@400 -> guard@400 : Записано
 
 @cond1
-0 is false #Gray
-150 is true #Green
-250 is false #Gray
+0 is false #LightGray
+150 is true #LightGreen
+250 is false #LightGray
 
 @cond2
-0 is false #Gray
-50 is true #Green
-100 is false #Gray
-150 is true #Green
-300 is false #Gray 
+0 is false #LightGray
+50 is true #LightGreen
+100 is false #LightGray
+150 is true #LightGreen
+300 is false #LightGray 
 
 @condn
-0 is false #Gray
-100 is true #Green
-400 is false #Gray
+0 is false #LightGray
+100 is true #LightGreen
+400 is false #LightGray
 
 @guard
 0 is Ожидает

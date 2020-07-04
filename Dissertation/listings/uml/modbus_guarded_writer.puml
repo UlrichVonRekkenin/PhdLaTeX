@@ -5,9 +5,9 @@ robust "ModbusGuardedWriter" as guard
 concise "Condition" as cond
 
 @cond
-0 is false #Gray
-100 is true #Green
-200 is false #Gray
+0 is false #LightGray
+100 is true #LightGreen
+200 is false #LightGray
 
 @guard
 0 is Ожидает

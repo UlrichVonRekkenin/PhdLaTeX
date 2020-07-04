@@ -11,9 +11,9 @@ cond@150 -> period_word@150
 cond@350 -> period_word@350
 
 @cond
-0 is False #Gray
-150 is True #Green
-350 is False #Gray
+0 is False #LightGray
+150 is True #LightGreen
+350 is False #LightGray
 
 @period_word
 0 is 0 : **InputRegisters**
@@ -23,6 +23,7 @@ cond@350 -> period_word@350
 350 is 40
 @200 <->@+50 : x+=10
 @250 <->@+50 : t=50
+@150 <-> @+200 : duration = 200
 
 @period_bool
 0 is False : **DiscreteInputs**

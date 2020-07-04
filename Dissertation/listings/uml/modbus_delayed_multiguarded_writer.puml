@@ -6,14 +6,14 @@ concise "Condition 1" as cond1
 concise "Condition 2" as cond2
 
 @cond1
-0 is false #Gray
-50 is true #Green
-150 is false #Gray
+0 is false #LightGray
+50 is true #LightGreen
+150 is false #LightGray
 
 @cond2
-0 is false #Gray
-100 is true #Green
-150 is false #Gray
+0 is false #LightGray
+100 is true #LightGreen
+150 is false #LightGray
 
 @guard
 0 is Ожидает
