@@ -73,20 +73,45 @@ export TIMERON
 export TIKZFILE
 export USEDEV
 
+# PlantUML post preprocessing parameters
+DIAGRAMS_SRC := $(wildcard Dissertation/listings/uml/*.puml)
+UML_NAMES := $(notdir $(DIAGRAMS_SRC))
+DIAGRAMS_PNG := $(addprefix Dissertation/images/, $(addsuffix .png, $(basename $(UML_NAMES))))
+
+
 ##! компиляция всех файлов
-all:	
-	notify-send "Starting make..." -t 1500
-	./plantuml.sh png
+all: png copy
+	notify-send "1/4 Starting make..." -t 1500
 	dockertex pdflatex dissertation
-	notify-send "Biber..." -t 1500
+	notify-send "2/4 Biber..." -t 1500
 	dockertex biber dissertation
+	notify-send "3/4"
 	dockertex pdflatex dissertation
+	notify-send "4/4 Last one..."
 	dockertex pdflatex dissertation
 	notify-send "Make completed" -u normal -t 7500 -i checkbox-checked-symbolic
+	cp -v dissertation.pdf dissertation_preview.pdf
+
+one: png copy
+	notify-send "Fast running..." -t 1500
+	dockertex pdflatex dissertation
+	notify-send "Make completed" -u normal -t 7500 -i checkbox-checked-symbolic
+	cp -v dissertation.pdf dissertation_preview.pdf
 
 define compile
 	latexmk -norc -r $(MKRC) $(LATEXMKFLAGS) $(BACKEND) -jobname=$(TARGET) $(SOURCE)
 endef
+
+copy:
+	cp dissertation.pdf dissertation_preview.pdf
+
+# Сборка всех png из PlantUML
+png: ${DIAGRAMS_PNG}
+
+# Сборка и перемещение каждого png из PlantUML
+Dissertation/images/%.png: Dissertation/listings/uml/%.puml 
+	plantuml -tpng $^
+	mv $(basename $^).png $@
 
 ##! компиляция диссертации
 dissertation: TARGET=dissertation
@@ -172,4 +197,4 @@ include examples.mk
 
 .PHONY: all dissertation synopsis presentation dissertation-draft \
 synopsis-draft pdflatex draft synopsis-booklet presentation-booklet\
-tikz release clean-target distclean-target clean distclean
+tikz release clean-target distclean-target clean distclean png copy
