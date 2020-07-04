@@ -5,15 +5,17 @@ class DeviceImpl : public QModbusTcpServer, public IDeviceWriter {
         // И другие настройки...
     }
     ~DeviceImpl() {
-        // Отключение устройства и другие завершающие процедуры...
+        // Отключение устройства...
     }
 
     void write(const modbus::ModbusData& data) override {
-        const QModbusDataUnit unit = transform(data); // Перевод из одно формата в другой
+        // Перевод в формат специфичный для библиотеки Qt.
+        const QModbusDataUnit unit = transform(data);
         QModbusTcpServer::setData(unit);
+
         // Анализ результатов записи на устройство
         if (!error) {
-            // emit writed(data);
+            emit writed(data);
         }
     }
 };
