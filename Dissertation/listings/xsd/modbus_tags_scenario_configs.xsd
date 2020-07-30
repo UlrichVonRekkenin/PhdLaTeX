@@ -1,67 +1,187 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="Scenario">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="Defaults">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Default" type="DefaultValueType" minOccurs="0" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element name="Guarded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Writer" type="WriterType" minOccurs="0" maxOccurs="unbounded" />
+                            <xs:element name="Writer" type="GuardedType" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="DelayedGuarded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Writer" type="WriterType" minOccurs="0" maxOccurs="unbounded" />
+                            <xs:element name="Writer" type="DelayGuardedType" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="Multiguarded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Writer" type="WriterType" minOccurs="0" maxOccurs="unbounded" />
+                            <xs:element name="Writer" type="MultiguardedType" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="DelayedMultiGuarded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Writer" type="WriterType" minOccurs="0" maxOccurs="unbounded" />
+                            <xs:element name="Writer" type="DelayMultiguardedType" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="Periodic">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="Writer" type="WriterType" minOccurs="0" maxOccurs="unbounded" />
+                            <xs:element name="Writer" type="PeriodicType" minOccurs="0" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <xs:simpleType name="TagType">
+        <xs:annotation>
+            <xs:documentation>The type for tags which can hold the pattern like 't1 t2 t3'.</xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="xs:string"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="ValueDecimalType">
+        <xs:annotation>
+            <xs:documentation>The decimal type specifies a decimal value with 3 meaning float.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DelayType">
+        <xs:annotation>
+            <xs:documentation>The positive-decimal type specifies a positive decimal value with 3 meaning float.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="3"/>
+            <xs:minExclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="DeltaType">
+        <xs:annotation>
+            <xs:documentation>The positive-decimal type specifies a positive decimal value with 3 meaning float.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:decimal">
+            <xs:fractionDigits value="3"/>
+            <xs:minExclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="ValueType">
+        <xs:annotation>
+            <xs:documentation>This could be a boolean value (e.g. true or false) or the decimal value.</xs:documentation>
+        </xs:annotation>
+        <xs:union memberTypes="xs:boolean ValueDecimalType"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="RelationType">
+        <xs:annotation>
+            <xs:documentation>The enumeration for conditions.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="eq"/>
+            <xs:enumeration value="ne"/>
+            <xs:enumeration value="gt"/>
+            <xs:enumeration value="ge"/>
+            <xs:enumeration value="lt"/>
+            <xs:enumeration value="le"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="ConditionType">
-        <xs:attribute name="tag" type="xs:string" use="required" />
-        <xs:attribute name="value" type="xs:string" use="required" />
-        <xs:attribute name="relation" type="xs:string" />
+        <xs:attribute name="tag" type="TagType" use="required"/>
+        <xs:attribute name="value" type="ValueType" use="required"/>
+        <xs:attribute name="relation" type="RelationType"/>
     </xs:complexType>
+
     <xs:complexType name="WriterType">
         <xs:sequence>
-            <xs:element name="Purpose" type="xs:string" />
-            <xs:element name="Conditions">
-                <xs:complexType>
-                    <xs:sequence>
-                        <xs:element name="Condition" type="ConditionType" maxOccurs="unbounded" />
-                    </xs:sequence>
-                </xs:complexType>
-            </xs:element>
+            <xs:element name="Purpose" type="xs:string"/>
         </xs:sequence>
-        <xs:attribute name="tag" use="required" />
-        <xs:attribute name="value" type="xs:string" use="required" />
-        <xs:attribute name="delta" type="xs:string" />
-        <xs:attribute name="period" type="xs:string" />
-        <xs:attribute name="delay" type="xs:string" />
-        <xs:attribute name="duration" type="xs:string" />
+        <xs:attribute name="tag" type="TagType" use="required"/>
+        <xs:attribute name="value" type="ValueType" use="required"/>
     </xs:complexType>
+
+    <xs:complexType name="GuardedType">
+        <xs:complexContent>
+            <xs:extension base="WriterType">
+                <xs:sequence>
+                    <xs:element name="Conditions">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Condition" type="ConditionType" minOccurs="1" maxOccurs="1"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="MultiguardedType">
+        <xs:complexContent>
+            <xs:extension base="WriterType">
+                <xs:sequence>
+                    <xs:element name="Conditions">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Condition" type="ConditionType" minOccurs="1" maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DelayGuardedType">
+        <xs:complexContent>
+            <xs:extension base="GuardedType">
+                <xs:attribute name="delay" type="DelayType" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DelayMultiguardedType">
+        <xs:complexContent>
+            <xs:extension base="MultiguardedType">
+                <xs:attribute name="delay" type="DelayType" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="PeriodicType">
+        <xs:complexContent>
+            <xs:extension base="MultiguardedType">
+                <xs:attribute name="delta" type="DeltaType"/>
+                <xs:attribute name="period" type="xs:positiveInteger" use="required"/>
+                <xs:attribute name="duration" type="xs:positiveInteger"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="DefaultValueType">
+        <xs:attribute name="tag" type="TagType" use="required"/>
+        <xs:attribute name="value" type="ValueType" use="required"/>
+    </xs:complexType>
+
 </xs:schema>

@@ -43,7 +43,7 @@ namespace modbusio {
         Le
     }
 
-    interface IDeviceWriter {
+    interface IDeviceWriter <<Interface>> {
         + {abstract} void write(const ModbusData&) = 0
     }
 
@@ -81,7 +81,7 @@ namespace modbusio {
         - relation: Relation
     }
 
-    interface IModbusElementWriter {
+    interface IModbusElementWriter <<Interface>> {
         ..[signal]..
         + {abstract} virtual void writed(const ModbusData&) = 0
         + {abstract} virtual void modbusDataChanged(const ModbusData&) = 0
@@ -94,7 +94,7 @@ namespace modbusio {
         + {abstract} virtual bool conditionsMet(const ModbusData&) = 0
     }
 
-    interface ModbusElementReader {
+    interface ModbusElementReader <<Interface>> {
         + ModbusData read() const
     }
 
