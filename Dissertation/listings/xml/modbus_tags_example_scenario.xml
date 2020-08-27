@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scenario>
+    <Defaults>
+        <!-- <Default tag="Server_Ctrl" value="0" /> -->
+    </Defaults>
+
     <Guarded>
         <Writer tag="A1" value="160">
             <Conditions>
