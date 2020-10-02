@@ -1,0 +1,56 @@
+\begin{landscape}
+
+\begin{longtable}{|c|c|p{.2\textwidth}||c|c|p{.25\textwidth}||c|c|p{.25\textwidth}|}
+\caption{Декомпозиция модели АНПА}
+\label{tbl:model_anpa}\\
+\toprule
+  \multicolumn{3}{|m{.33\textwidth}||}{\textit{Декомпозиция материальной составляющей}} &
+  \multicolumn{3}{ m{.33\textwidth}||}{\textit{Декомпозиция информационной составляющей}} &
+  \multicolumn{3}{ m{.33\textwidth}| }{\textit{Декомпозиция организационной составляющей}} \\
+\midrule
+\endhead
+\midrule
+\multicolumn{9}{r}{{Продолжение на следующей странице}} \\
+\midrule
+\endfoot
+%
+\bottomrule
+\endlastfoot
+    \multicolumn{3}{|c||}{\textbf{Объекты}} &
+    \multicolumn{3}{c||}{\textbf{Функции}} &
+    \multicolumn{3}{c||}{\textbf{Действия}} \\\hline
+%
+      \textbf{1} & \textbf{2} & \textbf{3} &
+      \textbf{1} & \textbf{2} & \textbf{3} &
+      \textbf{1} & \textbf{2} & \textbf{3} \\\hline
+%
+%
+\multirow{2}{.1\textwidth}{СПО} &  1 & Излучатель &
+  \multirow{5}{.15\textwidth}{Движение} &   1 & Вперед &
+  \multirow{4}{.15\textwidth}{ПУ} &  1 & Пеленгация целей \\\cline{2-3}\cline{5-6}\cline{8-9}
+%
+ & 2 & Приемник   && 2 & Вправо &&  2 & Коррекция курса \\\cline{1-3}\cline{5-6}\cline{8-9}
+%
+\multirow{4}{.1\textwidth}{ПУ} & 3 & Анализатор приемо-излучательного тракта СПО && 3 & Влево && 3 & Коррекция глубины \\\cline{2-3}\cline{5-9}
+%
+ & 4 & Установщик режима двигателя && 4 & Вверх & \multirow{2}{.1\textwidth}{АКБ} & 4 & Хранение электроэнергии \\\cline{2-3}\cline{5-6}\cline{8-9}
+%
+ & 5 & Установщик курса && 5 & Вниз && 5 & Доставка электроэнергии потребителям \\\cline{2-9}
+%
+ & 6 & Установщик глубины & \multirow{5}{.1\textwidth}{Питание} & 6 & СПО & Д & 6 & Толкает водную среду \\\cline{1-3}\cline{5-9}
+%
+\multirow{3}{.1\textwidth}{СУД} & 7 & БУД &&   7 & ПУ &&& \multirow{10}{.25\textwidth}{} \\\cline{2-3}\cline{5-6}
+%
+ & 8 & Двигатель && 8 & СУД &&& \\\cline{2-3}\cline{5-6}
+%
+ & 9 & Редуктор && 9 & РП &&& \\\cline{2-3}\cline{5-6}
+\multirow{2}{.1\textwidth}{РП}  & 10 &                                           РМ &                    &  10 &                                 Д &     &    &                                       \\\cline{1-6}
+    & 11 &                                         Рули &        Обнаружение &  11 &     Излучение зондирующей посылки &     &    &                                       \\\cline{1-6}
+  Д & 12 &                                      Лопасти &                    &  12 &         Прием отраженного сигнала &     &    &                                       \\\cline{1-6}
+\multirow{2}{.1\textwidth}{АКБ} & 13 &                                          БУБ &   Принятие решений &  13 &        Изменить скорость движения &     &    &                                       \\\cline{1-6}
+    & 14 &                               Модули питания &                    &  14 &                     Изменить курс &     &    &                                       \\\cline{1-6}
+    &    &                                              &                    &  15 &             Изменить глубину хода &     &    &                                       \\\cline{4-6}
+    &    &                                              &                    &  16 &  Изменить тип зондирующей посылки &     &    &                                       \\\cline{4-6}
+\end{longtable}
+
+\end{landscape}
