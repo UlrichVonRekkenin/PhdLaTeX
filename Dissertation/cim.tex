@@ -106,23 +106,37 @@ $\mathfrak{U}_\Delta =\langle \mathbb{S}, \sigma_\Delta \rangle$.
 \begin{table}[ht!]
     \begin{center}
     \caption{Четырехуровневая модель метаданных}\label{tbl:meta_data_levels}
-    \begin{tabular}{|c|c|p{.5\textwidth}|}
+    \begin{tabular}{|c|c|p{.6\textwidth}|}
     \hline
     \textbf{Уровень} & \textbf{Название} & \textbf{Пример} \\\hline
     %
     3 & Мета-метакласс & RDF, XSD \\\hline
+    %
     2 & Метакласс & Метакласс (Класс~метаатрибут (имя-строка)...) \\\hline
-    1 & Класс & Класс (``Стимул``, 
-            [поле (``обозначение``, строка), 
-            поле (``назначение``, строка), 
-            поле (``значение``, число),
-            поле (``адрес``, число),
-            поле (``тип данных``, число))]) \\\hline
-    0 & Объект & \texttt{C1} (Внешнее питание, \texttt{true}, 8001) \\\hline
+    %
+    1 & Класс & Класс (``Стимул``, [\\
+                &&\hspace{5mm}поле (``обозначение``, строка), \\
+                &&\hspace{5mm}поле (``назначение``, строка), \\
+                &&\hspace{5mm}поле (``значение``, число),\\
+                &&\hspace{5mm}поле (``адрес``, число),\\
+                &&\hspace{5mm}поле (``тип данных``, число)\\
+            &&]);\\
+            %
+            &&Класс (``Запись при условии'', [\\
+                &&\hspace{5mm}поле (``обозначение'', строка),\\
+                &&\hspace{5mm}поле (``значение'', число),\\
+                &&\hspace{5mm}поле (``условия'', логическое выражение)\\
+            &&])\\\hline
+    %
+    0 & Объект & 
+        \texttt{C1} (Внешнее питание, \texttt{true}, 8001); \\
+        %
+        &&\texttt{W} (Имитация напряжения двигателя, 130~В, $C1 \equiv \mbox{true} \wedge \tau|_{C1\equiv\mbox{true}} \ge 500\mbox{ms}$).
+        \\\hline
 \end{tabular}
 \end{center}
 \end{table}
-
+Метаданные --- это данные, описывающие организацию других данных.
 
 В заключении отметим, что необходимость разработки онтологии связана с:
 \begin{enumerate}
@@ -133,7 +147,9 @@ $\mathfrak{U}_\Delta =\langle \mathbb{S}, \sigma_\Delta \rangle$.
     \item отделение знаний предметной области от оперативных;
     \item анализ знаний предметной области.
 \end{enumerate}
-Далее рассмотрим положения, изложенные в таблице \ref{tbl:meta_data_levels}, более детально применительно к переменным протокола Modbus.
+Проиллюстрируем это утверждение при определении типов \texttt{ModbusElement} и правил преобразования
+значений Modbus в разделах \ref{sec:modbus_tag} и \ref{sec:writers_def} соответственно.
+% Далее рассмотрим положения, изложенные в таблице \ref{tbl:meta_data_levels}, более детально применительно к переменным протокола Modbus.
 
 
 \section{Определение Modbus тегов} \label{sec:modbus_tag}
@@ -171,7 +187,23 @@ $\mathfrak{U}_\Delta =\langle \mathbb{S}, \sigma_\Delta \rangle$.
 с набором необходимых атрибутов: обозначение, назначение, положение, адрес, тип данных, значение.
 
 
-\section{Иерархия классов}
+\section{Про компоненты, отвечающие за изменение состояние значения \texttt{ModbusElement} в имитаторе АНПА}\label{sec:writers_def}
+
+Наравне с описанием переменных сети Modbus в таблице \ref{tbl:meta_data_levels},
+проводится ранжирование параметров, описанных в разделе \ref{sec:model_anpa_params}.
+Совокупность свойств описана на уровне \textit{мета-метакласса} (см. листинг \ref{lst:modbus_tags_scenario_configs} приложение \ref{app:sec:xsd}).
+Каждый, так называемый, ``захваченный'' параметр описывается на уровне \textit{метакласса},
+как показано в листинге \ref{lst:modbus_scenario_example_diagram} приложения \ref{app:sec:modbus_scenario_example_diagram}.
+%
+Эта конфигурация описывает взаимосвязь \textit{классов}, в смысле, взаимодействия предикатов, построенных на базе 
+Modbus переменных, определенных в разделе \ref{sec:modbus_tag}.
+Каждое правило изменения представляет собой \textit{объект} в четырехуровневой модели метаданных.
+Характеристики \textit{метаклассов} приведены в таблице \ref{tbl:ModbusElementWriterImpl}.
+
+О правилах построения и разнообразии \textit{классов} изложено в следующем разделе \ref{sec:writers_relationship}.
+
+
+\subsection{Иерархия классов}\label{sec:writers_relationship}
 На основе анализа предметной области строится иерархия классов для управления информационной моделью,
 диаграмма взаимосвязи классов представлена на рисунке \ref{fig:modbus_class_uml} \cite[стр. 223]{book:oop:oop_analize}.
 \begin{landscape}
@@ -186,6 +218,8 @@ $\mathfrak{U}_\Delta =\langle \mathbb{S}, \sigma_\Delta \rangle$.
 Для передачи данных между компонентами системы используется класс \texttt{ModbusData}, производный от \texttt{ModbusElement},
 в котором появляется дополнительный член класса \texttt{value} для хранения значения.
 Для реализации поведения используется полиморфизм, так как классы имеют один и тот же протокол \cite[стр. 133]{book:oop:oop_analize}.
+
+
 
 Интерфейс \texttt{IModbusElementReader} введен для общности,
 но в данной работе представляет мало интереса.
@@ -442,7 +476,7 @@ $\{C1 = true \wedge A1 > 150\}$
 
 \begin{table}[hb!]
 \begin{center}
-\caption{\todo{Сводная таблица наследников}}\label{tbl:ModbusElementWriterImpl}
+\caption{Сводная таблица \textit{метаклассов} модели АНПА.}\label{tbl:ModbusElementWriterImpl}
 \begin{tabular}{|l|c|c|c|c|c|c||c|c|}
 \hline
     \multicolumn{1}{|c|}{\multirow{2}{*}{Наследники}} &
