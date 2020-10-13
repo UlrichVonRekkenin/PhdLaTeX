@@ -43,7 +43,7 @@
 \end{enumerate}
 
 Тем не менее, прежде чем приступать к разработке ПО системы контроля необходимо провести анализ СЧ АНПА.
-Составные части рассматриваемой модели АНПА показаны на рисунке \ref{fig:model_anpa} и в таблице \ref{tbl:model_anpa_objects}.
+Составные части рассматриваемой модели АНПА показаны на рисунке \ref{fig:model_anpa} и в таблице \ref{tbl:model_anpa_decompose} в разделе \textbf{объекты}.
 \begin{center}
     \begin{figure}[hb!]
         \includegraphics[width=.9\textwidth,keepaspectratio]{model_anpa}
@@ -53,11 +53,11 @@
 \end{center}
 %
 Так же выделим \textbf{функции--действия} АНПА, которые показаны в таблицах
-\ref{tbl:model_anpa_informations}, \ref{tbl:model_anpa_actions} \cite{journal:vestnik_igeu:elizarova}.
+\ref{tbl:model_anpa_decompose} \cite{journal:vestnik_igeu:elizarova}.
 %
 \include{Dissertation/model_anpa_decompose}
 %
-Исходя из данных, представленных в таблицах \ref{tbl:model_anpa_objects}, \ref{tbl:model_anpa_informations}, \ref{tbl:model_anpa_actions}
+Исходя из данных, представленных в таблице \ref{tbl:model_anpa_decompose}
 строятся матрицы $A, B$.
 Взаимосвязь \textbf{объектов} и \textbf{функций} представляется матрицей $A$,
 а \textbf{функций} и \textbf{действий} --- матрицей $B$:
@@ -151,45 +151,18 @@
         \sum_{j=1}^l c_{1mj} \\
     \end{pmatrix} 
     =
-    \begin{pmatrix}
-        4 \\
-        4 \\
-        8 \\
-        4 \\
-        8 \\
-        4 \\
-        5 \\
-        5 \\
-        2 \\
-        9 \\
-        9 \\
-        4 \\
-        12 \\
-        4 \\
-    \end{pmatrix}.
+    \left( 4\, 4\, 8\, 4\, 8\, 4\, 5\, 5\, 2\, 9\, 9\, 4\, 12\, 4 \right)^T.
 \end{equation*}
 где $c_{2i}$ количество функций, в которых используется данная сущность.
 
 Делением матрицы $C_2$ на число $l = 6$, равное количеству действий в функциональной модели, получаем матрицу $C_3$,
 содержащую относительные коэффициенты использования сущностей в действиях:
-\begin{equation}
-    C_3 = C_2 / l = \begin{pmatrix}
-        0,67 \\
-        0,67 \\
-        \textbf{1,33} \\
-        0,67 \\
-        \textbf{1,33} \\
-        0,67 \\
-        0,83 \\
-        0,83 \\
-        0,33 \\
-        \textbf{1,50} \\
-        \textbf{1,50} \\
-        0,67 \\
-        \textbf{2,00} \\
-        0,67 \\
-    \end{pmatrix}.
-\end{equation}
+\begin{multline}
+    % \begin{split}
+    C_3 = C_2 / l = \\
+        \left( 0,67\, 0,67\, \textbf{1,33}\, 0,67\, \textbf{1,33}\, 0,67\, 0,83\, 0,83\, 0,33\, \textbf{1,50}\, \textbf{1,50}\, 0,67\, \textbf{2,00}\, 0,67\, \right)^T
+    % \end{split}
+\end{multline}
 Установив пороговое значение $K_{min} = \overline{C_3} = 0.98$ получаем, что общесистемными являются
 \textit{блок управления батареей (2.0);
     рулевые машинки, рулевой привод (1.5);
