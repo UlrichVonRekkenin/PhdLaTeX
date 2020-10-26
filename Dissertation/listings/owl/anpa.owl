@@ -1,0 +1,449 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#"
+     xml:base="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:ANPA="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Питание_Запитан -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Питание_Запитан">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Питание"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Питание_Питает"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Д"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ПУ"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АКБ"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Питание_Питает -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Питание_Питает">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Питание"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АКБ"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Д"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ПУ"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Состав -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Состав">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СостоитИз -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СостоитИз">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Состав"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ЯвляетсяЧастью"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал">
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Движение -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Движение">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Д"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Движение"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Курс -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Курс">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ПУ"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Наведение -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Наведение">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Питание -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Питание">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал"/>
+        <rdfs:domain rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АКБ"/>
+        <rdfs:range rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ЯвляетсяЧастью -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ЯвляетсяЧастью">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Состав"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АКБ -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АКБ">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Д -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Д">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ПУ -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ПУ">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#РП -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#РП">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Движение -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Движение">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Управление"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Управление"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функции -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функции">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Питание -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Питание">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функции"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Управление"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Управление -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Управление">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функции"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#акб -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#акб">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АКБ"/>
+        <Питание_Питает rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#д"/>
+        <Питание_Питает rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу"/>
+        <Питание_Питает rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#спо"/>
+        <ЯвляетсяЧастью rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анпа"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анализатор -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анализатор">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анпа -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анпа">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА"/>
+        <Функционал_Наведение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#влево"/>
+        <Функционал_Наведение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вправо"/>
+        <Функционал_Наведение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#всплыть"/>
+        <Функционал_Наведение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#заглубиться"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#влево -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#влево">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+        <Функционал_Курс rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вперед -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вперед">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Движение"/>
+        <Функционал_Движение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#д"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вправо -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вправо">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+        <Функционал_Курс rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#всплыть -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#всплыть">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+        <Функционал_Наведение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#д -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#д">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Д"/>
+        <ЯвляетсяЧастью rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анпа"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#заглубиться -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#заглубиться">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+        <Функционал_Наведение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#излучатель -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#излучатель">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#испустить_посылку -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#испустить_посылку">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+        <Функционал_Наведение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#излучатель"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#назад -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#назад">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Движение"/>
+        <Функционал_Движение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#д"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#приемник -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#приемник">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#принять_сигнал -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#принять_сигнал">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение"/>
+        <Функционал_Наведение rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#приемник"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ПУ"/>
+        <ЯвляетсяЧастью rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анпа"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#рп -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#рп">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#РП"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#спо -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#спо">
+        <rdf:type rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО"/>
+        <ЯвляетсяЧастью rdf:resource="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анпа"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#акб"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анпа"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#д"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#спо"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анализатор"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#излучатель"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#приемник"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#влево"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вправо"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вперед"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#назад"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#всплыть"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#заглубиться"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDifferent"/>
+        <owl:distinctMembers rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#испустить_посылку"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#принять_сигнал"/>
+        </owl:distinctMembers>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+
