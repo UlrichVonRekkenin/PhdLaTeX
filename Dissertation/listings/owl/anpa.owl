@@ -10,6 +10,96 @@
 <http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA> rdf:type owl:Ontology .
 
 #################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ModbusDataRelationed
+ANPA:anpa:ModbusDataRelationed rdf:type rdfs:Datatype .
+
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Relation
+ANPA:anpa:Relation rdf:type rdfs:Datatype ;
+              owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                    owl:oneOf [ rdf:type rdf:List ;
+                                                rdf:first "Eq" ;
+                                                rdf:rest [ rdf:type rdf:List ;
+                                                           rdf:first "Ge" ;
+                                                           rdf:rest [ rdf:type rdf:List ;
+                                                                      rdf:first "Gt" ;
+                                                                      rdf:rest [ rdf:type rdf:List ;
+                                                                                 rdf:first "Le" ;
+                                                                                 rdf:rest [ rdf:type rdf:List ;
+                                                                                            rdf:first "Lt" ;
+                                                                                            rdf:rest [ rdf:type rdf:List ;
+                                                                                                       rdf:first "Ne" ;
+                                                                                                       rdf:rest rdf:nil
+                                                                                                     ]
+                                                                                          ]
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                              ]
+                                  ] .
+
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:Address
+ANPA:anpa:Address rdf:type rdfs:Datatype ;
+                  owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                        owl:onDatatype xsd:short ;
+                                        owl:withRestrictions ( [ xsd:minInclusive "9999"^^xsd:short
+                                                               ]
+                                                               [ xsd:maxExclusive "-"^^xsd:short
+                                                               ]
+                                                             )
+                                      ] .
+
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:ModbusData
+ANPA:anpa:ModbusData rdf:type rdfs:Datatype ;
+                     owl:equivalentClass ANPA:anpa:ModbusElement ,
+                                         ANPA:anpa:Value .
+
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:ModbusElement
+ANPA:anpa:ModbusElement rdf:type rdfs:Datatype ;
+                        owl:equivalentClass ANPA:anpa:Address ,
+                                            ANPA:anpa:Title ,
+                                            ANPA:anpa:TransmitedType .
+
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:Title
+ANPA:anpa:Title rdf:type rdfs:Datatype ;
+                owl:equivalentClass xsd:string .
+
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:TransmitedType
+ANPA:anpa:TransmitedType rdf:type rdfs:Datatype ;
+                         owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                               owl:oneOf [ rdf:type rdf:List ;
+                                                           rdf:first "Bool" ;
+                                                           rdf:rest [ rdf:type rdf:List ;
+                                                                      rdf:first "DoubleWord" ;
+                                                                      rdf:rest [ rdf:type rdf:List ;
+                                                                                 rdf:first "LongReal" ;
+                                                                                 rdf:rest [ rdf:type rdf:List ;
+                                                                                            rdf:first "Real" ;
+                                                                                            rdf:rest [ rdf:type rdf:List ;
+                                                                                                       rdf:first "Word" ;
+                                                                                                       rdf:rest rdf:nil
+                                                                                                     ]
+                                                                                          ]
+                                                                               ]
+                                                                    ]
+                                                         ]
+                                             ] .
+
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:Value
+ANPA:anpa:Value rdf:type rdfs:Datatype ;
+                owl:equivalentClass xsd:anyURI .
+
+
+#################################################################
 #    Object Properties
 #################################################################
 
@@ -81,6 +171,24 @@ ANPA:Функционал_Питание rdf:type owl:ObjectProperty ;
 ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf ANPA:Состав ;
                     rdf:type owl:FunctionalProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Напряжение
+ANPA:Напряжение rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf owl:topDataProperty ;
+                rdfs:domain ANPA:АНПА ;
+                rdfs:range ANPA:anpa:ModbusData .
+
+
+###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Ток
+ANPA:Ток rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf owl:topDataProperty ;
+         rdfs:domain ANPA:АНПА ;
+         rdfs:range ANPA:anpa:ModbusData .
 
 
 #################################################################
@@ -237,7 +345,8 @@ ANPA:принять_сигнал rdf:type owl:NamedIndividual ,
 ###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу
 ANPA:пу rdf:type owl:NamedIndividual ,
                  ANPA:ПУ ;
-        ANPA:ЯвляетсяЧастью ANPA:анпа .
+        ANPA:ЯвляетсяЧастью ANPA:анпа ;
+        ANPA:Напряжение "27"^^ANPA:anpa:Value .
 
 
 ###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#рп
