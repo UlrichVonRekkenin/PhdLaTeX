@@ -13,56 +13,87 @@
 #    Datatypes
 #################################################################
 
-###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:Relation
-ANPA:anpa:Relation rdf:type rdfs:Datatype ;
-                   owl:equivalentClass [ rdf:type rdfs:Datatype ;
-                                         owl:oneOf [ rdf:type rdf:List ;
-                                                     rdf:first "Eq" ;
-                                                     rdf:rest [ rdf:type rdf:List ;
-                                                                rdf:first "Ge" ;
-                                                                rdf:rest [ rdf:type rdf:List ;
-                                                                           rdf:first "Gt" ;
-                                                                           rdf:rest [ rdf:type rdf:List ;
-                                                                                      rdf:first "Le" ;
-                                                                                      rdf:rest [ rdf:type rdf:List ;
-                                                                                                 rdf:first "Lt" ;
-                                                                                                 rdf:rest [ rdf:type rdf:List ;
-                                                                                                            rdf:first "Ne" ;
-                                                                                                            rdf:rest rdf:nil
-                                                                                                          ]
-                                                                                               ]
-                                                                                    ]
-                                                                         ]
-                                                              ]
-                                                   ]
-                                       ] .
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#modbus:Relation
+ANPA:modbus:Relation rdf:type rdfs:Datatype ;
+                     owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                           owl:oneOf [ rdf:type rdf:List ;
+                                                       rdf:first "Eq" ;
+                                                       rdf:rest [ rdf:type rdf:List ;
+                                                                  rdf:first "Ge" ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first "Gt" ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first "Le" ;
+                                                                                        rdf:rest [ rdf:type rdf:List ;
+                                                                                                   rdf:first "Lt" ;
+                                                                                                   rdf:rest [ rdf:type rdf:List ;
+                                                                                                              rdf:first "Ne" ;
+                                                                                                              rdf:rest rdf:nil
+                                                                                                            ]
+                                                                                                 ]
+                                                                                      ]
+                                                                           ]
+                                                                ]
+                                                     ]
+                                         ] .
 
 
-###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:TransmitedType
-ANPA:anpa:TransmitedType rdf:type rdfs:Datatype ;
-                         owl:equivalentClass [ rdf:type rdfs:Datatype ;
-                                               owl:oneOf [ rdf:type rdf:List ;
-                                                           rdf:first "Bool" ;
-                                                           rdf:rest [ rdf:type rdf:List ;
-                                                                      rdf:first "DoubleWord" ;
-                                                                      rdf:rest [ rdf:type rdf:List ;
-                                                                                 rdf:first "LongReal" ;
-                                                                                 rdf:rest [ rdf:type rdf:List ;
-                                                                                            rdf:first "Real" ;
-                                                                                            rdf:rest [ rdf:type rdf:List ;
-                                                                                                       rdf:first "Word" ;
-                                                                                                       rdf:rest rdf:nil
-                                                                                                     ]
-                                                                                          ]
-                                                                               ]
-                                                                    ]
-                                                         ]
-                                             ] .
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#modbus:TransmitedType
+ANPA:modbus:TransmitedType rdf:type rdfs:Datatype ;
+                           owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                                 owl:oneOf [ rdf:type rdf:List ;
+                                                             rdf:first "Bool" ;
+                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                        rdf:first "DoubleWord" ;
+                                                                        rdf:rest [ rdf:type rdf:List ;
+                                                                                   rdf:first "LongReal" ;
+                                                                                   rdf:rest [ rdf:type rdf:List ;
+                                                                                              rdf:first "Real" ;
+                                                                                              rdf:rest [ rdf:type rdf:List ;
+                                                                                                         rdf:first "Word" ;
+                                                                                                         rdf:rest rdf:nil
+                                                                                                       ]
+                                                                                            ]
+                                                                                 ]
+                                                                      ]
+                                                           ]
+                                               ] .
 
 
 #################################################################
 #    Object Properties
 #################################################################
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Modbus
+ANPA:Modbus rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#address
+ANPA:address rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf ANPA:Modbus .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#title
+ANPA:title rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf ANPA:Modbus .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#type
+ANPA:type rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf ANPA:Modbus .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#value
+ANPA:value rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf ANPA:Modbus .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Значение
+ANPA:Значение rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf ANPA:Modbus ;
+              rdfs:domain ANPA:ModbusElement ;
+              rdfs:range ANPA:ModbusData .
+
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Питание_Запитан
 ANPA:Питание_Запитан rdf:type owl:ObjectProperty ;
@@ -82,6 +113,13 @@ ANPA:Питание_Питает rdf:type owl:ObjectProperty ;
                     rdfs:range ANPA:Д ,
                                ANPA:ПУ ,
                                ANPA:СПО .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#СоотнесенС
+ANPA:СоотнесенС rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf ANPA:Modbus ;
+                rdfs:domain ANPA:АНПА ;
+                rdfs:range ANPA:ModbusElement .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Состав
@@ -135,8 +173,46 @@ ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
 
 
 #################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Modbus
+ANPA:Modbus rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#address
+ANPA:address rdf:type owl:DatatypeProperty ;
+             rdfs:range xsd:short .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#title
+ANPA:title rdf:type owl:DatatypeProperty ;
+           rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#type
+ANPA:type rdf:type owl:DatatypeProperty ;
+          rdfs:range ANPA:modbus:TransmitedType .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#value
+ANPA:value rdf:type owl:DatatypeProperty ;
+           rdfs:range xsd:anyURI .
+
+
+#################################################################
 #    Classes
 #################################################################
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ModbusData
+ANPA:ModbusData rdf:type owl:Class ;
+                rdfs:subClassOf ANPA:ModbusElement .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ModbusElement
+ANPA:ModbusElement rdf:type owl:Class .
+
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#АКБ
 ANPA:АКБ rdf:type owl:Class ;
@@ -286,7 +362,24 @@ ANPA:принять_сигнал rdf:type owl:NamedIndividual ,
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#пу
-ANPA:пу rdf:type owl:NamedIndividual .
+ANPA:пу rdf:type owl:NamedIndividual ,
+                 ANPA:ПУ ;
+        ANPA:СоотнесенС ANPA:пу_U .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#пу_U
+ANPA:пу_U rdf:type owl:NamedIndividual ,
+                   ANPA:ModbusElement ;
+          ANPA:address "42"^^xsd:short ;
+          ANPA:title "A1"^^xsd:string ;
+          ANPA:type "Real"^^ANPA:modbus:TransmitedType .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#пу_U_value
+ANPA:пу_U_value rdf:type owl:NamedIndividual ,
+                         ANPA:ModbusData ;
+                ANPA:Значение ANPA:пу_U ;
+                ANPA:value "27"^^xsd:anyURI .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#рп
