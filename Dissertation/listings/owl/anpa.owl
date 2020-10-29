@@ -1,48 +1,19 @@
-@prefix : <http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#> .
+@prefix : <http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix ANPA: <http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#> .
+@prefix ANPA: <http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA> .
+@base <http://www.semanticweb.org/guap/ontologies/z8430m/ANPA> .
 
-<http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA> rdf:type owl:Ontology .
+<http://www.semanticweb.org/guap/ontologies/z8430m/ANPA> rdf:type owl:Ontology .
 
 #################################################################
 #    Datatypes
 #################################################################
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ModbusDataRelationed
-ANPA:anpa:ModbusDataRelationed rdf:type rdfs:Datatype .
-
-
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Relation
-ANPA:anpa:Relation rdf:type rdfs:Datatype ;
-              owl:equivalentClass [ rdf:type rdfs:Datatype ;
-                                    owl:oneOf [ rdf:type rdf:List ;
-                                                rdf:first "Eq" ;
-                                                rdf:rest [ rdf:type rdf:List ;
-                                                           rdf:first "Ge" ;
-                                                           rdf:rest [ rdf:type rdf:List ;
-                                                                      rdf:first "Gt" ;
-                                                                      rdf:rest [ rdf:type rdf:List ;
-                                                                                 rdf:first "Le" ;
-                                                                                 rdf:rest [ rdf:type rdf:List ;
-                                                                                            rdf:first "Lt" ;
-                                                                                            rdf:rest [ rdf:type rdf:List ;
-                                                                                                       rdf:first "Ne" ;
-                                                                                                       rdf:rest rdf:nil
-                                                                                                     ]
-                                                                                          ]
-                                                                               ]
-                                                                    ]
-                                                         ]
-                                              ]
-                                  ] .
-
-
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:Address
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:Address
 ANPA:anpa:Address rdf:type rdfs:Datatype ;
                   owl:equivalentClass [ rdf:type rdfs:Datatype ;
                                         owl:onDatatype xsd:short ;
@@ -54,25 +25,54 @@ ANPA:anpa:Address rdf:type rdfs:Datatype ;
                                       ] .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:ModbusData
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:ModbusData
 ANPA:anpa:ModbusData rdf:type rdfs:Datatype ;
                      owl:equivalentClass ANPA:anpa:ModbusElement ,
                                          ANPA:anpa:Value .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:ModbusElement
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:ModbusDataRelationed
+ANPA:anpa:ModbusDataRelationed rdf:type rdfs:Datatype .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:ModbusElement
 ANPA:anpa:ModbusElement rdf:type rdfs:Datatype ;
                         owl:equivalentClass ANPA:anpa:Address ,
                                             ANPA:anpa:Title ,
                                             ANPA:anpa:TransmitedType .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:Title
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:Relation
+ANPA:anpa:Relation rdf:type rdfs:Datatype ;
+                   owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                         owl:oneOf [ rdf:type rdf:List ;
+                                                     rdf:first "Eq" ;
+                                                     rdf:rest [ rdf:type rdf:List ;
+                                                                rdf:first "Ge" ;
+                                                                rdf:rest [ rdf:type rdf:List ;
+                                                                           rdf:first "Gt" ;
+                                                                           rdf:rest [ rdf:type rdf:List ;
+                                                                                      rdf:first "Le" ;
+                                                                                      rdf:rest [ rdf:type rdf:List ;
+                                                                                                 rdf:first "Lt" ;
+                                                                                                 rdf:rest [ rdf:type rdf:List ;
+                                                                                                            rdf:first "Ne" ;
+                                                                                                            rdf:rest rdf:nil
+                                                                                                          ]
+                                                                                               ]
+                                                                                    ]
+                                                                         ]
+                                                              ]
+                                                   ]
+                                       ] .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:Title
 ANPA:anpa:Title rdf:type rdfs:Datatype ;
                 owl:equivalentClass xsd:string .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:TransmitedType
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:TransmitedType
 ANPA:anpa:TransmitedType rdf:type rdfs:Datatype ;
                          owl:equivalentClass [ rdf:type rdfs:Datatype ;
                                                owl:oneOf [ rdf:type rdf:List ;
@@ -94,7 +94,7 @@ ANPA:anpa:TransmitedType rdf:type rdfs:Datatype ;
                                              ] .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#anpa:Value
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#anpa:Value
 ANPA:anpa:Value rdf:type rdfs:Datatype ;
                 owl:equivalentClass xsd:anyURI .
 
@@ -103,7 +103,7 @@ ANPA:anpa:Value rdf:type rdfs:Datatype ;
 #    Object Properties
 #################################################################
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Питание_Запитан
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Питание_Запитан
 ANPA:Питание_Запитан rdf:type owl:ObjectProperty ;
                      rdfs:subPropertyOf ANPA:Функционал_Питание ;
                      owl:inverseOf ANPA:Питание_Питает ;
@@ -114,7 +114,7 @@ ANPA:Питание_Запитан rdf:type owl:ObjectProperty ;
                      rdfs:range ANPA:АКБ .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Питание_Питает
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Питание_Питает
 ANPA:Питание_Питает rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf ANPA:Функционал_Питание ;
                     rdfs:domain ANPA:АКБ ;
@@ -123,51 +123,51 @@ ANPA:Питание_Питает rdf:type owl:ObjectProperty ;
                                ANPA:СПО .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Состав
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Состав
 ANPA:Состав rdf:type owl:ObjectProperty ;
             rdfs:subPropertyOf owl:topObjectProperty .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СостоитИз
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#СостоитИз
 ANPA:СостоитИз rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf ANPA:Состав ;
                owl:inverseOf ANPA:ЯвляетсяЧастью .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функционал
 ANPA:Функционал rdf:type owl:ObjectProperty ;
                 rdfs:subPropertyOf owl:topObjectProperty .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Движение
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функционал_Движение
 ANPA:Функционал_Движение rdf:type owl:ObjectProperty ;
                          rdfs:subPropertyOf ANPA:Функционал ;
                          rdfs:domain ANPA:Д ;
                          rdfs:range ANPA:Управление_Движение .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Курс
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функционал_Курс
 ANPA:Функционал_Курс rdf:type owl:ObjectProperty ;
                      rdfs:subPropertyOf ANPA:Функционал ;
                      rdfs:domain ANPA:ПУ ;
                      rdfs:range ANPA:Управление_Наведение .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Наведение
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функционал_Наведение
 ANPA:Функционал_Наведение rdf:type owl:ObjectProperty ;
                           rdfs:subPropertyOf ANPA:Функционал ;
                           rdfs:domain ANPA:АНПА ;
                           rdfs:range ANPA:Управление_Наведение .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функционал_Питание
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функционал_Питание
 ANPA:Функционал_Питание rdf:type owl:ObjectProperty ;
                         rdfs:subPropertyOf ANPA:Функционал ;
                         rdfs:domain ANPA:АКБ ;
                         rdfs:range ANPA:АНПА .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ЯвляетсяЧастью
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ЯвляетсяЧастью
 ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf ANPA:Состав ;
                     rdf:type owl:FunctionalProperty .
@@ -177,14 +177,14 @@ ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
 #    Data properties
 #################################################################
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Напряжение
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Напряжение
 ANPA:Напряжение rdf:type owl:DatatypeProperty ;
                 rdfs:subPropertyOf owl:topDataProperty ;
                 rdfs:domain ANPA:АНПА ;
                 rdfs:range ANPA:anpa:ModbusData .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Ток
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Ток
 ANPA:Ток rdf:type owl:DatatypeProperty ;
          rdfs:subPropertyOf owl:topDataProperty ;
          rdfs:domain ANPA:АНПА ;
@@ -195,58 +195,58 @@ ANPA:Ток rdf:type owl:DatatypeProperty ;
 #    Classes
 #################################################################
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АКБ
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#АКБ
 ANPA:АКБ rdf:type owl:Class ;
          rdfs:subClassOf ANPA:АНПА .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#АНПА
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#АНПА
 ANPA:АНПА rdf:type owl:Class .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Д
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Д
 ANPA:Д rdf:type owl:Class ;
        rdfs:subClassOf ANPA:АНПА .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#ПУ
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ПУ
 ANPA:ПУ rdf:type owl:Class ;
         rdfs:subClassOf ANPA:АНПА .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#РП
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#РП
 ANPA:РП rdf:type owl:Class ;
         rdfs:subClassOf ANPA:АНПА .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#СПО
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#СПО
 ANPA:СПО rdf:type owl:Class ;
          rdfs:subClassOf ANPA:АНПА .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Движение
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Управление_Движение
 ANPA:Управление_Движение rdf:type owl:Class ;
                          rdfs:subClassOf ANPA:Функция_Управление ;
                          owl:disjointWith ANPA:Управление_Наведение .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Управление_Наведение
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Управление_Наведение
 ANPA:Управление_Наведение rdf:type owl:Class ;
                           rdfs:subClassOf ANPA:Функция_Управление .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функции
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функции
 ANPA:Функции rdf:type owl:Class ;
              rdfs:subClassOf ANPA:АНПА .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Питание
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функция_Питание
 ANPA:Функция_Питание rdf:type owl:Class ;
                      rdfs:subClassOf ANPA:Функции ;
                      owl:disjointWith ANPA:Функция_Управление .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#Функция_Управление
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функция_Управление
 ANPA:Функция_Управление rdf:type owl:Class ;
                         rdfs:subClassOf ANPA:Функции .
 
@@ -255,7 +255,7 @@ ANPA:Функция_Управление rdf:type owl:Class ;
 #    Individuals
 #################################################################
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#акб
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#акб
 ANPA:акб rdf:type owl:NamedIndividual ,
                   ANPA:АКБ ;
          ANPA:Питание_Питает ANPA:д ,
@@ -264,12 +264,12 @@ ANPA:акб rdf:type owl:NamedIndividual ,
          ANPA:ЯвляетсяЧастью ANPA:анпа .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анализатор
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#анализатор
 ANPA:анализатор rdf:type owl:NamedIndividual ,
                          ANPA:СПО .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#анпа
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#анпа
 ANPA:анпа rdf:type owl:NamedIndividual ,
                    ANPA:АНПА ;
           ANPA:Функционал_Наведение ANPA:влево ,
@@ -278,83 +278,83 @@ ANPA:анпа rdf:type owl:NamedIndividual ,
                                     ANPA:заглубиться .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#влево
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#влево
 ANPA:влево rdf:type owl:NamedIndividual ,
                     ANPA:Управление_Наведение ;
            ANPA:Функционал_Курс ANPA:пу .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вперед
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#вперед
 ANPA:вперед rdf:type owl:NamedIndividual ,
                      ANPA:Управление_Движение ;
             ANPA:Функционал_Движение ANPA:д .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#вправо
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#вправо
 ANPA:вправо rdf:type owl:NamedIndividual ,
                      ANPA:Управление_Наведение ;
             ANPA:Функционал_Курс ANPA:пу .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#всплыть
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#всплыть
 ANPA:всплыть rdf:type owl:NamedIndividual ,
                       ANPA:Управление_Наведение ;
              ANPA:Функционал_Наведение ANPA:пу .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#д
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#д
 ANPA:д rdf:type owl:NamedIndividual ,
                 ANPA:Д ;
        ANPA:ЯвляетсяЧастью ANPA:анпа .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#заглубиться
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#заглубиться
 ANPA:заглубиться rdf:type owl:NamedIndividual ,
                           ANPA:Управление_Наведение ;
                  ANPA:Функционал_Наведение ANPA:пу .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#излучатель
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#излучатель
 ANPA:излучатель rdf:type owl:NamedIndividual ,
                          ANPA:СПО .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#испустить_посылку
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#испустить_посылку
 ANPA:испустить_посылку rdf:type owl:NamedIndividual ,
                                 ANPA:Управление_Наведение ;
                        ANPA:Функционал_Наведение ANPA:излучатель .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#назад
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#назад
 ANPA:назад rdf:type owl:NamedIndividual ,
                     ANPA:Управление_Движение ;
            ANPA:Функционал_Движение ANPA:д .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#приемник
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#приемник
 ANPA:приемник rdf:type owl:NamedIndividual ,
                        ANPA:СПО .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#принять_сигнал
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#принять_сигнал
 ANPA:принять_сигнал rdf:type owl:NamedIndividual ,
                              ANPA:Управление_Наведение ;
                     ANPA:Функционал_Наведение ANPA:приемник .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#пу
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#пу
 ANPA:пу rdf:type owl:NamedIndividual ,
                  ANPA:ПУ ;
         ANPA:ЯвляетсяЧастью ANPA:анпа ;
         ANPA:Напряжение "27"^^ANPA:anpa:Value .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#рп
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#рп
 ANPA:рп rdf:type owl:NamedIndividual ,
                  ANPA:РП .
 
 
-###  http://www.semanticweb.org/refresh/ontologies/2020/9/ANPA#спо
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#спо
 ANPA:спо rdf:type owl:NamedIndividual ,
                   ANPA:СПО ;
          ANPA:ЯвляетсяЧастью ANPA:анпа .
