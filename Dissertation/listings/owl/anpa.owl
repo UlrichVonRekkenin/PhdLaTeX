@@ -13,6 +13,25 @@
 #    Datatypes
 #################################################################
 
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#modbus:Register
+ANPA:modbus:Register rdf:type rdfs:Datatype ;
+                     owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                           owl:oneOf [ rdf:type rdf:List ;
+                                                       rdf:first "Coil" ;
+                                                       rdf:rest [ rdf:type rdf:List ;
+                                                                  rdf:first "DiscreteInputs" ;
+                                                                  rdf:rest [ rdf:type rdf:List ;
+                                                                             rdf:first "HoldingRegisters" ;
+                                                                             rdf:rest [ rdf:type rdf:List ;
+                                                                                        rdf:first "InputRegisters" ;
+                                                                                        rdf:rest rdf:nil
+                                                                                      ]
+                                                                           ]
+                                                                ]
+                                                     ]
+                                         ] .
+
+
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#modbus:Relation
 ANPA:modbus:Relation rdf:type rdfs:Datatype ;
                      owl:equivalentClass [ rdf:type rdfs:Datatype ;
@@ -70,29 +89,33 @@ ANPA:Modbus rdf:type owl:ObjectProperty .
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#address
 ANPA:address rdf:type owl:ObjectProperty ;
-             rdfs:subPropertyOf ANPA:Modbus .
+             rdfs:subPropertyOf ANPA:Modbus ;
+             rdfs:domain ANPA:ModbusElement .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#title
 ANPA:title rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf ANPA:Modbus .
+           rdfs:subPropertyOf ANPA:Modbus ;
+           rdfs:domain ANPA:ModbusElement .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#type
 ANPA:type rdf:type owl:ObjectProperty ;
-          rdfs:subPropertyOf ANPA:Modbus .
+          rdfs:subPropertyOf ANPA:Modbus ;
+          rdfs:domain ANPA:ModbusElement .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#value
 ANPA:value rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf ANPA:Modbus .
+           rdfs:subPropertyOf ANPA:Modbus ;
+           rdfs:domain ANPA:ModbusData .
 
 
-###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Значение
-ANPA:Значение rdf:type owl:ObjectProperty ;
-              rdfs:subPropertyOf ANPA:Modbus ;
-              rdfs:domain ANPA:ModbusElement ;
-              rdfs:range ANPA:ModbusData .
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ИмеетЗначение
+ANPA:ИмеетЗначение rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf ANPA:Modbus ;
+                   rdfs:domain ANPA:ModbusElement ;
+                   rdfs:range ANPA:ModbusData .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Питание_Запитан
@@ -176,14 +199,15 @@ ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
 #    Data properties
 #################################################################
 
-###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Modbus
-ANPA:Modbus rdf:type owl:DatatypeProperty ;
-            rdfs:subPropertyOf owl:topDataProperty .
-
-
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#address
 ANPA:address rdf:type owl:DatatypeProperty ;
              rdfs:range xsd:short .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#register
+ANPA:register rdf:type owl:DatatypeProperty ;
+              rdfs:domain ANPA:ModbusElement ;
+              rdfs:range ANPA:modbus:Register .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#title
@@ -273,6 +297,22 @@ ANPA:Функция_Управление rdf:type owl:Class ;
 #################################################################
 #    Individuals
 #################################################################
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#U_пу
+ANPA:U_пу rdf:type owl:NamedIndividual ,
+                   ANPA:ModbusElement ;
+          ANPA:ИмеетЗначение ANPA:Uv_пу ;
+          ANPA:address "42"^^xsd:short ;
+          ANPA:register "InputRegisters"^^ANPA:modbus:Register ;
+          ANPA:title "A1"^^xsd:string ;
+          ANPA:type "Real"^^ANPA:modbus:TransmitedType .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Uv_пу
+ANPA:Uv_пу rdf:type owl:NamedIndividual ,
+                    ANPA:ModbusData ;
+           ANPA:value "27"^^xsd:anyURI .
+
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#акб
 ANPA:акб rdf:type owl:NamedIndividual ,
@@ -364,22 +404,7 @@ ANPA:принять_сигнал rdf:type owl:NamedIndividual ,
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#пу
 ANPA:пу rdf:type owl:NamedIndividual ,
                  ANPA:ПУ ;
-        ANPA:СоотнесенС ANPA:пу_U .
-
-
-###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#пу_U
-ANPA:пу_U rdf:type owl:NamedIndividual ,
-                   ANPA:ModbusElement ;
-          ANPA:address "42"^^xsd:short ;
-          ANPA:title "A1"^^xsd:string ;
-          ANPA:type "Real"^^ANPA:modbus:TransmitedType .
-
-
-###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#пу_U_value
-ANPA:пу_U_value rdf:type owl:NamedIndividual ,
-                         ANPA:ModbusData ;
-                ANPA:Значение ANPA:пу_U ;
-                ANPA:value "27"^^xsd:anyURI .
+        ANPA:СоотнесенС ANPA:U_пу .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#рп
