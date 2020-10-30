@@ -84,7 +84,9 @@ ANPA:modbus:TransmitedType rdf:type rdfs:Datatype ;
 #################################################################
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Modbus
-ANPA:Modbus rdf:type owl:ObjectProperty .
+ANPA:Modbus rdf:type owl:ObjectProperty ;
+            rdfs:domain ANPA:ModbusElementWriter ;
+            rdfs:range ANPA:ModbusData .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#address
@@ -111,11 +113,24 @@ ANPA:value rdf:type owl:ObjectProperty ;
            rdfs:domain ANPA:ModbusData .
 
 
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Изменяет
+ANPA:Изменяет rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf ANPA:Modbus .
+
+
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ИмеетЗначение
 ANPA:ИмеетЗначение rdf:type owl:ObjectProperty ;
                    rdfs:subPropertyOf ANPA:Modbus ;
                    rdfs:domain ANPA:ModbusElement ;
                    rdfs:range ANPA:ModbusData .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ИмеетУсловие
+ANPA:ИмеетУсловие rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf ANPA:Modbus ;
+                  owl:inverseOf ANPA:ЯвляетсяУсловием ;
+                  rdfs:domain ANPA:ModbusData ;
+                  rdfs:range ANPA:ModbusDataRelationed .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Питание_Запитан
@@ -189,6 +204,13 @@ ANPA:Функционал_Питание rdf:type owl:ObjectProperty ;
                         rdfs:range ANPA:АНПА .
 
 
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ЯвляетсяУсловием
+ANPA:ЯвляетсяУсловием rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf ANPA:Modbus ;
+                      rdfs:domain ANPA:ModbusDataRelationed ;
+                      rdfs:range ANPA:ModbusData .
+
+
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ЯвляетсяЧастью
 ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf ANPA:Состав ;
@@ -201,27 +223,67 @@ ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#address
 ANPA:address rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf owl:topDataProperty ;
              rdfs:range xsd:short .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#delay
+ANPA:delay rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
+           rdfs:domain ANPA:ModbusElementWriter ;
+           rdfs:range xsd:unsignedLong .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#delta
+ANPA:delta rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
+           rdfs:domain ANPA:Periodic ;
+           rdfs:range xsd:unsignedLong .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#duration
+ANPA:duration rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdfs:domain ANPA:Periodic ;
+              rdfs:range xsd:unsignedLong .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#period
+ANPA:period rdf:type owl:DatatypeProperty ;
+            rdfs:subPropertyOf owl:topDataProperty ;
+            rdfs:domain ANPA:Periodic ;
+            rdfs:range xsd:unsignedLong .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#register
 ANPA:register rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
               rdfs:domain ANPA:ModbusElement ;
               rdfs:range ANPA:modbus:Register .
 
 
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#relation
+ANPA:relation rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdfs:domain ANPA:ModbusDataRelationed ;
+              rdfs:range ANPA:modbus:Relation .
+
+
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#title
 ANPA:title rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
            rdfs:range xsd:string .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#type
 ANPA:type rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf owl:topDataProperty ;
           rdfs:range ANPA:modbus:TransmitedType .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#value
 ANPA:value rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf owl:topDataProperty ;
            rdfs:range xsd:anyURI .
 
 
@@ -229,13 +291,106 @@ ANPA:value rdf:type owl:DatatypeProperty ;
 #    Classes
 #################################################################
 
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#DelayedGuarded
+ANPA:DelayedGuarded rdf:type owl:Class ;
+                    owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty ANPA:ИмеетУсловие ;
+                                                                 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                                                 owl:onClass ANPA:ModbusDataRelationed
+                                                               ]
+                                                               [ rdf:type owl:Restriction ;
+                                                                 owl:onProperty ANPA:delay ;
+                                                                 owl:someValuesFrom xsd:unsignedLong
+                                                               ]
+                                                             ) ;
+                                          rdf:type owl:Class
+                                        ] ;
+                    rdfs:subClassOf ANPA:Guarded .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#DelayedMultiGuarded
+ANPA:DelayedMultiGuarded rdf:type owl:Class ;
+                         owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty ANPA:ИмеетУсловие ;
+                                                                      owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                                      owl:onClass ANPA:ModbusDataRelationed
+                                                                    ]
+                                                                    [ rdf:type owl:Restriction ;
+                                                                      owl:onProperty ANPA:delay ;
+                                                                      owl:someValuesFrom xsd:unsignedLong
+                                                                    ]
+                                                                  ) ;
+                                               rdf:type owl:Class
+                                             ] ;
+                         rdfs:subClassOf ANPA:MultiGuarded .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Guarded
+ANPA:Guarded rdf:type owl:Class ;
+             owl:equivalentClass [ rdf:type owl:Restriction ;
+                                   owl:onProperty ANPA:ИмеетУсловие ;
+                                   owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                   owl:onClass ANPA:ModbusDataRelationed
+                                 ] ;
+             rdfs:subClassOf ANPA:ModbusElementWriter .
+
+
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ModbusData
 ANPA:ModbusData rdf:type owl:Class ;
                 rdfs:subClassOf ANPA:ModbusElement .
 
 
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ModbusDataRelationed
+ANPA:ModbusDataRelationed rdf:type owl:Class ;
+                          rdfs:subClassOf ANPA:ModbusData .
+
+
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ModbusElement
 ANPA:ModbusElement rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ModbusElementWriter
+ANPA:ModbusElementWriter rdf:type owl:Class ;
+                         rdfs:subClassOf ANPA:ModbusData .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#MultiGuarded
+ANPA:MultiGuarded rdf:type owl:Class ;
+                  owl:equivalentClass [ rdf:type owl:Restriction ;
+                                        owl:onProperty ANPA:ИмеетУсловие ;
+                                        owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                        owl:onClass ANPA:ModbusDataRelationed
+                                      ] ;
+                  rdfs:subClassOf ANPA:ModbusElementWriter .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Periodic
+ANPA:Periodic rdf:type owl:Class ;
+              owl:equivalentClass [ owl:intersectionOf ( [ rdf:type owl:Restriction ;
+                                                           owl:onProperty ANPA:ИмеетУсловие ;
+                                                           owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                                                           owl:onClass ANPA:ModbusDataRelationed
+                                                         ]
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty ANPA:delay ;
+                                                           owl:someValuesFrom xsd:unsignedLong
+                                                         ]
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty ANPA:delta ;
+                                                           owl:someValuesFrom xsd:unsignedLong
+                                                         ]
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty ANPA:duration ;
+                                                           owl:someValuesFrom xsd:unsignedLong
+                                                         ]
+                                                         [ rdf:type owl:Restriction ;
+                                                           owl:onProperty ANPA:period ;
+                                                           owl:someValuesFrom xsd:unsignedLong
+                                                         ]
+                                                       ) ;
+                                    rdf:type owl:Class
+                                  ] ;
+              rdfs:subClassOf ANPA:DelayedMultiGuarded .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#АКБ
@@ -298,6 +453,15 @@ ANPA:Функция_Управление rdf:type owl:Class ;
 #    Individuals
 #################################################################
 
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#C1
+ANPA:C1 rdf:type owl:NamedIndividual ,
+                 ANPA:ModbusData ;
+        ANPA:ЯвляетсяУсловием ANPA:on_C1_is_true ;
+        ANPA:address "1"^^xsd:short ;
+        ANPA:title "C1"^^xsd:string ,
+                   "Coils"^^ANPA:modbus:Register .
+
+
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#I_пу
 ANPA:I_пу rdf:type owl:NamedIndividual ,
                    ANPA:ModbusElement ;
@@ -311,6 +475,7 @@ ANPA:I_пу rdf:type owl:NamedIndividual ,
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Ia_пу
 ANPA:Ia_пу rdf:type owl:NamedIndividual ,
                     ANPA:ModbusData ;
+           ANPA:ИмеетУсловие ANPA:on_C1_is_true ;
            ANPA:value "5.5"^^xsd:anyURI .
 
 
@@ -327,7 +492,17 @@ ANPA:U_пу rdf:type owl:NamedIndividual ,
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Uv_пу
 ANPA:Uv_пу rdf:type owl:NamedIndividual ,
                     ANPA:ModbusData ;
+           ANPA:ИмеетУсловие ANPA:on_C1_is_true ;
            ANPA:value "27"^^xsd:anyURI .
+
+
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#on_C1_is_true
+ANPA:on_C1_is_true rdf:type owl:NamedIndividual ,
+                            ANPA:ModbusDataRelationed ;
+                   ANPA:ЯвляетсяУсловием ANPA:Ia_пу ,
+                                         ANPA:Uv_пу ;
+                   ANPA:relation "Eq"^^ANPA:modbus:Relation ;
+                   ANPA:value "true"^^xsd:anyURI .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#акб
