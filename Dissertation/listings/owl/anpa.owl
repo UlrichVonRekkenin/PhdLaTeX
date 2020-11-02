@@ -476,39 +476,27 @@ ANPA:C2 rdf:type owl:NamedIndividual ,
         ANPA:value "true"^^xsd:anyURI .
 
 
-###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#I_пу
-ANPA:I_пу rdf:type owl:NamedIndividual ,
-                   ANPA:ModbusElement ;
-          ANPA:ИмеетЗначение ANPA:Ia_пу ;
-          ANPA:address "44"^^xsd:short ;
-          ANPA:register "InputRegisters"^^ANPA:modbus:Register ;
-          ANPA:title "A2"^^xsd:string ;
-          ANPA:type "Real"^^ANPA:modbus:TransmitedType .
-
-
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Ia_пу
 ANPA:Ia_пу rdf:type owl:NamedIndividual ,
                     ANPA:ModbusElementWriter ;
            ANPA:ИмеетУсловие ANPA:C1 ,
                              ANPA:C2 ;
+           ANPA:address "44"^^xsd:short ;
+           ANPA:register "InputRegisters"^^ANPA:modbus:Register ;
+           ANPA:title "A2"^^xsd:string ;
+           ANPA:type "Real"^^ANPA:modbus:TransmitedType ;
            ANPA:value "5.5"^^xsd:anyURI .
-
-
-###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#U_пу
-ANPA:U_пу rdf:type owl:NamedIndividual ,
-                   ANPA:ModbusElement ;
-          ANPA:ИмеетЗначение ANPA:Uv_пу ;
-          ANPA:address "42"^^xsd:short ;
-          ANPA:register "InputRegisters"^^ANPA:modbus:Register ;
-          ANPA:title "A1"^^xsd:string ;
-          ANPA:type "Real"^^ANPA:modbus:TransmitedType .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Uv_пу
 ANPA:Uv_пу rdf:type owl:NamedIndividual ,
                     ANPA:ModbusElementWriter ;
            ANPA:ИмеетУсловие ANPA:C1 ;
+           ANPA:address "42"^^xsd:short ;
            ANPA:delay "500"^^xsd:unsignedLong ;
+           ANPA:register "InputRegisters"^^ANPA:modbus:Register ;
+           ANPA:title "A1"^^xsd:string ;
+           ANPA:type "Real"^^ANPA:modbus:TransmitedType ;
            ANPA:value "27"^^xsd:anyURI .
 
 
@@ -602,8 +590,8 @@ ANPA:принять_сигнал rdf:type owl:NamedIndividual ,
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#пу
 ANPA:пу rdf:type owl:NamedIndividual ,
                  ANPA:ПУ ;
-        ANPA:СоотнесенС ANPA:I_пу ,
-                        ANPA:U_пу .
+        ANPA:СоотнесенС ANPA:Ia_пу ,
+                        ANPA:Uv_пу .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#рп
@@ -620,6 +608,13 @@ ANPA:спо rdf:type owl:NamedIndividual ,
 #################################################################
 #    General axioms
 #################################################################
+
+[ rdf:type owl:AllDifferent ;
+  owl:distinctMembers ( ANPA:C1
+                        ANPA:C2
+                      )
+] .
+
 
 [ rdf:type owl:AllDifferent ;
   owl:distinctMembers ( ANPA:акб
