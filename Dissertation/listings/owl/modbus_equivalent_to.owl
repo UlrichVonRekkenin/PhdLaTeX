@@ -1,0 +1,70 @@
+ANPA:Guarded rdf:type owl:Class ;
+  owl:equivalentClass [ owl:intersectionOf ( ANPA:ModbusElementWriter
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty ANPA:ИмеетУсловие ;
+                            owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                            owl:onClass ANPA:ModbusDataRelationed
+                          ]
+                        ) ;
+      rdf:type owl:Class
+    ] ;
+  rdfs:subClassOf ANPA:ModbusElementWriter .
+
+ANPA:DelayedGuarded rdf:type owl:Class ;
+  owl:equivalentClass [ owl:intersectionOf ( ANPA:Guarded
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty ANPA:ИмеетУсловие ;
+                              owl:minQualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                              owl:onClass ANPA:ModbusDataRelationed
+                            ]
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty ANPA:delay ;
+                              owl:someValuesFrom xsd:unsignedLong
+                            ]
+                          ) ;
+      rdf:type owl:Class
+    ] ;
+  rdfs:subClassOf ANPA:Guarded .
+
+ANPA:MultiGuarded rdf:type owl:Class ;
+  owl:equivalentClass [ owl:intersectionOf ( ANPA:ModbusElementWriter
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty ANPA:ИмеетУсловие ;
+                              owl:minQualifiedCardinality "2"^^xsd:nonNegativeInteger ;
+                              owl:onClass ANPA:ModbusDataRelationed
+                            ]
+                          ) ;
+      rdf:type owl:Class
+    ] ;
+  rdfs:subClassOf ANPA:ModbusElementWriter .
+
+ANPA:DelayedMultiGuarded rdf:type owl:Class ;
+  owl:equivalentClass [ owl:intersectionOf ( ANPA:MultiGuarded
+                          [ rdf:type owl:Restriction ;
+                            owl:onProperty ANPA:delay ;
+                            owl:someValuesFrom xsd:unsignedLong
+                          ]
+                        ) ;
+      rdf:type owl:Class
+    ] ;
+  rdfs:subClassOf ANPA:MultiGuarded .
+
+
+ANPA:Periodic rdf:type owl:Class ;
+  owl:equivalentClass [ owl:intersectionOf ( ANPA:MultiGuarded
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty ANPA:delta ;
+                              owl:someValuesFrom xsd:unsignedLong
+                            ]
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty ANPA:duration ;
+                              owl:someValuesFrom xsd:unsignedLong
+                            ]
+                            [ rdf:type owl:Restriction ;
+                              owl:onProperty ANPA:period ;
+                              owl:someValuesFrom xsd:unsignedLong
+                            ]
+                          ) ;
+      rdf:type owl:Class
+    ] ;
+  rdfs:subClassOf ANPA:MultiGuarded .
