@@ -1,0 +1,4 @@
+digraph g {
+	"owl:Thing" -> "ModbusElement" 
+	"owl:Thing" -> "АНПА" 
+}

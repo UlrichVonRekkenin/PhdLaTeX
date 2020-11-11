@@ -1,0 +1,14 @@
+digraph g {
+    "owl:Thing" -> "ModbusElement"     
+    "ModbusElement" -> "ModbusData" 
+    
+    "ModbusData" -> "ModbusDataRelationed" 
+    "ModbusData" -> "ModbusElementWriter" 
+
+    "ModbusElementWriter" -> "Guarded" [label="="]
+    "Guarded" -> "DelayedGuarded" [label="="]
+
+    "ModbusElementWriter" -> "MultiGuarded" [label="="]
+	"MultiGuarded" -> "Periodic" [label="="]
+    "MultiGuarded" -> "DelayedMultiGuarded" [label="="]
+}
