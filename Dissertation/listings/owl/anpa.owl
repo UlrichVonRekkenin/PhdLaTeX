@@ -150,6 +150,7 @@ ANPA:Питание_Питает rdf:type owl:ObjectProperty ;
                     rdfs:domain ANPA:АКБ ;
                     rdfs:range ANPA:Д ,
                                ANPA:ПУ ,
+                               ANPA:РП ,
                                ANPA:СПО .
 
 
@@ -168,7 +169,9 @@ ANPA:Состав rdf:type owl:ObjectProperty ;
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#СостоитИз
 ANPA:СостоитИз rdf:type owl:ObjectProperty ;
                rdfs:subPropertyOf ANPA:Состав ;
-               owl:inverseOf ANPA:ЯвляетсяЧастью .
+               owl:inverseOf ANPA:ЯвляетсяЧастью ;
+               rdfs:domain ANPA:АНПА ;
+               rdfs:range ANPA:АНПА .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#Функционал
@@ -214,7 +217,9 @@ ANPA:ЯвляетсяУсловием rdf:type owl:ObjectProperty ;
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#ЯвляетсяЧастью
 ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
                     rdfs:subPropertyOf ANPA:Состав ;
-                    rdf:type owl:FunctionalProperty .
+                    rdf:type owl:FunctionalProperty ;
+                    rdfs:domain ANPA:АНПА ;
+                    rdfs:range ANPA:АНПА .
 
 
 #################################################################
@@ -505,13 +510,15 @@ ANPA:акб rdf:type owl:NamedIndividual ,
                   ANPA:АКБ ;
          ANPA:Питание_Питает ANPA:д ,
                              ANPA:пу ,
+                             ANPA:рп ,
                              ANPA:спо ;
          ANPA:ЯвляетсяЧастью ANPA:анпа .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#анализатор
 ANPA:анализатор rdf:type owl:NamedIndividual ,
-                         ANPA:СПО .
+                         ANPA:СПО ;
+                ANPA:ЯвляетсяЧастью ANPA:спо .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#анпа
@@ -561,7 +568,8 @@ ANPA:заглубиться rdf:type owl:NamedIndividual ,
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#излучатель
 ANPA:излучатель rdf:type owl:NamedIndividual ,
-                         ANPA:СПО .
+                         ANPA:СПО ;
+                ANPA:ЯвляетсяЧастью ANPA:спо .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#испустить_посылку
@@ -578,7 +586,8 @@ ANPA:назад rdf:type owl:NamedIndividual ,
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#приемник
 ANPA:приемник rdf:type owl:NamedIndividual ,
-                       ANPA:СПО .
+                       ANPA:СПО ;
+              ANPA:ЯвляетсяЧастью ANPA:спо .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#принять_сигнал
@@ -591,12 +600,15 @@ ANPA:принять_сигнал rdf:type owl:NamedIndividual ,
 ANPA:пу rdf:type owl:NamedIndividual ,
                  ANPA:ПУ ;
         ANPA:СоотнесенС ANPA:Ia_пу ,
-                        ANPA:Uv_пу .
+                        ANPA:Uv_пу ;
+        ANPA:ЯвляетсяЧастью ANPA:анпа .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#рп
 ANPA:рп rdf:type owl:NamedIndividual ,
-                 ANPA:РП .
+                 ANPA:РП ;
+        ANPA:Питание_Запитан ANPA:акб ;
+        ANPA:ЯвляетсяЧастью ANPA:анпа .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#спо
@@ -621,6 +633,7 @@ ANPA:спо rdf:type owl:NamedIndividual ,
                         ANPA:анпа
                         ANPA:д
                         ANPA:пу
+                        ANPA:рп
                         ANPA:спо
                       )
 ] .
