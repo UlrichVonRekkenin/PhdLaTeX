@@ -1,0 +1,32 @@
+\begin{landscape}
+
+\begin{longtable}{|l|m{.15\textwidth}|l|m{.35\textwidth}|m{.3\textwidth}|}
+\caption{Свойства объектов компонентов онтологической модели АНПА.} \label{tbl:anpa_object_properties}\\
+\hline
+    \textbf{Название} & \textbf{Откуда действует} & \textbf{Куда действует} & \textbf{Назначение} & \textbf{Примечание} \\\hline
+\endhead
+%
+\multicolumn{5}{|c|}{Составные части} \\\hline
+%
+\texttt{СостоитИз} & \texttt{АНПА} & \texttt{АНПА} & Указывает перечень входящих сущностей & Обратно к \texttt{ЯвляетсяЧастью} \\\hline
+%
+\texttt{ЯвляетсяЧастью} & \texttt{АНПА} & \texttt{АНПА} & Указывает, что сущность входит в состав & \textit{функционально} \\\hline
+%
+%
+\multicolumn{5}{|c|}{Электропитание} \\\hline
+%
+\texttt{Питание\_Питает} & \texttt{АКБ} & \texttt{Д}, \texttt{ПУ}, \texttt{РП} и \texttt{СПО} & Указывает какие узлы питаются от АКБ & Обратно к \texttt{Питание\_Запитан} \\\hline
+%
+\texttt{Питание\_Запитан} & \texttt{Д}, \texttt{ПУ}, \texttt{РП} и \texttt{СПО} & \texttt{АКБ} & Указывают на природу источника электроэнергии & \textit{функционально} \\\hline
+%
+%
+\multicolumn{5}{|c|}{Движение и наведение} \\\hline
+%
+\texttt{Функционал\_Движение} & \texttt{Д} & \texttt{Управление\_Движением} & Прямое или реверсное движение & \\\hline
+%
+\texttt{Функционал\_Курс} & \texttt{ПУ} & \texttt{Управление\_Наведение} & Установка заданного курса АНПА & \\\hline
+%
+\texttt{Функционал\_Наведение} & \texttt{АНПА} & \texttt{Управление\_Наведение} & Работа приемо-излучательного тракта СПО & \\\hline
+\end{longtable}
+
+\end{landscape}
