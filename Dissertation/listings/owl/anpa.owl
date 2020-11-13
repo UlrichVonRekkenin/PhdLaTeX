@@ -79,6 +79,11 @@ ANPA:modbus:TransmitedType rdf:type rdfs:Datatype ;
                                                ] .
 
 
+###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#modbus:address
+ANPA:modbus:address rdf:type rdfs:Datatype ;
+                    owl:equivalentClass ANPA:modbus:address .
+
+
 #################################################################
 #    Object Properties
 #################################################################
@@ -229,7 +234,7 @@ ANPA:ЯвляетсяЧастью rdf:type owl:ObjectProperty ;
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#address
 ANPA:address rdf:type owl:DatatypeProperty ;
              rdfs:subPropertyOf owl:topDataProperty ;
-             rdfs:range xsd:short .
+             rdfs:range ANPA:modbus:address .
 
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#condition_value
@@ -474,7 +479,7 @@ ANPA:C1 rdf:type owl:NamedIndividual ,
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#C2
 ANPA:C2 rdf:type owl:NamedIndividual ,
                  ANPA:ModbusElement ;
-        ANPA:address "2"^^xsd:short ;
+        ANPA:address "2"^^ANPA:modbus:address ;
         ANPA:relation "Eq"^^ANPA:modbus:Relation ;
         ANPA:title "C2"^^xsd:string ;
         ANPA:type "Coils"^^ANPA:modbus:Register ;
@@ -486,7 +491,7 @@ ANPA:Ia_пу rdf:type owl:NamedIndividual ,
                     ANPA:ModbusElementWriter ;
            ANPA:ИмеетУсловие ANPA:C1 ,
                              ANPA:C2 ;
-           ANPA:address "44"^^xsd:short ;
+           ANPA:address "44"^^ANPA:modbus:address ;
            ANPA:register "InputRegisters"^^ANPA:modbus:Register ;
            ANPA:title "A2"^^xsd:string ;
            ANPA:type "Real"^^ANPA:modbus:TransmitedType ;
@@ -497,7 +502,7 @@ ANPA:Ia_пу rdf:type owl:NamedIndividual ,
 ANPA:Uv_пу rdf:type owl:NamedIndividual ,
                     ANPA:ModbusElementWriter ;
            ANPA:ИмеетУсловие ANPA:C1 ;
-           ANPA:address "42"^^xsd:short ;
+           ANPA:address "42"^^ANPA:modbus:address ;
            ANPA:delay "500"^^xsd:unsignedLong ;
            ANPA:register "InputRegisters"^^ANPA:modbus:Register ;
            ANPA:title "A1"^^xsd:string ;
