@@ -1,0 +1,22 @@
+\begin{landscape}
+
+\begin{longtable}{|l|m{.15\textwidth}|l|m{.35\textwidth}|m{.3\textwidth}|}
+\caption{Свойства объектов и типов компонентов имитатора сети Modbus.} \label{tbl:modbus_object_properties}\\
+\hline
+    \textbf{Название} & \textbf{Откуда действует} & \textbf{Куда действует} & \textbf{Назначение} & \textbf{Примечание} \\\hline
+\endhead
+%
+\multicolumn{5}{|c|}{Объекты} \\\hline
+%
+\texttt{ИмеетЗначение} & \texttt{ModbusEle\-ment} & \texttt{ModbusData} & Связывает переменную Modbus с ее значением & \textit{функционально} \\\hline
+\texttt{ИмеетУсловие} & \texttt{ModbusEle\-ment\-Writer} & \texttt{ModbusData} & Определяет, какая переменная отвечает за изменение значения & Обратно к \texttt{ЯвляетсяУсловием} \\\hline
+\texttt{ЯвляетсяУсловием} & \texttt{ModbusData} & \texttt{ModbusElementWriter} & Показывает, что переменная отвечает за изменение состояния другой переменной &  \\\hline
+\texttt{СоотнесенС} & \texttt{АНПА} & \texttt{ModbusElement} & Ставит в соответствие \textbf{объекту} значение переменной Modbus & 
+    С \textbf{объектом} $i$ соотнесено средство измерения типа амперметр,
+    единицы измерения \textit{А},
+    диапазон измеряемой величины $[0, 550]$,
+    десятичная приставка \textit{м} \\\hline
+%
+\end{longtable}
+    
+\end{landscape}
