@@ -244,6 +244,28 @@
     objective,eventually}% list your attributes here
 }
 
+\lstdefinelanguage{sparql}%
+{%
+    stepnumber=1,%
+    morecomment=[l][\color{gray}]{\#},
+    morecomment=[n][\color{gray}\small]{<http}{\#>},
+    morestring=[b][\color{OliveGreen}]{\"},
+    % variables
+    keywordsprefix=?,
+    classoffset=0,
+    keywordstyle=\color{Sepia},
+    morekeywords={},
+    % prefixes
+    classoffset=1,
+    keywords={rdf,rdfs,owl,xsd,purl,anpa},
+    keywordstyle=\color{Purple},
+    % keywords
+    classoffset=2,
+    keywords={SELECT,CONSTRUCT,DESCRIBE,ASK,WHERE,FROM,NAMED,PREFIX,BASE,OPTIONAL,
+              FILTER,GRAPH,LIMIT,OFFSET,SERVICE,UNION,EXISTS,NOT,BINDINGS,MINUS},
+    keywordstyle=\color{lightblue}\textmd,
+}
+
 %http://tex.stackexchange.com/questions/26872/smaller-frame-with-listings
 % Окружение, чтобы листинг был компактнее обведен рамкой, если она задается, а не на всю ширину текста
 \makeatletter
