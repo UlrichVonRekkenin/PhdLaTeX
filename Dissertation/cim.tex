@@ -120,6 +120,7 @@ $\mathfrak{U}_\Delta =\langle \mathbb{S}, \sigma_\Delta \rangle$.
                 &&\hspace{5mm}поле (``значение``, число),\\
                 &&\hspace{5mm}поле (``адрес``, число),\\
                 &&\hspace{5mm}поле (``тип данных``, число)\\
+                &&\hspace{5mm}поле (``единицы измерений``, строка)\\
             &&]);\\
             %
             &&Класс (``Запись при условии'', [\\
@@ -270,7 +271,8 @@ Modbus переменных, определенных в разделе \ref{sec
 Как видно из рисунка \ref{fig:modbus_class_uml} проверка условий записи описываются с помощью компонента типа
 \texttt{ModbusDataRelationed} -- наследника класса \texttt{ModbusData}.
 Этот класс содержит в себе \texttt{value} от родительского класса и правило отношения \texttt{Relation}.
-При поступлении новых данных по шине Modbus происходит сравнение значений (листинг \ref{lst:comparator:compare}).
+При поступлении новых данных по шине Modbus происходит сравнение значений (листинг \ref{lst:comparator:compare}),
+согласно выражению \ref{eq:axiom_modbusdatarelationed}.
 \lstinputlisting[
     language=C++,
     caption=Вспомогательный метод для анализа поступающих данных,
