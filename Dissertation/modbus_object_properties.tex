@@ -20,3 +20,28 @@
 \end{longtable}
     
 \end{landscape}
+
+\begin{longtable}{|l|m{.6\textwidth}|}
+    \caption{Правила эквивалентности классов \texttt{ModbusElementWriter}, описанные в поле \textbf{equivalent to} в программе \protege.} \label{tbl:modbuselement_writer_def}\\
+    \hline
+        \textbf{Класс} & \textbf{Аксиома} \\\hline
+    \endhead
+    %
+    \texttt{Guarded} & \texttt{ModbusElementWriter} \\
+        & and (\texttt{ИмеетУсловие} min 1 \texttt{ModbusDataRelationed}) \\\hline
+    %
+    \texttt{MultiGuarded} & \texttt{ModbusElementWriter} \\
+        & and (\texttt{ИмеетУсловие} min 2 \texttt{ModbusDataRelationed}) \\\hline
+    %
+    \texttt{DelayedGuarded} & \texttt{Guarded} \\
+        & and (\texttt{ИмеетУсловие} min 1 \texttt{ModbusDataRelationed}) \\ 
+        & and (delay some xsd:unsignedLong) \\\hline
+    %
+    \texttt{DelayedMultiGuarded} & \texttt{MultiGuarded} \\
+        & and (delay some xsd:unsignedLong) \\\hline
+    %
+    \texttt{Periodic} & \texttt{MultiGuarded} \\
+        & and  (delta some xsd:unsignedLong) \\
+        & and (duration some xsd:unsignedLong) \\
+        & and (period some xsd:unsignedLong) \\\hline
+\end{longtable}    
