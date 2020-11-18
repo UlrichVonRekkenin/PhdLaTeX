@@ -1,25 +1,24 @@
-\section{Менеджер состояний}
+\section{Менеджер индивидов класса \mbwriter имитатора}
 Для управления компонентами имитатора используется менеджер компонентов \texttt{ModbusIoManager}.
 Установка компонентов производится с помощью экземпляра класса \texttt{ScenarioParser}, реализующего интерфейс \texttt{IParser}.
-Этот интерфейс является общим как для чтения файла сценария (\ref{lst:modbus_scenario_example_diagram}),
+Этот интерфейс является общим как для чтения файла сценария (листинг~\ref{lst:modbus_scenario_example_diagram}),
 так и для файла тегов (листинг \ref{lst:modbus_tags_example}).
-При чтении конфигурации проверяется, что каждый тег $t_i$ компонента,
-управление над которым захватывается (\texttt{modbusio::ModbusData})
-или условия выполнения переходов (\texttt{modbusio::ModbusDataRelationed}),
-является элементов множества класса первичных данных, то есть $\forall t_i \in \mathbb{T}$ (см. раздел \ref{sec:ontology}).
+При чтении конфигурации проверяется, что каждый тег $t_i$ типа \mbdata,
+управление над которым захватывается, или условия выполнения переходов типа \mbrelationed,
+являются элементами множества класса первичных данных, то есть $\forall t_i \in \mathbb{T}$ (см. раздел \ref{sec:ontology}).
 
 На рисунке \ref{fig:modbus_class_components} показано отношение между менеджером \texttt{ModbusIoManager},
-интерфейсом парсера \texttt{IParser} и интерфейсом \texttt{IModbusElementWriter}.
+интерфейсом парсера \texttt{IParser} и интерфейсом \mbwriter.
 \begin{center}
     \begin{figure}[hb!]
         \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_class_components}
-        \caption{Композиция классов менеджера сценариев}\label{fig:modbus_class_components}
+        \caption{Композиция классов менеджера сценариев.}\label{fig:modbus_class_components}
     \end{figure}
 \end{center}
 
 
 Последовательность действий по конфигурированию окружения программного обеспечения
-показана на рисунке \ref{fig:top_level_sequence} \cite[стр. 239]{book:oop:oop_analize}.
+показана на рисунке~\ref{fig:top_level_sequence} \cite[стр. 239]{book:oop:oop_analize}.
 \begin{center}
     \begin{figure}
         \includegraphics[width=.9\textwidth,keepaspectratio]{top_level.png}
@@ -48,22 +47,22 @@
 \begin{center}
     \begin{figure}
         \includegraphics[height=.8\textheight,keepaspectratio]{modbuselementwriterimpl.png}
-        \caption{Взаимодействие компонентов с шиной данных (см. также листинг \ref{lst:tmpl_method_writerimpl})}
+        \caption[Взаимодействие компонентов с шиной данных]
+            {Взаимодействие компонентов с шиной данных (см. также листинг \ref{lst:tmpl_method_writerimpl})}
         \label{fig:modbuselementwriterimpl}
     \end{figure}
 \end{center}
 
 
 \textbf{Обработка данных при выполнении сценария проверки.}
-Как было сказано ранее, после запуска менеджера \texttt{modbusio::ModbusIoManager::startAll()}
+Как было сказано ранее, после запуска менеджера \texttt{modbusio::\-ModbusIoManager::\-start\-All()}
 менеджер готов к обработке данных.
 До этого момента приходящие сообщения игнорируются им.
 
 Таким образом, менеджер подписывается на изменения данных по шине Modbus,
 через слот \texttt{newModbusData()}.
 Работа с поступающими данными делегируется экземплярам, реализующих интерфейс
-\texttt{IModbusElementWriter}, после чего происходит проверка поступающих данных
-по следющим пунктам.
+\mbwriter, после чего происходит проверка поступающих данных по следующим пунктам.
 \begin{enumerate}
     \item Запущен ли компонент.
     \item Изменение это параметра отслеживается. Как было сказано ранее в разделе \ref{sec:ontology}
@@ -74,7 +73,7 @@
 \end{enumerate}
 При выполнении всех трех пунктов хотя бы для одного компонента,
 происходит запись значения $P(x_1, \ldots, x_n) \to Q(x)$.
-Компонент делегирует это экземпляру, реализующему интерфейс \texttt{IDeviceWriter},
+Компонент делегирует это экземпляру, реализующему интерфейс \mbdevice,
 через вызов виртуальной функции \texttt{IDeviceWriter::write()}.
 В следствии этого компонент отписывается от событий по шине данных,
 вызовом функции \texttt{IModbusElementWriter::reset()}.

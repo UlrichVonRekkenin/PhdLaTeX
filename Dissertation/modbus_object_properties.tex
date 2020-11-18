@@ -1,17 +1,18 @@
 \begin{landscape}
 
 \begin{longtable}{|l|m{.15\textwidth}|l|m{.35\textwidth}|m{.3\textwidth}|}
-\caption{Свойства объектов и типов компонентов имитатора сети Modbus.} \label{tbl:modbus_object_properties}\\
+\caption[Свойства объектов и типов компонентов]
+    {Свойства объектов и типов компонентов имитатора сети Modbus.} \label{tbl:modbus_object_properties}\\
 \hline
     \textbf{Название} & \textbf{Откуда действует} & \textbf{Куда действует} & \textbf{Назначение} & \textbf{Примечание} \\\hline
 \endhead
 %
 \multicolumn{5}{|c|}{Объекты} \\\hline
 %
-\texttt{ИмеетЗначение} & \texttt{ModbusEle\-ment} & \texttt{ModbusData} & Связывает переменную Modbus с ее значением & \textit{функционально} \\\hline
-\texttt{ИмеетУсловие} & \texttt{ModbusEle\-ment\-Writer} & \texttt{ModbusData} & Определяет, какая переменная отвечает за изменение значения & Обратно к \texttt{ЯвляетсяУсловием} \\\hline
-\texttt{ЯвляетсяУсловием} & \texttt{ModbusData} & \texttt{ModbusElementWriter} & Показывает, что переменная отвечает за изменение состояния другой переменной &  \\\hline
-\texttt{СоотнесенС} & \texttt{АНПА} & \texttt{ModbusElement} & Ставит в соответствие \textbf{объекту} значение переменной Modbus & 
+\texttt{ИмеетЗначение} & \texttt{ModbusEle\-ment} & \mbdata & Связывает переменную Modbus с ее значением & \textit{функционально} \\\hline
+\texttt{ИмеетУсловие} & \texttt{ModbusEle\-ment\-Writer} & \mbdata & Определяет, какая переменная отвечает за изменение значения & Обратно к \texttt{ЯвляетсяУсловием} \\\hline
+\texttt{ЯвляетсяУсловием} & \mbdata & \texttt{ModbusElementWriter} & Показывает, что переменная отвечает за изменение состояния другой переменной &  \\\hline
+\texttt{СоотнесенС} & \texttt{АНПА} & \mbelement & Ставит в соответствие \textbf{объекту} значение переменной Modbus & 
     С \textbf{объектом} $i$ соотнесено средство измерения типа амперметр,
     единицы измерения \textit{А},
     диапазон измеряемой величины $[0, 550]$,
@@ -22,7 +23,9 @@
 \end{landscape}
 
 \begin{longtable}{|l|m{.6\textwidth}|}
-    \caption{Правила эквивалентности классов \texttt{ModbusElementWriter}, описанные в поле \textbf{equivalent to} в программе \protege.} \label{tbl:modbuselement_writer_def}\\
+    \caption[Правила эквивалентности классов \mbwriter]
+        {Правила эквивалентности классов \mbwriter, описанные в поле \textbf{equivalent to} в программе \protege.}
+            \label{tbl:modbuselement_writer_def}\\
     \hline
         \textbf{Класс} & \textbf{Аксиома} \\\hline
     \endhead
