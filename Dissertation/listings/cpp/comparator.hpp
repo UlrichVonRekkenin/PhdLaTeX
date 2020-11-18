@@ -1,8 +1,7 @@
-class Comparator final {
-public:
-[[nodiscard]] static bool 
-compare(const modbusio::ModbusDataRelationed& cond, 
-        const modbusio::ModbusData& data)
+namespace modbusio {
+[[nodiscard]] inline bool 
+compare(const ModbusDataRelationed& cond, 
+        const ModbusData& data)
 {
     switch (cond.relation()) {
         case Relation::Eq: return data.value()==cond.value();
@@ -13,5 +12,4 @@ compare(const modbusio::ModbusDataRelationed& cond,
         case Relation::Le: return data.value()<=cond.value();
     }
     return false;
-}
-};
+}}
