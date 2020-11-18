@@ -81,7 +81,14 @@ ANPA:modbus:TransmitedType rdf:type rdfs:Datatype ;
 
 ###  http://www.semanticweb.org/guap/ontologies/z8430m/ANPA#modbus:address
 ANPA:modbus:address rdf:type rdfs:Datatype ;
-                    owl:equivalentClass ANPA:modbus:address .
+                    owl:equivalentClass [ rdf:type rdfs:Datatype ;
+                                          owl:onDatatype xsd:short ;
+                                          owl:withRestrictions ( [ xsd:minExclusive "0"^^xsd:short
+                                                                 ]
+                                                                 [ xsd:maxInclusive "9999"^^xsd:short
+                                                                 ]
+                                                               )
+                                        ] .
 
 
 #################################################################
