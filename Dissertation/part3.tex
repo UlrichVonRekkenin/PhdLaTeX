@@ -228,13 +228,11 @@ $f_i(x,\Delta x; \tau) = f_{i-1}(x,\Delta x; \tau) + \Delta x, \Delta x \in \mat
 а вторым --- класс библиотеки \texttt{Qt}, обеспечивающий реализацию физической передачи информации по протоколу Modbus
 \texttt{QModbusTcpServer}, так как обмен происходит по разновидности протокола Modbus TCP/IP.
 Упрощенная реализация показана в листинге \ref{lst:imodbus_device_impl}.
-\begin{center}
-    \begin{figure}[hb!]
-        \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_device_impl.png}
+\begin{figure}[hb!]\begin{center}
+        \includegraphics[width=.6\textwidth,keepaspectratio]{modbus_device_impl.png}
         \caption[Реализация интерфейса устройства записи.]
             {Реализация устройства для записи значений по протоколу Modbus}\label{fig:modbus_device_imp}
-    \end{figure}
-\end{center}
+\end{center}\end{figure}
 \lstinputlisting[
     language=C++,
     caption=Простейшая реализация \mbdevice устройства,
