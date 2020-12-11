@@ -1,7 +1,7 @@
 \chapter{Реализация имитатора абонентов сети Modbus}
 В данном разделе приводится описание реализации программы имитатора абонентов сети Modbus
 с использованием языка программирования \cpp и библиотеки~\texttt{Qt}
-на основе результатов, полученных в главе~\ref{sec:part2}.
+на основе результатов, полученных в главах~\ref{sec:part1} и \ref{sec:part2}.
 
 
 \section{Определение Modbus тегов} \label{sec:modbus_tag}
@@ -48,19 +48,16 @@
 На основе анализа предметной области строится ненормализованная\footnote{любой класс может иметь два и более не пересекающихся надкласса}
 иерархия классов для управления информационной моделью,
 диаграмма взаимосвязи классов представлена на рисунке \ref{fig:modbus_class_uml} \cite[стр. 223]{book:oop:oop_analize}.
-\begin{landscape}
-    \begin{center}
-        \begin{figure}[h!]
-            \includegraphics[height=.88\textheight,keepaspectratio]{modbus_class_relationship.png}
-            \caption[Иерархия классов имитатора]
-                {UML диаграмма классов имитатора модели АНПА при передачи по шине данных типа Modbus.}\label{fig:modbus_class_uml}
-        \end{figure}
-    \end{center}
-\end{landscape}
+\begin{landscape}\begin{figure}[h!]\begin{center}
+    \includegraphics[height=.88\textheight,keepaspectratio]{modbus_class_relationship.png}
+    \caption[Иерархия классов имитатора]
+        {UML диаграмма классов имитатора модели АНПА при передачи по шине данных типа Modbus.}
+            \label{fig:modbus_class_uml}
+\end{center}\end{figure}\end{landscape}
 
 Базовый класс \mbelement инкапсулирует в себе представление тега из раздела \ref{sec:modbus_tag}.
 Для передачи данных между компонентами системы используется класс \mbdata, производный от \mbelement,
-в котором появляется дополнительный гетерогенный член класса \texttt{value} для хранения политипных значений
+в котором появляется дополнительный член класса \texttt{value} для хранения политипных значений
 (то есть для хранения типа \texttt{xsd:aniURI} возможно использовать тип \texttt{std::variant} начиная с \cppseventeen
 или его аналог \texttt{QVariant} из библиотеки \texttt{Qt}).
 Для реализации поведения используется полиморфизм, так как классы имеют один и тот же протокол \cite[стр. 133]{book:oop:oop_analize}.
@@ -69,8 +66,8 @@
 
 \subsection{Жизненный цикл компонента \texttt{IModbusElementWriter}}
 Отметим, что этот компонент создается с использованием множественного наследования:
-первый супер класс это \mbdata, инкапсулирующий передаваемые данные,
-а второй --- \texttt{QObject}, так как необходимо получить "ортогональные свойства"
+первый супер-класс это \mbdata, инкапсулирующий передаваемые данные,
+а второй --- \texttt{QObject}, так как необходимо получить <<ортогональные свойства>>
 (механизм сигналов-слотов и обработка сообщений) \cite[стр. 134]{book:oop:oop_analize},
 для дальнейшего использования этих возможностей при построении взаимодействий между компонентами.
 
@@ -100,8 +97,8 @@
 
 Класс \texttt{ModbusElementWriterImpl} реализует паттерн <<Шаблонный метод>>\footnote{Template method} \cite[стр. 309]{book:pattern:band_of_4},
 определяя метод слота \texttt{IModbusElement\-Writer::new\-Modbus\-Data()}
-и защищенный метод \texttt{IModbus\-Element\-Writer::wri\-te()} --- инвариантную последовательность операций,
-определенную виртуальными методами, которые уточняются с помощью наследования \cite[стр. 170]{book:tdd:KentBeck}.
+и защищенный метод \texttt{IModbus\-Element\-Writer::wri\-te()} --- инвариантные последовательности операций,
+определенные виртуальными методами, которые уточняются с помощью наследования \cite[стр. 170]{book:tdd:KentBeck}.
 
 \lstinputlisting[
     language=C++,
@@ -130,16 +127,16 @@
 \subsubsection{Запись с единичным условием}\label{sec:guard}
 Циклограмма функционирования класса \texttt{ModbusGuardedWriter} приведена на рисунке \ref{fig:modbus_guarded_writed}.
 Этот класс переопределяет метод родительского класса \texttt{IModbusElementWriter::conditionsMet()}.
-\begin{center}
-    \begin{figure}[h!]
-        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_guarded_writer.png}
-        \caption[Циклограмма записи значения для единичного условия]
-            {Циклограмма записи значения при выполнении условия в момент времени $\tau_1=100$.}\label{fig:modbus_guarded_writed}
-    \end{figure}
-\end{center}
+\begin{figure}[h!]\begin{center}
+    \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_guarded_writer.png}
+    \caption[Циклограмма записи значения для единичного условия]
+        {Циклограмма записи значения при выполнении условия в момент времени $\tau_1=100$.}
+            \label{fig:modbus_guarded_writed}
+\end{center}\end{figure}
+
 Как видно из рисунка выполнение условия происходит в момент времени $\tau_1=100$ условных единиц времени,
 сразу же по переднему фронту происходит запись нового значения, которое сохраняется даже после окончания
-выполнения логического условия \texttt{cond} в $\tau_2=300$.
+выполнения логического условия \texttt{cond} в $\tau_2=200$.
 
 
 \subsubsection{Запись со множественными условиями}
@@ -159,12 +156,12 @@
 после того как значение было записано, выполнение условий не контролируется, 
 при этом записанное значение сохраняется, но может быть независимо изменено по другим причинам,
 так как компонент больше не владеет ресурсом и отписывается от событий.
-\begin{center}
-    \begin{figure}[h!]
-        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_multiguarded_writer.png}
-        \caption{Циклограмма записи значения при выполнении множественных условий.}\label{fig:modbus_multiguarded_writed}
-    \end{figure}
-\end{center}
+\begin{figure}[h!]\begin{center}
+    \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_multiguarded_writer.png}
+    \caption{Циклограмма записи значения при выполнении множественных условий.}
+        \label{fig:modbus_multiguarded_writed}
+\end{center}\end{figure}
+
 
 
 \subsubsection{Отложенная запись с единичным условием}
@@ -208,26 +205,25 @@ $f_i(x,\Delta x; \tau) = f_{i-1}(x,\Delta x; \tau) + \Delta x, \Delta x \in \mat
 В противном случае обновление значений будет происходить до момента прекращения работы
 путем вызова функции \texttt{IModbusElementWriter::reset()}.
 
-\begin{center}
-    \begin{figure}[h!]
-        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_delayed_writer.png}
-        \caption{Циклограмма отложенной записи значения при выполнении единственного условия.}\label{fig:modbus_delayed_writer}
-        %
-        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_delayed_multiguarded_writer.png}
-        \caption{Циклограмма отложенной записи значения при выполнении множественных условий.}\label{fig:modbus_delayed_multiguarded_writer}
-        %
-        \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_periodic_writer.png}
-        \caption{Циклограмма периодической записи значения.}\label{fig:modbus_periodic_writer}
-    \end{figure}
-\end{center}
+\begin{figure}[h!]\begin{center}
+    \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_delayed_writer.png}
+    \caption{Циклограмма отложенной записи значения при выполнении единственного условия.}\label{fig:modbus_delayed_writer}
+    %
+    \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_delayed_multiguarded_writer.png}
+    \caption{Циклограмма отложенной записи значения при выполнении множественных условий.}\label{fig:modbus_delayed_multiguarded_writer}
+    %
+    \includegraphics[width=.8\textwidth,keepaspectratio]{modbus_periodic_writer.png}
+    \caption{Циклограмма периодической записи значения.}\label{fig:modbus_periodic_writer}
+\end{center}\end{figure}
+
 
 
 \subsection{Реализация интерфейса \mbdevice}
 Для реализации интерфейса \mbdevice также используется возможность множественного наследование языка программирования \cpp:
 одним из родителей является интерфейс \mbdevice,
-а вторым --- класс библиотеки \texttt{Qt}, обеспечивающий реализацию физической передачи информации по протоколу Modbus
+а вторым --- класс библиотеки~\texttt{Qt}, обеспечивающий реализацию физической передачи информации по протоколу Modbus
 \texttt{QModbusTcpServer}, так как обмен происходит по разновидности протокола Modbus TCP/IP.
-Упрощенная реализация показана в листинге \ref{lst:imodbus_device_impl}.
+Упрощенная реализация показана в листинге~\ref{lst:imodbus_device_impl}.
 \begin{figure}[hb!]\begin{center}
         \includegraphics[width=.6\textwidth,keepaspectratio]{modbus_device_impl.png}
         \caption[Реализация интерфейса устройства записи.]
@@ -267,7 +263,7 @@ $f_i(x,\Delta x; \tau) = f_{i-1}(x,\Delta x; \tau) + \Delta x, \Delta x \in \mat
 обозначения назначения компонента в сценарии.
 
 \subsubsection{ModbusGuardedWriter}
-Рассмотрим более подробно описание компонента для компонента с единичным условием записи,
+Рассмотрим более подробно описание компонента для записи с единичным условием,
 который размещается в элементе \texttt{Guarded} листинга~\ref{lst:modbus_guarded_writer_xml}:
 \lstinputlisting[
     language=MyXML,
@@ -327,7 +323,7 @@ $\{C1 = true \wedge A1 > 150\}$
 Общая информация о компонентах представлена в таблице~\ref{tbl:ModbusElementWriterImpl}.
 Из этой таблицы видно, что использование наследования совместно с паттерном <<шаблонный метод>>
 позволяет переопределять поведение компонентов, обеспечивая выполнение контрактов наследниками интерфейса
-\cite[стр. 124-125]{book:oop:oop_analize}.
+\cite[стр. 124-125]{book:oop:oop_analize,bib:my:ttd_with_patterns_2019}.
 
 \begin{table}[h!]
 \begin{center}
