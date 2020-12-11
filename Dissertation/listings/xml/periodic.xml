@@ -6,7 +6,7 @@
     </Conditions>
 </Writer>
 
-<Writer tag="Distance" valule="0" delta="100" period="500">
+<Writer tag="Distance" value="0" delta="100" period="500">
     <Conditions>
         <Condition tag="C1" value="true" />
         <Condition tag="A1" value="150" relation="gt" />
