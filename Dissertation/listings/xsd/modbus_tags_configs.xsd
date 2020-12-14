@@ -1,56 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<xs:schema attributeFormDefault="unqualified"
-    elementFormDefault="qualified"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="ModbusTags">
+        <xs:annotation>
+            <xs:documentation>Entry point for Modbus tag configuration</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
+            <xs:annotation>
+                <xs:documentation>The sequence of base type each occur exactly one time</xs:documentation>
+            </xs:annotation>
             <xs:sequence>
-                <xs:element name="Coils" minOccurs="1" maxOccurs="1">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="tag" type="tagType" minOccurs="0" maxOccurs="9999" />
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="DiscreteInputs" minOccurs="1" maxOccurs="1">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="tag" type="tagType" minOccurs="0" maxOccurs="9999" />
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="InputRegisters" minOccurs="1" maxOccurs="1">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="tag" type="tagType" minOccurs="0" maxOccurs="9999" />
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="HoldingRegisters" minOccurs="1" maxOccurs="1">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="tag" type="tagType" minOccurs="0" maxOccurs="9999" />
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
+                <xs:element name="Coils" type="InputOutputType" minOccurs="1" maxOccurs="1" />
+                <xs:element name="DiscreteInputs" type="InputOutputType" minOccurs="1" maxOccurs="1" />
+                <xs:element name="InputRegisters" type="InputOutputType" minOccurs="1" maxOccurs="1" />
+                <xs:element name="HoldingRegisters" type="InputOutputType" minOccurs="1" maxOccurs="1" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <xs:simpleType name="transmited_type" final="restriction" >
+
+    <xs:simpleType name="DataType">
+        <xs:annotation>
+            <xs:documentation>The enumeration for tag type.</xs:documentation>
+        </xs:annotation>
         <xs:restriction base="xs:string">
-            <xs:enumeration value="BOOL" />
-            <xs:enumeration value="WORD" />
-            <xs:enumeration value="DWORD" />
-            <xs:enumeration value="REAL" />
-            <xs:enumeration value="LREAL" />
+            <xs:enumeration value="BOOL"/>
+            <xs:enumeration value="WORD"/>
+            <xs:enumeration value="DWORD"/>
+            <xs:enumeration value="REAL"/>
+            <xs:enumeration value="LREAL"/>
         </xs:restriction>
     </xs:simpleType>
+
     <xs:complexType name="tagType">
-        <xs:attribute name="title" type="xs:string" use="required" />
-        <xs:attribute name="address" type="xs:unsignedShort" use="required" />
-        <xs:attribute name="position" type="xs:string" use="optional" />
-        <xs:attribute name="type" type="transmited_type" use="required" />
-        <xs:attribute name="description" type="xs:string" use="optional" />
+        <xs:annotation>
+            <xs:documentation>Configuration of base tag type</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="title" type="xs:string" use="required"/>
+        <xs:attribute name="address" type="xs:unsignedShort" use="required"/>
+        <xs:attribute name="position" type="xs:string"/>
+        <xs:attribute name="type" type="DataType" use="required"/>
+        <xs:attribute name="description" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="InputOutputType">
+        <xs:annotation>
+            <xs:documentation>Specification for amount of tags in each base data type</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="tag" type="tagType" minOccurs="0" maxOccurs="9998"/>
+        </xs:sequence>
     </xs:complexType>
 </xs:schema>

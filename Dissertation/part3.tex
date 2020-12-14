@@ -83,16 +83,14 @@
 а компонент отписывается от событий по шине данных.
 Компонент может быть повторно подписан на события, через вызов метода \texttt{IModbusElementWriter::start()}.
 
-\begin{center}
-    \begin{figure}
-        \includegraphics[width=.5\textwidth,keepaspectratio]{imodbuselementwriter_activity}
-        \caption[Жизненный цикл компонента \mbwriter]%
-            {Жизненный цикл компонента \mbwriter%
-                (см. также листинг \ref{lst:tmpl_method_writerimpl})%
-            }%
+
+\begin{figure}\begin{center}
+    \includegraphics[width=.5\textwidth,keepaspectratio]{imodbuselementwriter_activity}
+    \caption[Жизненный цикл компонента \mbwriter]%
+        {Жизненный цикл компонента \mbwriter (см. также листинг \ref{lst:tmpl_method_writerimpl}).}%
             \label{fig:imodbuselementwriter_activity}
-    \end{figure}
-\end{center}
+\end{center}\end{figure}
+
 
 
 Класс \texttt{ModbusElementWriterImpl} реализует паттерн <<Шаблонный метод>>\footnote{Template method} \cite[стр. 309]{book:pattern:band_of_4},
@@ -227,7 +225,7 @@ $f_i(x,\Delta x; \tau) = f_{i-1}(x,\Delta x; \tau) + \Delta x, \Delta x \in \mat
 \begin{figure}[hb!]\begin{center}
         \includegraphics[width=.6\textwidth,keepaspectratio]{modbus_device_impl.png}
         \caption[Реализация интерфейса устройства записи.]
-            {Реализация устройства для записи значений по протоколу Modbus}\label{fig:modbus_device_imp}
+            {Реализация устройства для записи значений по протоколу Modbus.}\label{fig:modbus_device_imp}
 \end{center}\end{figure}
 \lstinputlisting[
     language=C++,
@@ -240,27 +238,29 @@ $f_i(x,\Delta x; \tau) = f_{i-1}(x,\Delta x; \tau) + \Delta x, \Delta x \in \mat
 \subsection{Описание конфигурационного файла для компонентов интерфейса \mbwriter}
 Каждая группа должна быть помещена в корневой элемент \texttt{Scenario},
 как показано в листинге \ref{lst:modbus_scenario_example_diagram} приложения \ref{app:sec:modbus_scenario_example_diagram}.
-
-Каждый компонент помещается внутри тега \texttt{Writer} (представляющий класс всех возможных изменений $\mathbb{A}$, см. раздел \ref{sec:ontology}),
+%
+Каждый компонент помещается внутри тега \texttt{Writer} (представляющий класс всех возможных изменений $\mathbb{A}$ из раздела \ref{sec:ontology}),
 с обязательным текстовым атрибутом \texttt{tag}, который указывает каким ресурсом владеет данный компонент
-и обязательным атрибутом \texttt{value} (см. листинг \ref{lst:modbus_tags_scenario_configs}).
+и обязательным атрибутом \texttt{value} (см. листинг~\ref{lst:modbus_tags_scenario_configs}).
 Также есть ряд необязательных атрибутов, о которых будет сказано отдельно. 
-Одновременно владеть одним и тем же ресурсом могут несколько компонентов (как будет показано ниже).
+Одновременно владеть одним и тем же ресурсом могут несколько компонентов,
+так как у одного и того же компонента может быть множество причин для изменений -- изоморфны.
 Далее следует секция условий --- \texttt{Conditions},
-описывающая классы отношений $\mathbb{C}$ (см. также выражение \eqref{eq:axiom_modbusdatarelationed}).
+описывающая классы отношений $\mathbb{C}$ (см. также выражение~\eqref{eq:axiom_modbusdatarelationed}).
 Каждое условие описывается логической операцией отношения \texttt{relation} для смежного параметра,
-указанного в обязательном поле \texttt{tag} и связанного с ним значения \texttt{value}.
-Элемент \texttt{relation} принимает одно из следующих значений:
-\texttt{eq} ($=$),
-\texttt{ne} ($\neq$),
-\texttt{gt} ($>$),
-\texttt{lt} ($<$),
-\texttt{ge} ($\geq$),
-\texttt{le} ($\leq$), по аналогии с обозначениями в языке Fortran.
+указанного в обязательном поле \texttt{tag} и связанного с ним обязательном значении \texttt{value}.
+Необязательный атрибут \texttt{relation} принимает одно из следующих значений:
+\texttt{eq}~($=$),
+\texttt{ne}~($\neq$),
+\texttt{gt}~($>$),
+\texttt{lt}~($<$),
+\texttt{ge}~($\geq$),
+\texttt{le}~($\leq$), по аналогии с обозначениями в языке Fortran.
 Отношение типа \texttt{eq} считается отношением по умолчанию,
 все остальные отношения же необходимо указывать явным образом.
-Необязательным полем является поле \texttt{Purpose}, в котором размещается информация для
-обозначения назначения компонента в сценарии.
+Необязательным полем является атрибут \texttt{Purpose}, в котором размещается информация для
+обозначения назначения компонента в сценарии. 
+
 
 \subsubsection{ModbusGuardedWriter}
 Рассмотрим более подробно описание компонента для записи с единичным условием,
@@ -289,7 +289,7 @@ $P(R1=\mbox{true}) \to Q(A1=160)$.
 Таким образом $P(x_1,\ldots,x_n) = P(A1\ge150, C1=\mbox{true}) \to Q(Regime=1)$.
 
 \subsubsection{ModbusDelayedWriter и ModbusDelayedMultiguardWriter}
-Компоненты этого типа располагаются в окружении тегов элементов \texttt{Delayed} и \texttt{Multidelayed}, соответственно,
+Компоненты этого типа располагаются в окружении тегов элементов \texttt{DelayedGuarded} и \texttt{DelayedMultiGuarded}, соответственно,
 как показано в листинге~\ref{lst:modbus_delayed_writer_xml}.
 \lstinputlisting[
     language=MyXML,
@@ -349,9 +349,13 @@ $\{C1 = true \wedge A1 > 150\}$
 
 \input{Dissertation/manager.tex}
 
-\section*{Заключение}
+\clearpage\section*{Заключение}
 Продемонстрирован унифицированный способ представления субъектно-ориентированного механизма
 изменения параметров, для имитации как внешнего так и внутреннего окружения объекта контроля.
 Создана онтологическая модель автономного необитаемого подводного аппарата.
 На основе проведенных исследований модели создана программная реализация 
 с использованием языка программирования \cpp и библиотки \texttt{Qt}.
+
+Разработанное специализированное программное обеспечение имитатора 
+в своей работе использует те же сущности предметной области (теги из листинга~\ref{lst:modbus_tags_example}),
+что и программное обеспечение автоматизированных систем контроля и диагностики.

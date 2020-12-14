@@ -9,30 +9,19 @@
 
 На рисунке \ref{fig:modbus_class_components} показано отношение между менеджером \texttt{ModbusIoManager},
 интерфейсом парсера \texttt{IParser} и интерфейсом \mbwriter.
-\begin{center}
-    \begin{figure}[hb!]
-        \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_class_components}
-        \caption{Композиция классов менеджера сценариев.}\label{fig:modbus_class_components}
-    \end{figure}
-\end{center}
+
 
 
 Последовательность действий по конфигурированию окружения программного обеспечения
 показана на рисунке~\ref{fig:top_level_sequence} \cite[стр. 239]{book:oop:oop_analize}.
-\begin{center}
-    \begin{figure}
-        \includegraphics[width=.9\textwidth,keepaspectratio]{top_level.png}
-        \caption{Последовательность действий при работе с имитатором}
-        \label{fig:top_level_sequence}
-    \end{figure}
-\end{center}
+
 
 \textbf{Инициализация и загрузка конфигурации.}
 На этом этапе происходит настройка программного обеспечения
 имитатора и программы верхнего уровня,
 то есть программного обеспечения непосредственно системы контроля.
 В случае корректной конфигурации происходит запуск
-выбранной оператором проверки.
+выбранной оператором проверки задачи.
 
 \textbf{Выполнение сценария проверки.}
 После запуска две программы начинают обмениваться 
@@ -43,15 +32,6 @@
 Происходит возврат к исходным настройкам систем и отключение.
 После этого процедура может быть воспроизведена вновь с теми же
 или другими параметрами. 
-
-\begin{center}
-    \begin{figure}
-        \includegraphics[height=.8\textheight,keepaspectratio]{modbuselementwriterimpl.png}
-        \caption[Взаимодействие компонентов с шиной данных]
-            {Взаимодействие компонентов с шиной данных (см. также листинг \ref{lst:tmpl_method_writerimpl})}
-        \label{fig:modbuselementwriterimpl}
-    \end{figure}
-\end{center}
 
 
 \textbf{Обработка данных при выполнении сценария проверки.}
@@ -75,25 +55,43 @@
 происходит запись значения $P(x_1, \ldots, x_n) \to Q(x)$.
 Компонент делегирует это экземпляру, реализующему интерфейс \mbdevice,
 через вызов виртуальной функции \texttt{IDeviceWriter::write()}.
-В следствии этого компонент отписывается от событий по шине данных,
-вызовом функции \texttt{IModbusElementWriter::reset()}.
+После этого компонент отписывается от событий по шине данных,
+вызывая функцию \texttt{IModbusElementWriter::reset()}.
 
 Обработка данных при выполнении сценария проверки происходит до тех пор
 пока менеджер не будет остановлен \texttt{ModbusIoManager::resetAll()}.
 
 
-\section{Пример композиции для простейшего сценария}
+\begin{figure}[h!]\begin{center}
+    \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_class_components}
+    \caption{Композиция классов менеджера сценариев.}\label{fig:modbus_class_components}
+% \end{center}\end{figure}
+%
+% \begin{figure}\begin{center}
+    \vspace{5mm}
+    \includegraphics[width=.9\textwidth,keepaspectratio]{top_level.png}
+    \caption{Последовательность действий при работе с имитатором.}
+        \label{fig:top_level_sequence}
+\end{center}\end{figure}
+
+
+\begin{figure}\begin{center}
+    \includegraphics[height=.8\textheight,keepaspectratio]{modbuselementwriterimpl.png}
+    \caption[Взаимодействие компонентов с шиной данных]
+        {Взаимодействие компонентов с шиной данных (см. также листинг \ref{lst:tmpl_method_writerimpl}).}
+    \label{fig:modbuselementwriterimpl}
+\end{center}\end{figure}
+
+
+\clearpage\section{Пример композиции для простейшего сценария}
 
 Рассмотрим пример сценария на основе множества Modbus тегов из листинга \ref{lst:modbus_tags_example},
 циклограмма которого представлена на рисунке \ref{fig:modbus_scenario_example_diagram},
 сценарий приведен в листинге \ref{lst:modbus_scenario_example_diagram} в разделе приложения \ref{app:sec:modbus_scenario_example_diagram}.
 Схема разметки приведена в листинге \ref{lst:modbus_tags_scenario_configs}.
 
-\begin{landscape}
-    \begin{center}
-        \begin{figure}
-            \includegraphics[height=.8\textheight,keepaspectratio]{modbus_scenario_example_diagram.png}
-            \caption{Пример использования классов.}\label{fig:modbus_scenario_example_diagram}
-        \end{figure}
-    \end{center}
-\end{landscape}
+    \begin{figure}[hb!]\begin{center}
+    \includegraphics[width=.9\textwidth,keepaspectratio]{modbus_scenario_example_diagram.png}
+        \caption{Пример использования классов.}
+            \label{fig:modbus_scenario_example_diagram}
+\end{center}\end{figure}
