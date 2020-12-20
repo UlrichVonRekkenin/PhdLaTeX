@@ -1,6 +1,10 @@
-<Writer tag="PP_1" value="true" delay="50">
-    <Conditions>
-        <Condition tag="R1" value="true" />
-        <Condition tag="A1" value="150" relation="le" />
-    </Conditions>
-</Writer>
+<Scenario>
+    <DelayedMultiGuarded>
+        <Writer tag="PP_1" value="true" delay="50">
+            <Conditions>
+                <Condition tag="R1" value="true" />
+                <Condition tag="A1" value="150" relation="le" />
+            </Conditions>
+        </Writer>
+    </DelayedMultiGuarded> 
+</Scenario>

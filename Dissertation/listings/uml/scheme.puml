@@ -1,5 +1,6 @@
 @startuml
 !include style.iuml
+hide footbox
 
 actor Оператор as oper
 participant "Автоматизированное\nрабочее\nместо" as arm #LightGreen

@@ -1,14 +1,18 @@
-<Writer tag="Distance" value="0" delta="100" period="1000">
-    <Conditions>
-        <Condition tag="C1" value="true" />
-        <Condition tag="A1" value="100" relation="gt" />
-        <Condition tag="A1" value="150" relation="le" />
-    </Conditions>
-</Writer>
+<Scenario>
+    <Periodic>
+    <Writer tag="Distance" value="0" delta="100" period="1000">
+        <Conditions>
+            <Condition tag="C1" value="true" />
+            <Condition tag="A1" value="100" relation="gt" />
+            <Condition tag="A1" value="150" relation="le" />
+        </Conditions>
+    </Writer>
 
-<Writer tag="Distance" valule="0" delta="100" period="500">
-    <Conditions>
-        <Condition tag="C1" value="true" />
-        <Condition tag="A1" value="150" relation="gt" />
-    </Conditions>
-</Writer>
+    <Writer tag="Distance" value="0" delta="100" period="500">
+        <Conditions>
+            <Condition tag="C1" value="true" />
+            <Condition tag="A1" value="150" relation="gt" />
+        </Conditions>
+    </Writer>
+    </Periodic>
+</Scenario>
