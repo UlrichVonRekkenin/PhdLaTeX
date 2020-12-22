@@ -3,7 +3,7 @@
 
 \begin{frame}{Структурная схема системы и объекта контроля}
     \begin{minipage}[t]{0.57\linewidth}
-        \textbf{Пример рабочего места}
+        \textbf{\tiny Пример рабочего места}
         \center{\includegraphics[width=1\linewidth,keepaspectratio]{scheme_3levels}}
     \end{minipage}
     \hfill
@@ -16,9 +16,10 @@
             \item[СК]  система контроля            
         \end{itemize}
     \end{minipage}\pause
-    \vspace{5mm}
+    \vspace{1pt}
     \centering{\fbox{\parbox{.8\textwidth}{АНПА предназначен для поиска скоплений \textit{планктона},
                 \textit{рыбных косяков} или \textit{китов} путем анализа испущенной специализированной зондирующей посылки.}}}
+    \centering{\leadingOrganizationTitle}
 \end{frame}
 \note{
     Рассказ об устройстве СК и связях с ОК
@@ -177,98 +178,74 @@
 
 
 \begin{frame}{Онтология модели АНПА}
-        \begin{center}
-            % \begin{tikzpicture}[scale=.6,transform shape]
-            %     \begin{scope}
-            %         \only<1>{
-            %             \tikzstyle{VertexStyle}=[ellipse,draw=black, line width=1,font=\bfseries]
-            %             \tikzstyle{LabelStyle}=[font=\bfseries,fill=gray!20,sloped,rectangle, rounded corners, draw]
-            %             \tikzstyle{EdgeStyle}=[->,line width=1.5,fill=black]
-            %             %
-            %             \Vertex[x=0,y=0,L=owl:Thing]{thing}
-            %             \Vertex[x=-5,y=-2,L=ModbusElement]{me}
-            %             \Vertex[x=5,y=-2,L=АНПА]{anpa}
-            %             %
-            %             \Edge(thing)(me)
-            %             \Edge(thing)(anpa)
-            %             }
-            %     \end{scope}
-            % \end{tikzpicture}
-
-            \begin{tikzpicture}[node distance=15mm]
-                \tikzstyle{class} =
-                [%
-                  fill=green!50!black!20,%
-                  draw=green!50!black,%
-                  minimum size=7mm,%
-                  ellipse,%
-                  thick%
-                ]
-                \tikzstyle{instance} = 
-                [%
-                  draw,%
-                  fill=blue!15,%
-                  minimum size=5mm%
-                ]
-                %
-                % \only<1->{
-                    \node[class] (thing) at (0, 0) {owl:Thing};
-                % }
-                %
-                % \only<2->{
-                    \node[class] (anpa) [below of=thing] {АНПА};
-                    \node[class] (Pu) at (3, -1.5) {ПУ};
-                    \node[instance] (pu) at (5, -1.5) {пу};
-                    \node[class] (func) [below of=anpa] {Функции};                
-                    \node[class] (rule) [below right of=func] {Управление};
-                    % }
-                    %
-                % \only<2>{
-                    \node[class] (modbus) at (3, 0) {Modbus};
-                    \path [thick,shorten >=1pt,-stealth'] (thing) edge (modbus);
-                % }
-                %
-                % \only<3>{
-                    \node[class] (power) at (-2, -4) {Питание};
-                    \path [thick,shorten >=1pt,-stealth'] (func) edge (power);
-                % }
-                %
-                    \node[instance] (depth) [below left of=rule] {$\updownarrow$};
-                    \node[instance] (direction) [below right of=rule] {$\leftrightarrow$};
-                %
-                \path [thick,shorten >=1pt,-stealth']
-                    (thing) edge (anpa)
-                    (anpa) edge (func)
-                    (anpa) edge (Pu)
-                    (func) edge (rule);
-                %
-                \path
-                    (rule) edge (depth)
-                    (rule) edge (direction)
-                    (Pu) edge (pu);
-                %
-                \tikzset{EdgeStyle/.style = {bend left,thick,double= blue!25,double distance = 1pt,sloped}}
-                \Edge[label=наведение](pu)(depth);
-                \Edge[label=курс](pu)(direction);
-                %
-                    \node[class] (Spo) at (5, -.5) {СПО};
-                    \node[instance] (emitter) [below right of=direction] {излучатель};
-                    \node[instance] (receiver) [below right of=emitter] {приемник};
-                    \path[thick,shorten >=1pt,-stealth'] (anpa) edge (Spo);
-                    \path (Spo) edge (emitter) (Spo) edge (receiver);
-                    \tikzset{EdgeStyle/.append style = {bend right}}
-                    \Edge[label=наведение](emitter)(pu);
-                    \Edge[label=наведение](receiver)(pu);
-
-                %
-            \end{tikzpicture}
+    \begin{center}
+        \only<1>{
+        \begin{tikzpicture}[node distance=15mm]
+            \tikzstyle{class} =
+            [%
+                fill=green!50!black!20,%
+                draw=green!50!black,%
+                minimum size=7mm,%
+                ellipse,%
+                thick%
+            ]
+            \tikzstyle{instance} = 
+            [%
+                draw,%
+                fill=blue!15,%
+                minimum size=5mm%
+            ]
             %
-            % \includegraphics[width=.88\textwidth,keepaspectratio]{owl/anpa_hierarchy.png}
+            \node[class] (thing) at (0, 0) {owl:Thing};
             %
-            % \includegraphics[width=.88\textwidth,keepaspectratio]{owl/part_of.png}
+            \node[class] (anpa) [below of=thing] {АНПА};
+            \node[class] (Pu) at (3, -1.5) {ПУ};
+            \node[instance] (pu) at (5, -1.5) {пу};
+            \node[class] (func) [below of=anpa] {Функции};                
+            \node[class] (rule) [below right of=func] {Управление};
             %
-            % \includegraphics<2->[width=.88\textwidth,keepaspectratio]{owl/function_movement.png}
-        \end{center}
+            \node[class] (modbus) at (3, 0) {Modbus};
+            \path [thick,shorten >=1pt,-stealth'] (thing) edge (modbus);
+            %
+            \node[class] (power) at (-2, -4) {Питание};
+            \path [thick,shorten >=1pt,-stealth'] (func) edge (power);
+            %
+            \node[instance] (depth) [below left of=rule] {$\updownarrow$};
+            \node[instance] (direction) [below right of=rule] {$\leftrightarrow$};
+            %
+            \path [thick,shorten >=1pt,-stealth']
+                (thing) edge (anpa)
+                (anpa) edge (func)
+                (anpa) edge (Pu)
+                (func) edge (rule);
+            %
+            \path
+                (rule) edge (depth)
+                (rule) edge (direction)
+                (Pu) edge (pu);
+            %
+            \tikzset{EdgeStyle/.style = {bend left,thick,double= blue!25,double distance = 1pt,sloped}}
+            \Edge[label=наведение](pu)(depth);
+            \Edge[label=курс](pu)(direction);
+            %
+            \node[class] (Spo) at (5, -.5) {СПО};
+            \node[instance] (emitter) [below right of=direction] {излучатель};
+            \node[instance] (receiver) [below right of=emitter] {приемник};
+            \path[thick,shorten >=1pt,-stealth'] (anpa) edge (Spo);
+            \path (Spo) edge (emitter) (Spo) edge (receiver);
+            \tikzset{EdgeStyle/.append style = {bend right}}
+            \Edge[label=наведение](emitter)(pu);
+            \Edge[label=наведение](receiver)(pu);
+            %
+        \end{tikzpicture}
+        }
+        %
+        \includegraphics<2>[width=.88\textwidth,keepaspectratio]{owl/anpa_hierarchy.png}
+        %
+        \includegraphics<3>[width=.88\textwidth,keepaspectratio]{owl/part_of.png}
+        %
+        \includegraphics<4>[width=.9\textwidth,keepaspectratio]{owl/function_movement.png}
+    \end{center}
 \end{frame}
 \note{
 На графе показана взаимосвязь сущностей для реализации движения и наведения.
@@ -277,7 +254,23 @@
 А это в свою очередь связано с работой СПО через экземпляры \textit{излучатель}, \textit{приемник} и \textit{анализатор}.
 }
 
-
+\subsection{Получение новых знаний}
+\begin{frame}{Пример запроса}
+    \sparqlexample\pause
+    \begin{table}[ht!]
+        \begin{center}
+            \begin{tabular}{cl}\hline
+                volt & Uv\_пу \\\hline
+                condition & C1 \\\hline
+                delay & 500 \\\hline
+                newvalue & 27 \\\hline
+                relation & Eq \\\hline
+                condvalue & true \\\hline
+                title & C1 \\\hline
+            \end{tabular}
+        \end{center}
+    \end{table}
+\end{frame}
 
 \section[Результат]{Программная реализация}
 
