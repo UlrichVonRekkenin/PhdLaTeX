@@ -1,21 +1,30 @@
 @startuml
 !include style.iuml
+hide empty description
 
-[*] --> ReadCaptures : **manager = ModbusIoManager::instance()**\nИнициализация менеджера
-    ReadCaptures: Чтение конфигурационного файла;
-    ReadCaptures: Подписка на события.
+[*] --> Инициализация : ** manager = ModbusIoManager::instance()**
+    Инициализация: Чтение конфигурационного файла.
 
-ReadCaptures --> Idle : **manager.setCaptures()**
-    Idle: Ожидание запуска
+АНПА --> Сценарий
 
-Idle --> Waiting : **manager.startAll()**
-    Waiting: Ожидание новых данных **ModbusData**;
-    Waiting: Проверка, что пришедшие данные являются тригером;
+Сценарий -> Инициализация
+    Сценарий: Штатный;
+    Сценарий: Критический.
 
-Waiting --> Processing
-    Processing: Обработка события тригера.
+Инициализация --> Готов : ** manager.setCaptures()**
+    Готов: Ожидание запуска.
 
-Processing --> Waiting
-Processing --> [*] : **manager.stop()**
+Готов --> Ожидание : ** manager.startAll()**
+    Ожидание: Ожидание данных **ModbusData**;
+    Ожидание: Делегирование данных.
+
+Modbus -> Ожидание
+
+Ожидание --> Обработка 
+    Обработка: Изменение состояния.
+
+Обработка --> Ожидание 
+
+Обработка --> [*] : ** manager.stop()**
 
 @endwhile

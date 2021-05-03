@@ -1,0 +1,101 @@
+@startuml
+!include style.iuml
+skinparam {
+    ClassBackgroundColor #FFFFF0
+}
+scale 1.5
+hide empty methods
+hide empty fields
+
+namespace modbusio {
+    ' class ModbusDeviceImpl
+    class ModbusElementWriterImpl
+    note bottom of ModbusElementWriterImpl : Реализует паттерн\n"шаблонный метод"
+
+    enum TransmitedType {
+        Bool
+        Word
+        DoubleWord
+        Real
+        LongReal
+    }
+
+    enum Relation {
+        Eq
+        Ne
+        Gt
+        Lt
+        Ge
+        Le
+    }
+
+    interface IDeviceWriter <<Interface>> {
+        + {abstract} void write(const ModbusData&) = 0
+    }
+
+    ' IDeviceWriter <|--- ModbusDeviceImpl
+    ' Qt.QModbusTcpServer <|-down- ModbusDeviceImpl
+
+    class ModbusElement {
+        + string title()
+        + uint8_t address()
+        + TransmitedType type()
+        + string position()
+        + string description()
+    }
+
+    class ModbusData {
+        - value : Value
+        ' + void setValue(Data)
+        + Value value()
+    }
+
+    class ModbusDataRelationed {
+        - relation: Relation
+    }
+
+    interface IModbusElementWriter <<Interface>> {
+        ..[signal]..
+        + {abstract} virtual void writed(const ModbusData&) = 0
+        + {abstract} virtual void modbusDataChanged(const ModbusData&) = 0
+        ..[slot]..
+        + {abstract} virtual void start() = 0
+        + {abstract} virtual void reset() = 0
+        + {abstract} virtual void newModbusData(const ModbusData&) = 0
+        ..[method]..
+        + {abstract} virtual void write() = 0        
+        + {abstract} virtual bool conditionsMet(const ModbusData&) = 0
+    }
+
+    interface ModbusElementReader <<Interface>> {
+        + ModbusData read() const
+    }
+
+    ModbusElement *-- TransmitedType
+    ModbusElement <|-right- ModbusData
+
+    ModbusData <|-right- ModbusDataRelationed
+    ModbusDataRelationed *-down- Relation
+
+    ModbusData <|-- IModbusElementWriter 
+    ' Qt.QObject <|-down- IModbusElementWriter
+    ModbusData <|-right- ModbusElementReader 
+
+    IModbusElementWriter <|-- ModbusElementWriterImpl
+
+    ModbusMultiguardedWriter <|-- ModbusPeriodicWriter
+
+    ModbusElementWriterImpl <|-- ModbusGuardedWriter
+    ModbusGuardedWriter "1" *-- "1" IDeviceWriter
+    
+    ModbusGuardedWriter <|--- ModbusDelayedWriter
+    
+    ModbusElementWriterImpl <|-- ModbusMultiguardedWriter
+    ModbusMultiguardedWriter "1" *-- "1" IDeviceWriter
+
+    ModbusMultiguardedWriter <|--- ModbusDelayedMultiguardWriter
+
+    ' ModbusIoManager *-left- IModbusElementWriter
+}
+
+@enduml
