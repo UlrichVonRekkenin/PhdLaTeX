@@ -1,0 +1,24 @@
+@startuml
+!include style.iuml
+hide footbox
+
+actor Оператор as oper
+
+box Автоматизированное рабочее\nместо
+        participant "Система контроля" as ask #LightGreen
+        ' participant ПЛК
+end box
+
+box Имитатор\nобъекта контроля #LightCyan
+    participant "Объект контроля" as ok #LightGreen
+end box
+
+==Конфигурирование==
+oper <-> ask : Режим\nпроверки
+ask -> ask : Настройка
+
+==Запуск==
+ask <-> ok : Взаимодействи по\nпротоколам
+oper <-[#0000F0]-> ok : Ручное управление
+
+@enduml
